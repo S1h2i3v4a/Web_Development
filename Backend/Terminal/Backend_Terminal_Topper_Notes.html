@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backend (Terminal) Topper Handwritten Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Kalam:wght@400;700&family=Patrick+Hand&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 12mm 10mm 12mm 10mm;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: #f1f5f9;
+    font-family: 'Patrick Hand', 'Kalam', cursive;
+    color: #1e293b;
+    font-size: 19px;
+    line-height: 1.5;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Floating Toolbar */
+  .toolbar {
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    border-radius: 50px;
+    padding: 10px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    margin-bottom: 25px;
+  }
+  .toolbar button {
+    background: #fef08a;
+    border: 2px solid #b45309;
+    color: #78350f;
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .toolbar button:hover {
+    background: #fde047;
+    transform: translateY(-2px);
+  }
+
+  /* Ruled Notebook Page */
+  .notebook-page {
+    width: 820px;
+    min-height: 1100px;
+    background-color: #fefefe;
+    background-image: 
+      /* Red left vertical margin line */
+      linear-gradient(90deg, transparent 65px, #fca5a5 65px, #fca5a5 67px, transparent 67px),
+      /* Fine light blue horizontal ruling lines */
+      linear-gradient(0deg, #e2e8f0 1px, transparent 1px);
+    background-size: 100% 100%, 100% 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+    padding: 40px 45px 50px 85px;
+    margin-bottom: 40px;
+    position: relative;
+    page-break-after: always;
+  }
+
+  .topic-card {
+    margin-bottom: 34px;
+    page-break-inside: avoid;
+  }
+
+  /* Main Topic Title */
+  .main-topic-title {
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e40af;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .main-topic-title span {
+    position: relative;
+    padding: 0 10px;
+  }
+  .main-topic-title span::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 5%;
+    width: 90%;
+    height: 10px;
+    background: rgba(254, 240, 138, 0.7);
+    z-index: -1;
+    border-radius: 4px;
+    transform: rotate(-0.5deg);
+  }
+
+  /* Pastel Tags */
+  .tag {
+    display: inline-block;
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    font-weight: 700;
+    padding: 2px 14px;
+    border-radius: 8px 12px 10px 14px;
+    margin-bottom: 8px;
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.05);
+  }
+  .tag-green { background: #bbf7d0; color: #166534; border: 1.5px solid #22c55e; }
+  .tag-yellow { background: #fef08a; color: #854d0e; border: 1.5px solid #eab308; }
+  .tag-pink { background: #fbcfe8; color: #9d174d; border: 1.5px solid #ec4899; }
+  .tag-blue { background: #bae6fd; color: #075985; border: 1.5px solid #0284c7; }
+  .tag-orange { background: #fed7aa; color: #9a3412; border: 1.5px solid #f97316; }
+
+  .highlight {
+    background: rgba(254, 240, 138, 0.75);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+  .highlight-pink { background: rgba(251, 207, 232, 0.75); }
+  .highlight-green { background: rgba(187, 247, 208, 0.75); }
+  .highlight-blue { background: rgba(186, 230, 253, 0.75); }
+
+  /* Hand-drawn Boxes */
+  .hand-box {
+    background: #ffffff;
+    border: 2px solid #334155;
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    padding: 14px 20px;
+    margin: 12px 0 16px 0;
+    box-shadow: 2px 3px 6px rgba(0,0,0,0.04);
+  }
+  .hand-box-yellow { border-color: #ca8a04; background: #fefce8; }
+  .hand-box-blue { border-color: #2563eb; background: #eff6ff; }
+  .hand-box-green { border-color: #16a34a; background: #f0fdf4; }
+
+  /* Flowchart Elements */
+  .flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin: 16px 0 20px 0;
+  }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+  }
+  .flow-box {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    border-radius: 10px;
+    border: 2px solid #334155;
+    text-align: center;
+    box-shadow: 2px 4px 0px rgba(0,0,0,0.1);
+    min-width: 160px;
+  }
+  .flow-green { background: #dcfce7; border-color: #15803d; color: #166534; }
+  .flow-pink { background: #fce7f3; border-color: #be185d; color: #9d174d; }
+  .flow-blue { background: #e0f2fe; border-color: #0369a1; color: #075985; }
+  .flow-yellow { background: #fef9c3; border-color: #a16207; color: #854d0e; }
+  .flow-orange { background: #ffedd5; border-color: #c2410c; color: #9a3412; }
+
+  .flow-arrow {
+    font-size: 24px;
+    color: #475569;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  /* Lists */
+  .hand-list {
+    list-style: none;
+    margin: 8px 0 14px 10px;
+  }
+  .hand-list li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 7px;
+  }
+  .hand-list li::before {
+    content: '•';
+    position: absolute;
+    left: 4px;
+    top: -2px;
+    font-size: 26px;
+    color: #0f172a;
+  }
+
+  /* Terminal Code Box */
+  .code-note {
+    background: #1e293b;
+    color: #f8fafc;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-family: 'Fira Code', monospace;
+    font-size: 15px;
+    line-height: 1.45;
+    margin: 10px 0 14px 0;
+    border: 2px solid #0f172a;
+    box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+  }
+  .code-note .c-prompt { color: #38bdf8; font-weight: 700; }
+  .code-note .c-cmd { color: #f472b6; font-weight: 600; }
+  .code-note .c-arg { color: #fde047; }
+  .code-note .c-com { color: #94a3b8; font-style: italic; }
+
+  /* Exam Tip Box */
+  .exam-tip {
+    background: #fef9c3;
+    border: 2px dashed #ca8a04;
+    border-radius: 14px;
+    padding: 10px 18px;
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 1px 2px 4px rgba(0,0,0,0.04);
+  }
+  .exam-tip .tip-icon { font-size: 28px; flex-shrink: 0; }
+  .exam-tip .tip-text { font-size: 18px; color: #713f12; }
+  .exam-tip .tip-label {
+    font-family: 'Caveat', cursive;
+    font-size: 21px;
+    font-weight: 700;
+    color: #a16207;
+  }
+
+  /* Hand-drawn Table */
+  .hand-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 14px 0;
+    background: #ffffff;
+    font-size: 18px;
+    border: 2px solid #334155;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .hand-table th, .hand-table td {
+    border: 1px solid #94a3b8;
+    padding: 6px 12px;
+    text-align: left;
+  }
+  .hand-table th {
+    background: #fef08a;
+    color: #78350f;
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+  }
+
+  @media print {
+    body { background: none !important; padding: 0 !important; }
+    .toolbar { display: none !important; }
+    .notebook-page {
+      box-shadow: none !important;
+      border: 1px solid #cbd5e1 !important;
+      margin: 0 0 20px 0 !important;
+      page-break-after: always !important;
+      page-break-inside: avoid !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Floating Print Toolbar -->
+  <div class="toolbar">
+    <button onclick="window.print()">🖨️ Print as Topper Notes PDF</button>
+  </div>
+
+  <!-- ================= PAGE 1: TOPICS 1 TO 3 ================= -->
+  <div class="notebook-page">
+    
+    <!-- Topic 01 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 01: What is Terminal, Console, Shell & Bash?</span></div>
+      
+      <div><span class="tag tag-green">Definition:</span></div>
+      <p>Terminal ek <span class="highlight">Text Input and Output Environment</span> hai jahan mouse ke bina, sirf text commands type karke hum computer se directly interact karte hain.</p>
+      
+      <!-- Flowchart of Architecture -->
+      <div class="flowchart">
+        <div class="flow-row">
+          <div class="flow-box flow-green">USER (Types text)</div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-box flow-pink">TERMINAL (Window/Screen)</div>
+        </div>
+        <span class="flow-arrow">⬇ (Passes command)</span>
+        <div class="flow-row">
+          <div class="flow-box flow-yellow">OS KERNEL (Executes)</div>
+          <span class="flow-arrow">⬅ (Translates)</span>
+          <div class="flow-box flow-blue">SHELL (Bash / Zsh Engine)</div>
+        </div>
+      </div>
+
+      <div><span class="tag tag-yellow">Terminology Clear Samjho:</span></div>
+      <ul class="hand-list">
+        <li><strong>Command Line (CLI):</strong> Koi bhi textual interface jisme text commands daale jaate hain (General Windows centric concept).</li>
+        <li><strong>Terminal:</strong> CLI ka ek visual window program jo input leta hai aur output render karta hai (Mac/Linux centric).</li>
+        <li><strong>Console:</strong> Physical ya low-level system screen jahan computer ke core system messages aate hain.</li>
+        <li><strong>Shell:</strong> Terminal ke andar chalne wala actual <span class="highlight-pink">Interpreter Program</span> jo commands ko computer ki language mein convert karta hai.</li>
+        <li><strong>Bash:</strong> "Bourne Again Shell" — Linux aur purane macOS ka sabse popular standard shell.</li>
+        <li><strong>Z-Shell (zsh):</strong> Modern macOS ka naya default shell (fast, advanced auto-suggestions & themes).</li>
+      </ul>
+    </div>
+
+    <!-- Topic 02 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 02: Basics (Essential Commands)</span></div>
+      <div><span class="tag tag-blue">3 Core Commands:</span></div>
+      <table class="hand-table">
+        <tr><th>Command</th><th>Full Form</th><th>Simple Hinglish Meaning</th><th>Example</th></tr>
+        <tr><td><code>pwd</code></td><td><strong>P</strong>rint <strong>W</strong>orking <strong>D</strong>irectory</td><td><em>"Main abhi computer ke kis folder mein khada hoon?"</em></td><td><code>/Users/shivam/project</code></td></tr>
+        <tr><td><code>ls</code></td><td><strong>L</strong>i<strong>s</strong>t files</td><td>Current folder mein kaun-kaun si files/folders hain unki list dikhata hai.</td><td><code>index.html app.js</code></td></tr>
+        <tr><td><code>clear</code></td><td><strong>Clear</strong> Screen</td><td>Terminal screen ke saare purane text ko clean/saaf kar deta hai.</td><td><em>Shortcut: Ctrl + L</em></td></tr>
+      </table>
+    </div>
+
+    <!-- Topic 03 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 03: Navigation Command (cd)</span></div>
+      <div><span class="tag tag-pink">cd = Change Directory (Folder badalna):</span></div>
+      <div class="code-note">
+<span class="c-prompt">$</span> <span class="c-cmd">cd</span> <span class="c-arg">backend</span>   <span class="c-com"># "backend" folder ke andar chala jayega</span>
+<span class="c-prompt">$</span> <span class="c-cmd">cd</span> <span class="c-arg">..</span>        <span class="c-com"># 1 step piche (Parent directory mein aana)</span>
+<span class="c-prompt">$</span> <span class="c-cmd">cd</span> <span class="c-arg">~</span>         <span class="c-com"># Direct Home directory mein jump karna</span>
+<span class="c-prompt">$</span> <span class="c-cmd">cd</span> <span class="c-arg">/</span>         <span class="c-com"># Direct Root (base) directory mein jana</span>
+      </div>
+      <div class="exam-tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-text"><span class="tip-label">Exam Tip:</span> <code>cd ..</code> mein double dots (<code>..</code>) hamesha parent folder ko represent karte hain!</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= PAGE 2: TOPICS 4 TO 8 ================= -->
+  <div class="notebook-page">
+
+    <!-- Topic 04 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 04: Path (Relative vs Absolute)</span></div>
+      <div><span class="tag tag-yellow">Types of Path:</span></div>
+      
+      <table class="hand-table">
+        <tr><th>Path Type</th><th>Definition & Kaam</th><th>Example</th></tr>
+        <tr>
+          <td><strong>Absolute Path</strong></td>
+          <td>Root (<code>/</code>) se shuru hone wala complete full address. Har jagah se same kaam karega.</td>
+          <td><code>/Users/shivam/Downloads/Javascript</code></td>
+        </tr>
+        <tr>
+          <td><strong>Relative Path</strong></td>
+          <td>Current location ke reference se path batata hai (jahan aap abhi ho).</td>
+          <td><code>./notes.txt</code> ya <code>../images</code></td>
+        </tr>
+      </table>
+
+      <div><span class="tag tag-green">Special Path Symbols:</span></div>
+      <ul class="hand-list">
+        <li><code>/</code> ➔ <strong>Root Directory:</strong> Computer ka sabse pehla / top-most folder.</li>
+        <li><code>~</code> ➔ <strong>Home Directory:</strong> Current logged-in user ka personal space (e.g. <code>C:\Users\shivam</code>).</li>
+        <li><code>.</code> ➔ <strong>Current Directory:</strong> Jahan abhi aap khade hain.</li>
+        <li><code>..</code> ➔ <strong>Parent Directory:</strong> Current folder se ek level upar.</li>
+      </ul>
+    </div>
+
+    <!-- Topic 05 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 05: Make Directory (mkdir)</span></div>
+      <div><span class="tag tag-blue">mkdir = Make Directory (Naya Folder Create Karna):</span></div>
+      <div class="code-note">
+<span class="c-prompt">$</span> <span class="c-cmd">mkdir</span> <span class="c-arg">my_project</span>         <span class="c-com"># "my_project" naam ka single folder banega</span>
+<span class="c-prompt">$</span> <span class="c-cmd">mkdir</span> <span class="c-arg">folder1 folder2</span>    <span class="c-com"># Ek sath multiple folders banane ke liye</span>
+<span class="c-prompt">$</span> <span class="c-cmd">mkdir</span> <span class="c-arg">-p parent/child</span>     <span class="c-com"># Nested folders ek sath banane ke liye (-p = parents)</span>
+      </div>
+    </div>
+
+    <!-- Topic 06 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 06: Flags & Manual (man)</span></div>
+      <div><span class="tag tag-pink">Flags Definition:</span></div>
+      <p>Flags wo extra characters hote hain jo hum command ke aage <code>-</code> (hyphen) lagakar pass karte hain taaki uska <span class="highlight">default behavior modify</span> ho sake.</p>
+      
+      <p><strong>Manual Command (<code>man</code>):</strong> Kisi bhi command ka pura guide/manual padhne ke liye (e.g., <code>man ls</code>, <code>man mkdir</code>). Bahar aane ke liye <code>q</code> press karte hain.</p>
+
+      <div><span class="tag tag-orange">Common Flags with ls:</span></div>
+      <ul class="hand-list">
+        <li><code>ls -l</code> ➔ <strong>Long format:</strong> File permissions, size, owner, date & time sab show karta hai.</li>
+        <li><code>ls -a</code> ➔ <strong>All files:</strong> Hidden files bhi show karta hai jo dot (<code>.</code>) se start hoti hain jaise <code>.gitignore</code>, <code>.env</code>.</li>
+        <li><code>ls -la</code> / <code>ls -al</code> ➔ <strong>Combined:</strong> Hidden files + Long format details dono ek sath dikhata hai.</li>
+      </ul>
+    </div>
+
+    <!-- Topic 07 & 08 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 07 & 08: Touch & Deleting Files/Folders</span></div>
+      
+      <div><span class="tag tag-green">Topic 07: Touch Command:</span></div>
+      <p>Nayi empty files create karne ke liye with extension:</p>
+      <div class="code-note">
+<span class="c-prompt">$</span> <span class="c-cmd">touch</span> <span class="c-arg">index.html</span>   <span class="c-com"># HTML file ban gayi</span>
+<span class="c-prompt">$</span> <span class="c-cmd">touch</span> <span class="c-arg">app.js</span>       <span class="c-com"># JS file ban gayi</span>
+<span class="c-prompt">$</span> <span class="c-cmd">touch</span> <span class="c-arg">abc.txt</span>      <span class="c-com"># Text file ban gayi</span>
+      </div>
+      <p><em>Note:</em> Agar file pehle se maujood ho, toh <code>touch</code> file delete nahi karta balki uska <strong>Access & Modification Timestamp</strong> update kar deta hai.</p>
+
+      <div><span class="tag tag-pink">Topic 08: Deleting Files & Folders:</span></div>
+      <table class="hand-table">
+        <tr><th>Command</th><th>Use Case</th><th>Important Rule</th></tr>
+        <tr><td><code>rm &lt;file&gt;</code></td><td>Remove file (e.g. <code>rm abc.txt</code>)</td><td>Sirf files delete karta hai.</td></tr>
+        <tr><td><code>rmdir &lt;folder&gt;</code></td><td>Remove empty folder</td><td>Agar folder ke andar files hain toh error dega!</td></tr>
+        <tr><td><code>rm -rf &lt;folder&gt;</code></td><td>Remove any folder forcefully</td><td><code>-r</code> = Recursive (files + subfolders), <code>-f</code> = Force (no asking).</td></tr>
+      </table>
+
+      <div class="exam-tip">
+        <span class="tip-icon">⚠️</span>
+        <div class="tip-text"><span class="tip-label">Caution / Pro Tip:</span> Terminal se delete hui files Recycle Bin / Trash mein nahi jaati! Wo <strong>permanently delete</strong> ho jaati hain, isliye <code>rm -rf</code> dhyan se use karein.</div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

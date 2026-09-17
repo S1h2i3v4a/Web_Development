@@ -2,7 +2,7 @@
 
 [![GitHub repo size](https://img.shields.io/github/repo-size/S1h2i3v4a/Web_Development?color=blue&style=flat-square)](https://github.com/S1h2i3v4a/Web_Development)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
-[![Topics](https://img.shields.io/badge/topics-JavaScript%20%7C%20WebDev-yellow.svg?style=flat-square)](https://github.com/S1h2i3v4a/Web_Development)
+[![Topics](https://img.shields.io/badge/topics-JavaScript%20%7C%20Backend%20%7C%20Terminal-yellow.svg?style=flat-square)](https://github.com/S1h2i3v4a/Web_Development)
 
 Welcome to the **Web Development** repository! This repository is an organized, structured collection of study notes, cheat sheets, guides, and resources covering full-stack web development from foundational syntax to advanced web architectures.
 
@@ -12,17 +12,38 @@ Welcome to the **Web Development** repository! This repository is an organized, 
 
 ```plaintext
 Web_Development/
+│
+├── 📁 Backend/
+│   ├── 📁 Terminal/
+│   │   ├── 📄 Backend_Terminal_Handwritten_Notes.pdf  # Terminal handwritten topper notes (5 pages)
+│   │   ├── 📄 Backend_Terminal_Topper_Notes.html     # Interactive printable notes
+│   │   └── 📄 README.md                               # CLI commands cheat sheet & guide
+│   └── 📄 README.md                                   # Backend roadmap & modules index
+│
 ├── 📁 JavaScript/
-│   ├── 📄 JavaScript_Topper_Handwritten_Notes.pdf  # Illustrated topper notes (Topic 01 - 88)
-│   ├── 📄 JavaScript_Short_Notes.pdf               # Quick revision handwritten notebook
-│   └── 📄 README.md                                # Syllabus breakdown & topic index
+│   ├── 📄 JavaScript_Topper_Handwritten_Notes.pdf    # Illustrated topper notes (Topics 01 - 88)
+│   ├── 📄 JavaScript_Short_Notes.pdf                 # Quick revision handwritten notebook
+│   └── 📄 README.md                                  # Syllabus breakdown & topic index
+│
 ├── 📄 .gitignore
-└── 📄 README.md                                    # Repository overview & index
+└── 📄 README.md                                      # Repository overview & index
 ```
 
 ---
 
 ## 📚 Topics & Modules
+
+### ⚙️ [Backend & Terminal](./Backend/Terminal/)
+
+Essential command-line environment and operating system interaction fundamentals for backend engineers:
+
+| Resource | Description | Format |
+| :--- | :--- | :--- |
+| [**Backend Terminal Topper Notes**](./Backend/Terminal/Backend_Terminal_Handwritten_Notes.pdf) | Illustrated notes covering terminal architecture, core navigation (`pwd`, `ls`, `cd`), path resolution, flags (`ls -la`), and file manipulation (`touch`, `mkdir -p`, `rm -rf`). | PDF (5 pages) |
+| [**Interactive Terminal Notes**](./Backend/Terminal/Backend_Terminal_Topper_Notes.html) | Printable styled HTML version of the topper notes. | HTML |
+| [**Terminal Command Guide**](./Backend/Terminal/README.md) | Comprehensive command reference table, syntax rules, and safety tips. | Markdown |
+
+---
 
 ### 💛 [JavaScript](./JavaScript/)
 
@@ -44,9 +65,10 @@ Comprehensive notes covering basic to advanced modern JavaScript (ES6+):
 
 ---
 
-## 🛣️ Roadmap / Upcoming Modules
+## 🛣️ Roadmap / Modules Status
 
-- [x] **JavaScript Fundamentals & Advanced**
+- [x] **JavaScript Fundamentals & Advanced (ES6+)**
+- [x] **Backend Fundamentals (Terminal & CLI Navigation)**
 - [ ] **HTML5 & Semantic Markup**
 - [ ] **CSS3, Flexbox, Grid & Modern Styling**
 - [ ] **React.js & Frontend Ecosystem**
