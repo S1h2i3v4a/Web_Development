@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>04. Mongoose Schema, Models & Collection Pluralization</title>
+  <style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fira+Code:wght@400;500;600&family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
+
+  @page {
+    size: A4 portrait;
+    margin: 8mm 6mm 8mm 6mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #f1f5f9;
+    font-family: 'Patrick Hand', 'Kalam', cursive;
+    color: #1e293b;
+    font-size: 15.8px;
+    line-height: 1.34;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .toolbar {
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    border-radius: 50px;
+    padding: 8px 22px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    margin-bottom: 24px;
+  }
+
+  .toolbar button {
+    background: #fef08a;
+    border: 2px solid #b45309;
+    color: #78350f;
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    font-weight: 700;
+    padding: 4px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .toolbar button:hover {
+    background: #fde047;
+    transform: translateY(-1px);
+  }
+
+  .notebook-page {
+    width: 820px;
+    min-height: 1055px;
+    max-height: 1055px;
+    overflow: hidden;
+    background-color: #fefefe;
+    background-image: 
+      linear-gradient(90deg, transparent 65px, #fca5a5 65px, #fca5a5 67px, transparent 67px),
+      linear-gradient(0deg, #e2e8f0 1px, transparent 1px);
+    background-size: 100% 100%, 100% 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    padding: 18px 30px 22px 82px;
+    margin-bottom: 30px;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  @media print {
+    body { background: transparent; padding: 0; }
+    .toolbar { display: none !important; }
+    .notebook-page {
+      box-shadow: none !important;
+      border: 1px solid #cbd5e1 !important;
+      margin: 0 !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      min-height: 1055px !important;
+      height: 1055px !important;
+      max-height: 1055px !important;
+      overflow: hidden !important;
+    }
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed #94a3b8;
+    padding-bottom: 3px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #64748b;
+  }
+
+  .header-tag {
+    background: #e2e8f0;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  h1.topic-title {
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-align: center;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 18px;
+    font-family: 'Caveat', cursive;
+    font-size: 17px;
+    font-weight: 700;
+    margin: 3px 0;
+    border: 1.5px solid rgba(0,0,0,0.15);
+  }
+  .b-green { background: #bbf7d0; color: #14532d; }
+  .b-yellow { background: #fef08a; color: #713f12; }
+  .b-pink { background: #fbcfe8; color: #831843; }
+  .b-blue { background: #bae6fd; color: #0c4a6e; }
+  .b-orange { background: #fed7aa; color: #7c2d12; }
+  .b-purple { background: #e9d5ff; color: #581c87; }
+
+  .hl { background: #fef08a; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+  .hl-blue { background: #bae6fd; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+  .hl-pink { background: #fbcfe8; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+  .hl-green { background: #bbf7d0; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+
+  p { margin-bottom: 4px; }
+  ul { margin-left: 20px; margin-bottom: 4px; }
+  li { margin-bottom: 2px; }
+
+  .diagram-flow {
+    background: #f8fafc;
+    border: 2px dashed #3b82f6;
+    border-radius: 8px;
+    padding: 4px 10px;
+    margin: 4px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 6px;
+  }
+  .flow-step {
+    background: #ffffff;
+    border: 2px solid #1e40af;
+    border-radius: 8px;
+    padding: 2px 8px;
+    text-align: center;
+    font-weight: 700;
+    color: #1e3a8a;
+    box-shadow: 2px 2px 0 #93c5fd;
+    font-size: 12.5px;
+  }
+  .flow-arrow {
+    font-size: 15px;
+    color: #2563eb;
+    font-weight: 700;
+  }
+
+  .notes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4px 0;
+    font-size: 12.5px;
+    background: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1.5px solid #64748b;
+  }
+  .notes-table th {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 3px 6px;
+    text-align: left;
+    font-family: 'Caveat', cursive;
+    font-size: 14.5px;
+    letter-spacing: 0.5px;
+  }
+  .notes-table td {
+    padding: 2.5px 6px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+  }
+  .notes-table tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  .vscode-window {
+    background: #1e1e1e;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.22);
+    overflow: hidden;
+    margin: 4px 0;
+    border: 1px solid #333333;
+  }
+  .vscode-titlebar {
+    background: #252526;
+    padding: 3px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Fira Code', monospace;
+    font-size: 10px;
+    color: #cccccc;
+    border-bottom: 1px solid #333333;
+  }
+  .vscode-dots { display: flex; gap: 4px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+  .vscode-content {
+    padding: 4px 10px;
+    font-family: 'Fira Code', monospace;
+    font-size: 10.8px;
+    line-height: 1.30;
+    color: #d4d4d4;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .kwd { color: #569cd6; font-weight: 600; }
+  .str { color: #ce9178; }
+  .fn { color: #dcdcaa; }
+  .com { color: #6a9955; font-style: italic; }
+  .var { color: #9cdcfe; }
+  .num { color: #b5cea8; }
+  .punct { color: #d4d4d4; }
+  .prop { color: #4ec9b0; }
+
+  .exam-tip {
+    background: #fefce8;
+    border: 2px dashed #ca8a04;
+    border-radius: 6px;
+    padding: 3px 8px;
+    margin: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13.5px;
+  }
+  .danger-box {
+    background: #fef2f2;
+    border: 2px dashed #dc2626;
+    border-radius: 6px;
+    padding: 3px 8px;
+    margin: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13.5px;
+  }
+  .tip-icon { font-size: 17px; flex-shrink: 0; }
+  .tip-text { flex-grow: 1; }
+  .tip-label { font-weight: 700; color: #854d0e; font-family: 'Caveat', cursive; font-size: 16px; }
+  .danger-label { font-weight: 700; color: #991b1b; font-family: 'Caveat', cursive; font-size: 16px; }
+
+  .page-num {
+    position: absolute;
+    bottom: 6px;
+    right: 22px;
+    font-family: 'Caveat', cursive;
+    font-size: 14.5px;
+    color: #94a3b8;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 4px 0;
+  }
+  .card-box {
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 4px 8px;
+  }
+
+  </style>
+</head>
+<body>
+  
+    <div class="toolbar">
+      <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+      <span style="font-family:'Caveat', cursive; font-size: 18px; color: #475569;">
+        📌 Handwritten Notes • Single-page A4 Layout
+      </span>
+    </div>
+    
+  
+        <div class="notebook-page">
+          <div class="page-header">
+            <span>📖 Topic 04: Schema, Models & Pluralization</span>
+            <span class="header-tag">PAGE 01 / 02</span>
+          </div>
+          <h1 class="topic-title">🏗️ 04. Mongoose Schema & Model Creation</h1>
+
+          <span class="badge b-green">📐 Step 1: Defining Mongoose Schema</span>
+          <p><b>Schema</b> define karta hai ki documents ka shape, data types aur defaults kya honge:</p>
+          <div class="vscode-window">
+            <div class="vscode-titlebar">
+              <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+              <span>models/user.js — Schema Definition</span>
+            </div>
+            <div class="vscode-content"><span class="kwd">const</span> <span class="var">mongoose</span> = <span class="fn">require</span>(<span class="str">"mongoose"</span>);
+
+<span class="kwd">const</span> <span class="var">userSchema</span> = <span class="kwd">new</span> <span class="var">mongoose</span>.<span class="fn">Schema</span>({
+  <span class="prop">name</span>: <span class="var">String</span>,
+  <span class="prop">email</span>: <span class="var">String</span>,
+  <span class="prop">age</span>: <span class="var">Number</span>,
+  <span class="prop">isActive</span>: { <span class="prop">type</span>: <span class="var">Boolean</span>, <span class="prop">default</span>: <span class="kwd">true</span> }
+});</div>
+          </div>
+
+          <span class="badge b-purple">🏛️ Step 2: Creating Model Constructor</span>
+          <p><b>Model</b> ek constructor class hoti hai jisse hum documents instantiate aur query karte hain:</p>
+          <div class="vscode-window">
+            <div class="vscode-titlebar">
+              <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+              <span>models/user.js — Model Creation</span>
+            </div>
+            <div class="vscode-content"><span class="com">// mongoose.model(modelName, schema)</span>
+<span class="kwd">const</span> <span class="var">User</span> = <span class="var">mongoose</span>.<span class="fn">model</span>(<span class="str">"User"</span>, <span class="var">userSchema</span>);
+<span class="var">module</span>.<span class="var">exports</span> = <span class="var">User</span>;</div>
+          </div>
+
+          <span class="badge b-yellow">💾 Creating & Saving Documents (.save())</span>
+          <div class="vscode-window">
+            <div class="vscode-titlebar">
+              <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+              <span>index.js — Save Document</span>
+            </div>
+            <div class="vscode-content"><span class="com">// 1. In-memory JS instance bana (DB me save nahi hua)</span>
+<span class="kwd">const</span> <span class="var">user1</span> = <span class="kwd">new</span> <span class="fn">User</span>({
+  <span class="prop">name</span>: <span class="str">"Amit Sharma"</span>,
+  <span class="prop">email</span>: <span class="str">"amit@gmail.com"</span>,
+  <span class="prop">age</span>: <span class="num">21</span>
+});
+
+<span class="com">// 2. .save() async function hai jo MongoDB me insert karta hai</span>
+<span class="var">user1</span>.<span class="fn">save</span>()
+  .<span class="fn">then</span>((<span class="var">res</span>) =&gt; <span class="var">console</span>.<span class="fn">log</span>(<span class="str">"Saved to DB:"</span>, <span class="var">res</span>))
+  .<span class="fn">catch</span>((<span class="var">err</span>) =&gt; <span class="var">console</span>.<span class="fn">log</span>(<span class="var">err</span>));</div>
+          </div>
+
+          <span class="badge b-pink">⚡ Direct Bulk Insert: Model.insertMany()</span>
+          <p><span class="hl">User.insertMany([...])</span> bina <code>.save()</code> call kiye seedha database me documents persist kar deta hai!</p>
+          <div class="page-num">Page 1</div>
+        </div>
+        
+
+        <div class="notebook-page">
+          <div class="page-header">
+            <span>📖 Topic 04: Schema, Models & Pluralization</span>
+            <span class="header-tag">PAGE 02 / 02</span>
+          </div>
+          <h1 class="topic-title">🔮 Pluralization Magic & Operation Buffering</h1>
+
+          <span class="badge b-pink">🔮 Behind The Scenes Magic: Collection Pluralization</span>
+          <p>Jab aap model name <span class="hl">"User"</span> dete hain, Mongoose automatically usko <b>lowercase</b> aur <b>plural</b> bana kar MongoDB collection create karta hai:</p>
+          
+          <div class="card-box" style="background:#fdf4ff; border-color:#d8b4fe; margin:6px 0;">
+            <p style="text-align:center; font-family:'Fira Code',monospace; font-size:13.5px; margin:2px 0;">
+              <span style="color:#9333ea; font-weight:700;">"User"</span> ➔ <span style="color:#15803d; font-weight:700;">"users"</span> &nbsp;|&nbsp; 
+              <span style="color:#9333ea; font-weight:700;">"Product"</span> ➔ <span style="color:#15803d; font-weight:700;">"products"</span> &nbsp;|&nbsp; 
+              <span style="color:#9333ea; font-weight:700;">"Person"</span> ➔ <span style="color:#15803d; font-weight:700;">"people"</span>
+            </p>
+          </div>
+          <p>Mongoose internally <i>pluralize</i> library use karta hai jo irregular English words (jaise Person ➔ people) ko bhi accurately handle karti hai!</p>
+
+          <span class="badge b-blue">🚀 Operation Buffering (Interview Favorite Concept!)</span>
+          <p><b>Operation Buffering kya hai?</b> Agar aapka database connection establish hone me 2 seconds lag rahe hain, tab bhi aap turant <code>User.find()</code> ya <code>user.save()</code> call kar sakte hain!</p>
+          <div class="diagram-flow">
+            <div class="flow-step">1. Query Call<br><small>User.find()</small></div>
+            <div class="flow-arrow">➔ buffered in ➔</div>
+            <div class="flow-step">2. Memory Queue<br><small>(Buffers commands)</small></div>
+            <div class="flow-arrow">➔ on connect ➔</div>
+            <div class="flow-step">3. DB Execution<br><small>(Fires automatically)</small></div>
+          </div>
+
+          <div class="vscode-window">
+            <div class="vscode-titlebar">
+              <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+              <span>index.js — Operation Buffering Example</span>
+            </div>
+            <div class="vscode-content"><span class="com">// DB connect hone se PEHLE hi query trigger kar di:</span>
+<span class="var">User</span>.<span class="fn">find</span>().<span class="fn">then</span>((<span class="var">data</span>) =&gt; <span class="var">console</span>.<span class="fn">log</span>(<span class="str">"Data fetched:"</span>, <span class="var">data</span>));
+
+<span class="com">// Connection baad me execute ho raha hai:</span>
+<span class="var">mongoose</span>.<span class="fn">connect</span>(<span class="str">"mongodb://127.0.0.1:27017/collegeDB"</span>);
+<span class="com">// Mongoose query ko crash nahi karega, wait karega aur connect hote hi run karega!</span></div>
+          </div>
+
+          <div class="exam-tip">
+            <div class="tip-icon">💡</div>
+            <div class="tip-text"><span class="tip-label">TIP:</span> Agar aap custom collection name chahte hain toh 3rd argument pass kar sakte hain: <code>mongoose.model("User", userSchema, "custom_users")</code>!</div>
+          </div>
+          <div class="page-num">Page 2</div>
+        </div>
+        
+</body>
+</html>
