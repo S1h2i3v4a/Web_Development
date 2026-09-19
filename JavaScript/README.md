@@ -8,7 +8,7 @@ Comprehensive handwritten notes and quick-revision guides covering complete Java
 
 | Resource | Description | Format / Pages | Link |
 | :--- | :--- | :--- | :--- |
-| **JavaScript Topper Notes** | Detailed handwritten & illustrated notes with conceptual diagrams, code blocks, exam tips, and memory models. | Digital Illustrated (16 Pages) | [`JavaScript_Topper_Handwritten_Notes.pdf`](./JavaScript_Topper_Handwritten_Notes.pdf) |
+| **JavaScript Notes** | Detailed handwritten & illustrated notes with conceptual diagrams, code blocks, exam tips, and memory models. | Digital Illustrated (16 Pages) | [`JavaScript_Handwritten_Notes.pdf`](./JavaScript_Handwritten_Notes.pdf) |
 | **JavaScript Short Notes** | Scanned quick revision notebook covering core syntax, quick rules, methods, and practical cheat sheets. | Handwritten Scanned (14 Pages) | [`JavaScript_Short_Notes.pdf`](./JavaScript_Short_Notes.pdf) |
 
 ---
@@ -74,4 +74,4 @@ Comprehensive handwritten notes and quick-revision guides covering complete Java
 
 ## 🚀 How to Use These Notes
 1. **Quick Revision:** Use [`JavaScript_Short_Notes.pdf`](./JavaScript_Short_Notes.pdf) before interviews or exams for rapid memory recall.
-2. **In-depth Conceptual Study:** Refer to [`JavaScript_Topper_Handwritten_Notes.pdf`](./JavaScript_Topper_Handwritten_Notes.pdf) for code patterns, visual diagrams, and nuanced edge cases.
+2. **In-depth Conceptual Study:** Refer to [`JavaScript_Handwritten_Notes.pdf`](./JavaScript_Handwritten_Notes.pdf) for code patterns, visual diagrams, and nuanced edge cases.

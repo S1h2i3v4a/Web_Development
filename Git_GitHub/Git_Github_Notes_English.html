@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Git & GitHub Topper Notes (Hinglish)</title>
+<title>Git & GitHub Notes (English)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Kalam:wght@400;700&family=Patrick+Hand&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
@@ -204,19 +204,19 @@
 </head>
 <body>
   <div class="toolbar">
-    <button onclick="window.print()">🖨️ Print Hinglish PDF</button>
+    <button onclick="window.print()">🖨️ Print English PDF</button>
   </div>
 
-  <!-- PAGE 1: Intro, GitHub, Basics & 3-Stage Lifecycle -->
+  <!-- PAGE 1: Intro, GitHub, Basics & Lifecycle -->
   <div class="notebook-page">
     <!-- Topic 01 -->
     <div class="topic-card">
       <div class="main-topic-title"><span>Topic 01: What is Git & GitHub?</span></div>
       <div><span class="tag tag-green">What is Git?</span></div>
-      <p>Git ek <span class="highlight">Free, Open-Source Version Control System (VCS)</span> hai jo hamare codebase ke changes ko track karta hai aur project history maintain karta hai.</p>
+      <p>Git is a <span class="highlight">Free, Open-Source Distributed Version Control System (VCS)</span> designed to track changes in source code and maintain complete project history over time.</p>
       
       <div><span class="tag tag-pink">What is GitHub?</span></div>
-      <p>GitHub ek online cloud platform/website hai jahan hum apne Git repositories ko host karte hain aur doosre developers ke sath collaborate karte hain.</p>
+      <p>GitHub is a cloud-based hosting platform/website where developers store, share, and collaborate on Git repositories online.</p>
 
       <div class="flowchart">
         <div class="flow-row">
@@ -230,30 +230,30 @@
     <!-- Topic 02 -->
     <div class="topic-card">
       <div class="main-topic-title"><span>Topic 02: File Status Lifecycle</span></div>
-      <div><span class="tag tag-yellow">Git Ke 4 File States:</span></div>
+      <div><span class="tag tag-yellow">The 4 Core File States:</span></div>
       <div class="flowchart">
         <div class="flow-row">
-          <div class="flow-box flow-pink">Untracked (Nayi File)</div>
+          <div class="flow-box flow-pink">Untracked (New file)</div>
           <span class="flow-arrow">➔ git add ➔</span>
-          <div class="flow-box flow-blue">Staged (Ready for Commit)</div>
+          <div class="flow-box flow-blue">Staged (Ready for commit)</div>
         </div>
         <span class="flow-arrow">⬇ git commit</span>
         <div class="flow-row">
-          <div class="flow-box flow-green">Unmodified (Saved in Repo)</div>
+          <div class="flow-box flow-green">Unmodified (Committed in repo)</div>
           <span class="flow-arrow">➔ Edit file ➔</span>
-          <div class="flow-box flow-orange">Modified (Changes Made)</div>
+          <div class="flow-box flow-orange">Modified (Unstaged changes)</div>
         </div>
       </div>
 
-      <div><span class="tag tag-blue">Core 3-Step Routine:</span></div>
+      <div><span class="tag tag-blue">Standard 3-Step Workflow:</span></div>
       <div class="code-note">
-<span class="c-p">$</span> <span class="c-cmd">git add</span> <span class="c-arg">index.html</span>      <span class="c-com"># Step 1: Working directory se Staging area me bhejo</span>
-<span class="c-p">$</span> <span class="c-cmd">git commit -m</span> <span class="c-arg">"save msg"</span> <span class="c-com"># Step 2: Staging se Local Repository me commit karo</span>
-<span class="c-p">$</span> <span class="c-cmd">git push origin main</span>    <span class="c-com"># Step 3: Local Repo se GitHub (Remote) par push karo</span>
+<span class="c-p">$</span> <span class="c-cmd">git add</span> <span class="c-arg">index.html</span>      <span class="c-com"># Step 1: Move from Working Directory to Staging Area</span>
+<span class="c-p">$</span> <span class="c-cmd">git commit -m</span> <span class="c-arg">"save msg"</span> <span class="c-com"># Step 2: Snapshot staged files into Local Repository</span>
+<span class="c-p">$</span> <span class="c-cmd">git push origin main</span>    <span class="c-com"># Step 3: Upload local commits to Remote (GitHub)</span>
       </div>
       <div class="exam-tip">
         <span class="tip-icon">💡</span>
-        <div class="tip-text"><span class="tip-label">Key Rule:</span> <code>git add .</code> saare modified & untracked files ko ek sath stage kar deta hai!</div>
+        <div class="tip-text"><span class="tip-label">Key Rule:</span> <code>git add .</code> stages all modified and newly created untracked files at once!</div>
       </div>
     </div>
 
@@ -261,8 +261,8 @@
     <div class="topic-card">
       <div class="main-topic-title"><span>Topic 03: Basic Commands (clone & status)</span></div>
       <ul class="hand-list">
-        <li><code>git clone &lt;repo_url&gt;</code> ➔ Remote repository ko download karke local machine par copy banata hai.</li>
-        <li><code>git status</code> ➔ Code ki current state display karta hai (kaunsi file modified hai, staged hai ya untracked hai).</li>
+        <li><code>git clone &lt;repo_url&gt;</code> ➔ Downloads and copies an entire remote repository to your local computer.</li>
+        <li><code>git status</code> ➔ Displays the state of the working directory and staging area (shows modified, staged, or untracked files).</li>
       </ul>
     </div>
   </div>
@@ -272,31 +272,31 @@
     <!-- Topic 04 & 05 -->
     <div class="topic-card">
       <div class="main-topic-title"><span>Topic 04 & 05: New Repo & Remote Setup</span></div>
-      <div><span class="tag tag-green">First Time Repo Setup Steps:</span></div>
+      <div><span class="tag tag-green">First-Time Setup Sequence:</span></div>
       <div class="code-note">
-<span class="c-p">$</span> <span class="c-cmd">git init</span>                           <span class="c-com"># Naya empty Git repo initialize karta hai</span>
-<span class="c-p">$</span> <span class="c-cmd">git remote add origin</span> <span class="c-arg">&lt;repo_url&gt;</span>  <span class="c-com"># Local repo ko remote GitHub link se jodta hai</span>
-<span class="c-p">$</span> <span class="c-cmd">git remote -v</span>                     <span class="c-com"># Remote URL verify/check karta hai</span>
-<span class="c-p">$</span> <span class="c-cmd">git branch</span>                        <span class="c-com"># Saari branches check karta hai</span>
-<span class="c-p">$</span> <span class="c-cmd">git branch -M main</span>                <span class="c-com"># Current branch ka naam rename karke "main" karta hai</span>
-<span class="c-p">$</span> <span class="c-cmd">git push -u origin main</span>           <span class="c-com"># Pehli baar code remote 'origin' par push karta hai</span>
+<span class="c-p">$</span> <span class="c-cmd">git init</span>                           <span class="c-com"># Initialize a new local Git repository</span>
+<span class="c-p">$</span> <span class="c-cmd">git remote add origin</span> <span class="c-arg">&lt;repo_url&gt;</span>  <span class="c-com"># Connect local repo to remote GitHub repository</span>
+<span class="c-p">$</span> <span class="c-cmd">git remote -v</span>                     <span class="c-com"># Verify remote connection URLs</span>
+<span class="c-p">$</span> <span class="c-cmd">git branch</span>                        <span class="c-com"># List local branches</span>
+<span class="c-p">$</span> <span class="c-cmd">git branch -M main</span>                <span class="c-com"># Rename current branch to 'main'</span>
+<span class="c-p">$</span> <span class="c-cmd">git push -u origin main</span>           <span class="c-com"># Push commits and set upstream tracking</span>
       </div>
     </div>
 
     <!-- Topic 06 -->
     <div class="topic-card">
       <div class="main-topic-title"><span>Topic 06: Branch Commands</span></div>
-      <div><span class="tag tag-pink">Branching Kya Hai?</span> Project ki main line se alag hokar safe features banane ka isolated rasta.</div>
+      <div><span class="tag tag-pink">What is a Branch?</span> An independent timeline to develop features safely without affecting production code.</div>
       <table class="hand-table">
-        <tr><th>Command</th><th>Kaam (Action)</th></tr>
-        <tr><td><code>git branch</code></td><td>Active branches list karta hai (* current branch par hota hai).</td></tr>
-        <tr><td><code>git checkout &lt;branch&gt;</code></td><td>Dusri branch par switch/navigate karta hai.</td></tr>
-        <tr><td><code>git checkout -b &lt;new_branch&gt;</code></td><td>Nayi branch banata hai <strong>AUR</strong> turant uspar switch karta hai.</td></tr>
-        <tr><td><code>git branch -d &lt;branch&gt;</code></td><td>Purani/merged branch ko delete karta hai.</td></tr>
+        <tr><th>Command</th><th>Purpose & Behavior</th></tr>
+        <tr><td><code>git branch</code></td><td>Lists all branches (* marks the active branch).</td></tr>
+        <tr><td><code>git checkout &lt;branch&gt;</code></td><td>Switches/navigates to the specified branch.</td></tr>
+        <tr><td><code>git checkout -b &lt;new_branch&gt;</code></td><td>Creates a new branch <strong>AND</strong> switches to it immediately.</td></tr>
+        <tr><td><code>git branch -d &lt;branch&gt;</code></td><td>Safely deletes a merged branch.</td></tr>
       </table>
       <div class="exam-tip">
         <span class="tip-icon">⭐</span>
-        <div class="tip-text"><span class="tip-label">Modern Git Tip:</span> Modern Git me <code>git switch &lt;branch&gt;</code> aur <code>git switch -c &lt;new_branch&gt;</code> bhi use hota hai!</div>
+        <div class="tip-text"><span class="tip-label">Modern Git Tip:</span> You can also use <code>git switch &lt;branch&gt;</code> and <code>git switch -c &lt;new_branch&gt;</code>!</div>
       </div>
     </div>
 
@@ -304,12 +304,12 @@
     <div class="topic-card">
       <div class="main-topic-title"><span>Topic 07: Merging Code & Diff</span></div>
       <ul class="hand-list">
-        <li><code>git diff &lt;branch&gt;</code> ➔ Do branches, commits ya working tree ke beech changes ko compare karta hai.</li>
-        <li><code>git merge &lt;branch_name&gt;</code> ➔ Specify ki gayi branch ke code ko current branch ke sath combine/merge karta hai.</li>
+        <li><code>git diff &lt;branch&gt;</code> ➔ Compares commits, branches, or unstaged changes side-by-side.</li>
+        <li><code>git merge &lt;branch_name&gt;</code> ➔ Integrates and combines the specified branch into the current checked-out branch.</li>
       </ul>
       <div class="code-note">
-<span class="c-p">$</span> <span class="c-cmd">git checkout</span> <span class="c-arg">main</span>       <span class="c-com"># 1. Main branch pe aao</span>
-<span class="c-p">$</span> <span class="c-cmd">git merge</span> <span class="c-arg">feature-login</span> <span class="c-com"># 2. Feature branch ko main me merge karo</span>
+<span class="c-p">$</span> <span class="c-cmd">git checkout</span> <span class="c-arg">main</span>       <span class="c-com"># 1. Switch to destination branch</span>
+<span class="c-p">$</span> <span class="c-cmd">git merge</span> <span class="c-arg">feature-login</span> <span class="c-com"># 2. Merge feature branch into main</span>
       </div>
     </div>
   </div>
@@ -320,46 +320,46 @@
     <div class="topic-card">
       <div class="main-topic-title"><span>Topic 08: git pull origin main</span></div>
       <div><span class="tag tag-blue">Pull = Fetch + Merge</span></div>
-      <p>Remote repository se latest code download (fetch) karta hai aur turant current local branch ko update (merge) kar deta hai.</p>
+      <p>Fetches updates from the remote GitHub repository and instantly merges them into your local active branch.</p>
       <div class="code-note">
-<span class="c-p">$</span> <span class="c-cmd">git pull origin main</span> <span class="c-com"># Team members ke naye commits apne paas lana</span>
+<span class="c-p">$</span> <span class="c-cmd">git pull origin main</span> <span class="c-com"># Pull teammates' latest commits to keep code synced</span>
       </div>
     </div>
 
     <!-- Topic 09 -->
     <div class="topic-card">
-      <div class="main-topic-title"><span>Topic 09: Fixing Mistakes (Undoing in Git)</span></div>
+      <div class="main-topic-title"><span>Topic 09: Fixing Mistakes (Undoing Changes)</span></div>
       
       <table class="hand-table">
-        <tr><th>Case</th><th>Problem</th><th>Solution Command</th></tr>
+        <tr><th>Scenario</th><th>Problem</th><th>Solution Command</th></tr>
         <tr>
           <td><strong>Case 1</strong></td>
-          <td>Galti se file stage ho gayi (<code>git add</code> ke baad unstage karna)</td>
-          <td><code>git reset &lt;filename&gt;</code> ya <code>git restore --staged &lt;file&gt;</code></td>
+          <td>Accidentally staged a file (Unstage after <code>git add</code>)</td>
+          <td><code>git reset &lt;filename&gt;</code> or <code>git restore --staged &lt;file&gt;</code></td>
         </tr>
         <tr>
           <td><strong>Case 2</strong></td>
-          <td>Aakhri 1 commit galat ho gaya (Commit wapas lena par code rakhna)</td>
-          <td><code>git reset HEAD~1</code> (Soft: changes rehte hain, commit hat jata hai)</td>
+          <td>Undo last commit but keep code in working directory</td>
+          <td><code>git reset HEAD~1</code> (Soft undo: keeps code edits)</td>
         </tr>
         <tr>
           <td><strong>Case 3</strong></td>
-          <td>Multiple commits purane kisi specific point par wapas jana</td>
+          <td>Roll back multiple commits to a specific checkpoint</td>
           <td><code>git reset &lt;commit_hash&gt;</code></td>
         </tr>
       </table>
 
       <div class="exam-tip">
         <span class="tip-icon">⚠️</span>
-        <div class="tip-text"><span class="tip-label">Caution:</span> <code>git reset --hard</code> saare uncommitted changes ko permanently mita deta hai, dhyan se chalayein!</div>
+        <div class="tip-text"><span class="tip-label">Caution:</span> <code>git reset --hard</code> permanently deletes uncommitted changes! Use with care.</div>
       </div>
     </div>
 
     <!-- Topic 10 -->
     <div class="topic-card">
       <div class="main-topic-title"><span>Topic 10: What is Forking?</span></div>
-      <div><span class="tag tag-orange">Fork Concept:</span></div>
-      <p>Fork kisi doosre developer ke public GitHub repository ki ek independent <strong>Personal Copy</strong> hoti hai jo aapke apne account me save ho jaati hai.</p>
+      <div><span class="tag tag-orange">Concept of Fork:</span></div>
+      <p>A fork is an independent <strong>personal copy</strong> of another user's public repository stored under your own GitHub account.</p>
       
       <div class="flowchart">
         <div class="flow-row">
@@ -367,12 +367,12 @@
           <span class="flow-arrow">➔ Fork ➔</span>
           <div class="flow-box flow-green">Your Account Copy (Rough Copy)</div>
         </div>
-        <span class="flow-arrow">⬇ (Changes karke)</span>
-        <div class="flow-box flow-yellow">Send Pull Request (PR) to Original</div>
+        <span class="flow-arrow">⬇ (Apply fixes & changes)</span>
+        <div class="flow-box flow-yellow">Open a Pull Request (PR) to Upstream</div>
       </div>
       <ul class="hand-list">
-        <li>Yeh original repo ke code aur visibility ko inherit karti hai.</li>
-        <li>Open source me contribute karne ke liye pehle Fork kiya jata hai, phir branch bana kar changes karte hain.</li>
+        <li>Inherits code and visibility settings from the original repository.</li>
+        <li>Allows you to freely experiment and contribute to Open Source projects without affecting the main project.</li>
       </ul>
     </div>
   </div>

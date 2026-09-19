@@ -8,8 +8,8 @@ Comprehensive handwritten notes, illustrated cheat sheets, and quick-reference g
 
 | Resource | Description | Format / Pages | Link |
 | :--- | :--- | :--- | :--- |
-| **Backend Terminal Topper Notes (PDF)** | Illustrated handwritten-style notes covering core terminal concepts, command architectures, path resolution, flags, and file management. | PDF (5 Pages) | [`Backend_Terminal_Handwritten_Notes.pdf`](./Backend_Terminal_Handwritten_Notes.pdf) |
-| **Interactive Printable Notes (HTML)** | Styled web view of the topper notes with responsive layout and print styling. | HTML Document | [`Backend_Terminal_Topper_Notes.html`](./Backend_Terminal_Topper_Notes.html) |
+| **Backend Terminal Notes (PDF)** | Illustrated handwritten-style notes covering core terminal concepts, command architectures, path resolution, flags, and file management. | PDF (5 Pages) | [`Backend_Terminal_Handwritten_Notes.pdf`](./Backend_Terminal_Handwritten_Notes.pdf) |
+| **Interactive Printable Notes (HTML)** | Styled web view of the notes with responsive layout and print styling. | HTML Document | [`Backend_Terminal_Notes.html`](./Backend_Terminal_Notes.html) |
 
 ---
 

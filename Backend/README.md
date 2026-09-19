@@ -9,15 +9,15 @@ Resources, architectural guides, command cheat sheets, and handwritten notes for
 ```plaintext
 Backend/
 ├── 📁 Terminal/
-│   ├── 📄 Backend_Terminal_Handwritten_Notes.pdf  # Illustrated topper notes (Topic 01 - 08)
-│   ├── 📄 Backend_Terminal_Topper_Notes.html     # Interactive printable notes
+│   ├── 📄 Backend_Terminal_Handwritten_Notes.pdf  # Illustrated notes (Topic 01 - 08)
+│   ├── 📄 Backend_Terminal_Notes.html     # Interactive printable notes
 │   └── 📄 README.md                               # CLI commands cheat sheet & guide
 │
 └── 📁 NodeJS/
-    ├── 📄 Nodejs_Handwritten_Notes_English.pdf   # English handwritten topper notes (4 pages)
-    ├── 📄 Nodejs_Handwritten_Notes_Hinglish.pdf  # Hinglish handwritten topper notes (4 pages)
-    ├── 📄 Nodejs_Topper_Notes_English.html       # Printable styled HTML notes (English)
-    ├── 📄 Nodejs_Topper_Notes_Hinglish.html      # Printable styled HTML notes (Hinglish)
+    ├── 📄 Nodejs_Handwritten_Notes_English.pdf   # English handwritten notes (4 pages)
+    ├── 📄 Nodejs_Handwritten_Notes_Hinglish.pdf  # Hinglish handwritten notes (4 pages)
+    ├── 📄 Nodejs_Notes_English.html       # Printable styled HTML notes (English)
+    ├── 📄 Nodejs_Notes_Hinglish.html      # Printable styled HTML notes (Hinglish)
     └── 📄 README.md                              # Node.js runtime & module guide
 ```
 

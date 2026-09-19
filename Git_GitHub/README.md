@@ -10,8 +10,8 @@ Comprehensive handwritten notes, illustrated diagrams, and quick-reference cheat
 | :--- | :--- | :--- | :--- |
 | **Git & GitHub Handwritten Notes (English)** | English | PDF (6 Pages) | [`Git_Github_Handwritten_Notes_English.pdf`](./Git_Github_Handwritten_Notes_English.pdf) |
 | **Git & GitHub Handwritten Notes (Hinglish)** | Hinglish | PDF (5 Pages) | [`Git_Github_Handwritten_Notes_Hinglish.pdf`](./Git_Github_Handwritten_Notes_Hinglish.pdf) |
-| **Interactive Printable Notes (English)** | English | HTML Document | [`Git_Github_Topper_Notes_English.html`](./Git_Github_Topper_Notes_English.html) |
-| **Interactive Printable Notes (Hinglish)** | Hinglish | HTML Document | [`Git_Github_Topper_Notes_Hinglish.html`](./Git_Github_Topper_Notes_Hinglish.html) |
+| **Interactive Printable Notes (English)** | English | HTML Document | [`Git_Github_Notes_English.html`](./Git_Github_Notes_English.html) |
+| **Interactive Printable Notes (Hinglish)** | Hinglish | HTML Document | [`Git_Github_Notes_Hinglish.html`](./Git_Github_Notes_Hinglish.html) |
 
 ---
 

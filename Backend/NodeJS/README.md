@@ -10,8 +10,8 @@ Comprehensive handwritten notes, illustrated architecture diagrams, and quick-re
 | :--- | :--- | :--- | :--- |
 | **Node.js Handwritten Notes (English)** | English | PDF (4 Pages) | [`Nodejs_Handwritten_Notes_English.pdf`](./Nodejs_Handwritten_Notes_English.pdf) |
 | **Node.js Handwritten Notes (Hinglish)** | Hinglish | PDF (4 Pages) | [`Nodejs_Handwritten_Notes_Hinglish.pdf`](./Nodejs_Handwritten_Notes_Hinglish.pdf) |
-| **Interactive Printable Notes (English)** | English | HTML Document | [`Nodejs_Topper_Notes_English.html`](./Nodejs_Topper_Notes_English.html) |
-| **Interactive Printable Notes (Hinglish)** | Hinglish | HTML Document | [`Nodejs_Topper_Notes_Hinglish.html`](./Nodejs_Topper_Notes_Hinglish.html) |
+| **Interactive Printable Notes (English)** | English | HTML Document | [`Nodejs_Notes_English.html`](./Nodejs_Notes_English.html) |
+| **Interactive Printable Notes (Hinglish)** | Hinglish | HTML Document | [`Nodejs_Notes_Hinglish.html`](./Nodejs_Notes_Hinglish.html) |
 
 ---
 
