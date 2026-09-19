@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>Database & SQL - Handwritten Notes (Hinglish)</title>
+  <style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fira+Code:wght@400;500;600&family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
+
+  @page {
+    size: A4 portrait;
+    margin: 8mm 6mm 8mm 6mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #f1f5f9;
+    font-family: 'Patrick Hand', 'Kalam', cursive;
+    color: #1e293b;
+    font-size: 16.8px;
+    line-height: 1.40;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .toolbar {
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    border-radius: 50px;
+    padding: 8px 22px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    margin-bottom: 24px;
+  }
+
+  .toolbar button {
+    background: #fef08a;
+    border: 2px solid #b45309;
+    color: #78350f;
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    font-weight: 700;
+    padding: 4px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .toolbar button:hover {
+    background: #fde047;
+    transform: translateY(-1px);
+  }
+
+  .notebook-page {
+    width: 820px;
+    min-height: 1055px;
+    max-height: 1055px;
+    overflow: hidden;
+    background-color: #fefefe;
+    background-image: 
+      linear-gradient(90deg, transparent 65px, #fca5a5 65px, #fca5a5 67px, transparent 67px),
+      linear-gradient(0deg, #e2e8f0 1px, transparent 1px);
+    background-size: 100% 100%, 100% 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    padding: 24px 34px 28px 82px;
+    margin-bottom: 30px;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  @media print {
+    body { background: transparent; padding: 0; }
+    .toolbar { display: none !important; }
+    .notebook-page {
+      box-shadow: none !important;
+      border: 1px solid #cbd5e1 !important;
+      margin: 0 !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      min-height: 1055px !important;
+      height: 1055px !important;
+      max-height: 1055px !important;
+      overflow: hidden !important;
+    }
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed #94a3b8;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: #64748b;
+  }
+
+  .header-tag {
+    background: #e2e8f0;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  h1.topic-title {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-align: center;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 18px;
+    font-family: 'Caveat', cursive;
+    font-size: 18.5px;
+    font-weight: 700;
+    margin: 4px 0;
+    border: 1.5px solid rgba(0,0,0,0.15);
+  }
+  .b-green { background: #bbf7d0; color: #14532d; }
+  .b-yellow { background: #fef08a; color: #713f12; }
+  .b-pink { background: #fbcfe8; color: #831843; }
+  .b-blue { background: #bae6fd; color: #0c4a6e; }
+  .b-orange { background: #fed7aa; color: #7c2d12; }
+  .b-purple { background: #e9d5ff; color: #581c87; }
+
+  .hl { background: #fef08a; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+  .hl-blue { background: #bae6fd; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+  .hl-pink { background: #fbcfe8; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+  .hl-green { background: #bbf7d0; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+
+  p { margin-bottom: 6px; }
+  ul { margin-left: 20px; margin-bottom: 6px; }
+  li { margin-bottom: 3px; }
+
+  .diagram-flow {
+    background: #f8fafc;
+    border: 2px dashed #3b82f6;
+    border-radius: 10px;
+    padding: 7px 12px;
+    margin: 7px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 6px;
+  }
+  .flow-step {
+    background: #ffffff;
+    border: 2px solid #1e40af;
+    border-radius: 8px;
+    padding: 4px 10px;
+    text-align: center;
+    font-weight: 700;
+    color: #1e3a8a;
+    box-shadow: 2px 2px 0 #93c5fd;
+    font-size: 14px;
+  }
+  .flow-arrow {
+    font-size: 18px;
+    color: #2563eb;
+    font-weight: 700;
+  }
+
+  .notes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0;
+    font-size: 14px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1.5px solid #64748b;
+  }
+  .notes-table th {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 5px 8px;
+    text-align: left;
+    font-family: 'Caveat', cursive;
+    font-size: 16.5px;
+    letter-spacing: 0.5px;
+  }
+  .notes-table td {
+    padding: 4px 8px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+  }
+  .notes-table tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  .vscode-window {
+    background: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    overflow: hidden;
+    margin: 6px 0;
+    border: 1px solid #333333;
+  }
+  .vscode-titlebar {
+    background: #252526;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Fira Code', monospace;
+    font-size: 11.5px;
+    color: #cccccc;
+    border-bottom: 1px solid #333333;
+  }
+  .vscode-dots { display: flex; gap: 5px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+  .vscode-content {
+    padding: 6px 12px;
+    font-family: 'Fira Code', monospace;
+    font-size: 11.8px;
+    line-height: 1.36;
+    color: #d4d4d4;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .kwd { color: #569cd6; font-weight: 600; }
+  .str { color: #ce9178; }
+  .fn { color: #dcdcaa; }
+  .com { color: #6a9955; font-style: italic; }
+  .var { color: #9cdcfe; }
+  .num { color: #b5cea8; }
+  .punct { color: #d4d4d4; }
+
+  .exam-tip {
+    background: #fefce8;
+    border: 2px dashed #ca8a04;
+    border-radius: 8px;
+    padding: 5px 10px;
+    margin: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+  }
+  .danger-box {
+    background: #fef2f2;
+    border: 2px dashed #dc2626;
+    border-radius: 8px;
+    padding: 5px 10px;
+    margin: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+  }
+  .tip-icon { font-size: 19px; flex-shrink: 0; }
+  .tip-text { flex-grow: 1; }
+  .tip-label { font-weight: 700; color: #854d0e; font-family: 'Caveat', cursive; font-size: 17.5px; }
+  .danger-label { font-weight: 700; color: #991b1b; font-family: 'Caveat', cursive; font-size: 17.5px; }
+
+  .page-num {
+    position: absolute;
+    bottom: 8px;
+    right: 22px;
+    font-family: 'Caveat', cursive;
+    font-size: 15.5px;
+    color: #94a3b8;
+  }
+
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span>📓 <b>Database & SQL Handwritten Study Notes (Hinglish)</b></span>
+    <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+  </div>
+  
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">DATABASE & SQL</span>
+      <span>TOPIC 01/15</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 01: DATABASE & SQL FUNDAMENTALS</h1>
+
+    <div class="badge b-green">Developer, SQL & MySQL Ka Relationship (Flowchart):</div>
+    <p>Database ke saath ek developer kaise communicate karta hai, uska clear architecture:</p>
+
+    <div class="diagram-flow">
+      <div class="flow-step">👨‍💻 Developer<br><small>Wants to store/change data</small></div>
+      <div class="flow-arrow">⇄</div>
+      <div class="flow-step" style="background:#eff6ff; border-color:#2563eb;">⚡ SQL (Language)<br><small>Intermediary Bridge</small></div>
+      <div class="flow-arrow">⇄</div>
+      <div class="flow-step">🗄️ MySQL (Database)<br><small>Stores actual data</small></div>
+    </div>
+
+    <div class="badge b-blue">What is a Database? (Database Kya Hai?)</div>
+    <p>Database <span class="hl">data ka ek organized collection</span> hota hai jise is tarah structure aur format kiya jata hai ki data ko <b>aasaani se access</b>, manage, modify aur retrieve kiya ja sake.</p>
+
+    <div class="badge b-yellow">Why Database? (Database Kyu Use Karte Hain?)</div>
+    <ul>
+      <li><b>Large Data Storage:</b> Gigabytes aur Terabytes of data bina slow huye store kar sakta hai.</li>
+      <li><b>High Security & Permissions:</b> User authentication aur role-based access provide karta hai.</li>
+      <li><b>Scalability & Performance:</b> Indexing aur optimization se millions of rows me se 1 millisecond me data dhoondh nikalta hai.</li>
+      <li><b>Easy CRUD Operations:</b> Data ko Insert karna, Update karna, ya Delete karna bohot aasaan aur safe hota hai.</li>
+      <li><b>Data Consistency (ACID Properties):</b> System crash hone par bhi data corrupt nahi hota.</li>
+    </ul>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Memory Hook:</span> MySQL ek <b>Database Engine (Software)</b> hai jo data store karta hai, jabki SQL ek <b>Standard Query Language</b> hai jiske zariye hum MySQL se baatein karte hain!</div>
+    </div>
+
+    <div class="page-num">Page 1 of 10</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">DATABASE & SQL</span>
+      <span>TOPIC 02/15</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 02: SQL vs NoSQL (THE MASTER COMPARISON)</h1>
+
+    <div class="badge b-purple">Relational (SQL) vs Non-Relational (NoSQL):</div>
+
+    <table class="notes-table">
+      <thead>
+        <tr>
+          <th>Feature / Parameter</th>
+          <th>SQL (Relational DB)</th>
+          <th>NoSQL (Non-Relational DB)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Data Structure</b></td>
+          <td>Data <b>Tables</b> (Rows & Columns) me store hota hai.</td>
+          <td><b>Documents (JSON)</b>, Key-Value, ya Graphs me store hota hai.</td>
+        </tr>
+        <tr>
+          <td><b>Schema</b></td>
+          <td><b>Fixed / Strict Schema:</b> Pehle columns aur data types define karne hote hain.</td>
+          <td><b>Dynamic / Flexible Schema:</b> Har document me alag fields ho sakti hain.</td>
+        </tr>
+        <tr>
+          <td><b>Scaling</b></td>
+          <td><b>Vertical Scaling:</b> Server me RAM/CPU badhana padta hai.</td>
+          <td><b>Horizontal Scaling:</b> Naye saste servers add karke scale hota hai (Sharding).</td>
+        </tr>
+        <tr>
+          <td><b>Relations & Joins</b></td>
+          <td>Table relationships aur complex <b>JOIN</b> queries support karta hai.</td>
+          <td>JOINs support nahi hote ya bohot limited hote hain.</td>
+        </tr>
+        <tr>
+          <td><b>Best For</b></td>
+          <td>Complex queries, banking, e-commerce transactions (ACID).</td>
+          <td>Big data, real-time analytics, rapid prototyping, social feeds.</td>
+        </tr>
+        <tr>
+          <td><b>Popular Examples</b></td>
+          <td><span class="hl-blue">MySQL, PostgreSQL, Oracle, SQLite, SQL Server</span></td>
+          <td><span class="hl-green">MongoDB, Cassandra, Redis, Neo4j, CouchDB</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Interview Tip:</span> SQL me Table ko <b>Relation</b>, Rows ko <b>Tuples</b>, aur Columns ko <b>Attributes</b> kaha jaata hai!</div>
+    </div>
+
+    <div class="page-num">Page 2 of 10</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">DATABASE & SQL</span>
+      <span>TOPIC 03-04/15</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 03: RDBMS DESIGN & TOPIC 04: DATABASE QUERIES</h1>
+
+    <div class="badge b-pink">Topic 03: Relational Table Design (Schema Terminology)</div>
+    <ul>
+      <li><b>Columns (Attributes / Design / Schema):</b> Table ka structure define karte hain (jaise: <code>id</code>, <code>name</code>, <code>email</code>, <code>marks</code>).</li>
+      <li><b>Rows (Tuples / Records):</b> Ek single individual entity ka actual data (e.g. <code>(101, 'Shivam', 'shivam@gmail.com', 95)</code>).</li>
+    </ul>
+
+    <div class="badge b-green">Topic 04: Database Management Queries (CRUD on Database)</div>
+    <p>Database create karne, delete karne aur inspect karne ke standard commands:</p>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>database-queries.sql</span>
+      </div>
+      <div class="vscode-content"><span class="com">-- 1. Create a new Database</span>
+<span class="kwd">CREATE DATABASE</span> <span class="var">college</span>;
+<span class="kwd">CREATE DATABASE IF NOT EXISTS</span> <span class="var">college</span>; <span class="com">-- Best Practice (No Error if exists)</span>
+
+<span class="com">-- 2. View all existing databases</span>
+<span class="kwd">SHOW DATABASES</span>;
+
+<span class="com">-- 3. Select / Switch to database to work inside it</span>
+<span class="kwd">USE</span> <span class="var">college</span>;
+
+<span class="com">-- 4. View all tables inside current database</span>
+<span class="kwd">SHOW TABLES</span>;
+
+<span class="com">-- 5. Delete / Remove Database (Permanent destruction!)</span>
+<span class="kwd">DROP DATABASE</span> <span class="var">college</span>;
+<span class="kwd">DROP DATABASE IF EXISTS</span> <span class="var">college</span>;</div>
+    </div>
+
+    <div class="danger-box">
+      <span class="tip-icon">⚠️</span>
+      <div class="tip-text"><span class="danger-label">Caution:</span> <code>DROP DATABASE</code> chalane se database aur uske andar ke saare tables aur data permanently delete ho jaate hain!</div>
+    </div>
+
+    <div class="page-num">Page 3 of 10</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">DATABASE & SQL</span>
+      <span>TOPIC 05/15</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 05: CREATE TABLE & MYSQL DATA TYPES</h1>
+
+    <div class="badge b-blue">Create Table Syntax:</div>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>create-table.sql</span>
+      </div>
+      <div class="vscode-content"><span class="kwd">CREATE TABLE</span> <span class="var">student</span> (
+  <span class="var">id</span> <span class="kwd">INT</span> <span class="kwd">PRIMARY KEY</span>,
+  <span class="var">name</span> <span class="kwd">VARCHAR</span>(<span class="num">50</span>) <span class="kwd">NOT NULL</span>,
+  <span class="var">age</span> <span class="kwd">INT</span> <span class="kwd">CHECK</span> (<span class="var">age</span> >= <span class="num">18</span>),
+  <span class="var">city</span> <span class="kwd">VARCHAR</span>(<span class="num">30</span>) <span class="kwd">DEFAULT</span> <span class="str">'Delhi'</span>
+);</div>
+    </div>
+
+    <div class="badge b-orange">Common MySQL Data Types:</div>
+    <ul>
+      <li><b>INT / INTEGER:</b> Standard numbers (e.g. <code>roll_no INT</code>).</li>
+      <li><b>TINYINT:</b> Chhote integers (-128 to 127), boolean ke liye bhi use hota hai (0 ya 1).</li>
+      <li><b>CHAR(n):</b> Fixed-length string (e.g. <code>CHAR(10)</code> me 'abc' likhne par bhi 10 memory slots occupy honge). Fast execution.</li>
+      <li><b>VARCHAR(n):</b> Variable-length string (e.g. <code>VARCHAR(50)</code> me 'abc' likhne par sirf 3 characters ki memory use hogi). Memory efficient!</li>
+      <li><b>BLOB (Binary Large Object):</b> Images, audio, videos ya binary files store karne ke liye.</li>
+      <li><b>DATE & DATETIME:</b> Date store karne ke liye (<code>YYYY-MM-DD</code>) aur Time (<code>YYYY-MM-DD HH:MM:SS</code>).</li>
+    </ul>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">CHAR vs VARCHAR:</span> Agar string ki length hamesha fixed ho (jaise PIN code ya Phone number), toh <code>CHAR</code> use karo. Agar variable length ho (jaise Name, Email), toh <code>VARCHAR</code> use karo!</div>
+    </div>
+
+    <div class="page-num">Page 4 of 10</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">DATABASE & SQL</span>
+      <span>TOPIC 06/15</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 06: SQL CONSTRAINTS (DATA INTEGRITY RULES)</h1>
+
+    <div class="badge b-purple">SQL Ke 6 Sabse Important Constraints:</div>
+    <p>Constraints wo rules hote hain jo table ke columns par lagaye jaate hain taaki invalid data enter na ho sake:</p>
+
+    <ul>
+      <li><b>1. NOT NULL:</b> Column kabhi bhi khali (null) nahi ho sakta.
+        <br><code>name VARCHAR(50) NOT NULL</code>
+      </li>
+      <li><b>2. UNIQUE:</b> Column ki sabhi values alag (unique) honi chahiye, duplicate values allow nahi hongi.
+        <br><code>email VARCHAR(100) UNIQUE</code>
+      </li>
+      <li><b>3. DEFAULT:</b> Agar user koi value provide nahi karta, toh automatic default value set ho jaati hai.
+        <br><code>city VARCHAR(30) DEFAULT 'Delhi'</code>, <code>salary INT DEFAULT 25000</code>
+      </li>
+      <li><b>4. CHECK:</b> Sirf wahi values allow karega jo specific condition ko satisfy karti hain.
+        <br><code>CONSTRAINT age_check CHECK (age >= 18 AND city = 'Delhi')</code>
+      </li>
+      <li><b>5. PRIMARY KEY:</b> Table ke har row ko uniquely identify karta hai. Yeh <span class="hl">NOT NULL + UNIQUE</span> ka combination hota hai. Ek table me sirf <b>EK</b> Primary Key ho sakti hai.
+        <br><code>id INT PRIMARY KEY</code> ya <code>PRIMARY KEY (id)</code>
+      </li>
+      <li><b>6. FOREIGN KEY:</b> Do tables ke beech link banata hai aur referential integrity maintain karta hai.
+        <br><code>FOREIGN KEY (cust_id) REFERENCES customer(id)</code>
+      </li>
+    </ul>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Primary Key vs Foreign Key:</span> Primary key parent table me record ko uniquely identify karti hai, aur Foreign key child table me wahi id store karke parent table se link karti hai!</div>
+    </div>
+
+    <div class="page-num">Page 5 of 10</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">DATABASE & SQL</span>
+      <span>TOPIC 07-08/15</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 07: INSERT & SELECT & TOPIC 08: WHERE CLAUSE</h1>
+
+    <div class="badge b-green">Topic 07: Data Insertion & Retrieval (Basic DML/DQL)</div>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>insert-and-select.sql</span>
+      </div>
+      <div class="vscode-content"><span class="com">-- Insert single / multiple rows</span>
+<span class="kwd">INSERT INTO</span> <span class="var">student</span> (<span class="var">id</span>, <span class="var">name</span>, <span class="var">age</span>, <span class="var">city</span>)
+<span class="kwd">VALUES</span> 
+  (<span class="num">101</span>, <span class="str">'Shivam'</span>, <span class="num">21</span>, <span class="str">'Delhi'</span>),
+  (<span class="num">102</span>, <span class="str">'Rahul'</span>, <span class="num">20</span>, <span class="str">'Mumbai'</span>),
+  (<span class="num">103</span>, <span class="str">'Anjali'</span>, <span class="num">22</span>, <span class="str">'Delhi'</span>);
+
+<span class="com">-- Fetch all columns & all rows</span>
+<span class="kwd">SELECT</span> * <span class="kwd">FROM</span> <span class="var">student</span>;
+
+<span class="com">-- Fetch specific columns only</span>
+<span class="kwd">SELECT</span> <span class="var">name</span>, <span class="var">city</span> <span class="kwd">FROM</span> <span class="var">student</span>;</div>
+    </div>
+
+    <div class="badge b-yellow">Topic 08: WHERE Clause & Operators</div>
+    <p>Data ko specific conditions ke basis par filter karne ke liye <code>WHERE</code> clause use hota hai:</p>
+    <ul>
+      <li><b>Arithmetic:</b> <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code> (e.g. <code>marks + 5</code>)</li>
+      <li><b>Comparison:</b> <code>=</code>, <code>!=</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code> (e.g. <code>WHERE age &gt;= 18</code>)</li>
+      <li><b>Logical:</b>
+        <br>• <code>AND</code>: Dono condition true honi chahiye (<code>WHERE age &gt; 18 AND city = 'Delhi'</code>).
+        <br>• <code>OR</code>: Koi ek condition true ho (<code>WHERE city = 'Delhi' OR city = 'Mumbai'</code>).
+        <br>• <code>BETWEEN</code>: Range check (<code>WHERE marks BETWEEN 80 AND 95</code>).
+        <br>• <code>IN</code>: List me se match (<code>WHERE city IN ('Delhi', 'Pune', 'Goa')</code>).
+        <br>• <code>NOT</code>: Reverse condition (<code>WHERE city NOT IN ('Delhi')</code>).
+        <br>• <code>LIKE</code>: Pattern search (<code>WHERE name LIKE 'S%'</code> - Starts with S).
+      </li>
+    </ul>
+
+    <div class="page-num">Page 6 of 10</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">DATABASE & SQL</span>
+      <span>TOPIC 09-10/15</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 09: LIMIT, ORDER BY & TOPIC 10: AGGREGATE FUNCTIONS</h1>
+
+    <div class="badge b-blue">Topic 09: LIMIT & ORDER BY Clauses</div>
+    <ul>
+      <li><b>LIMIT Clause:</b> Result me aane wale rows (tuples) ki maximum quantity set karta hai:
+        <br><code>SELECT * FROM student LIMIT 3;</code> (Top 3 rows return karega)
+        <br><code>SELECT * FROM student LIMIT 2, 3;</code> (Offset 2 se agle 3 rows - Pagination me use hota hai)
+      </li>
+      <li><b>ORDER BY Clause:</b> Output ko Ascending (<code>ASC</code> - default) ya Descending (<code>DESC</code>) sort karta hai:
+        <br><code>SELECT * FROM student ORDER BY age ASC;</code>
+        <br><code>SELECT * FROM student ORDER BY marks DESC;</code>
+      </li>
+    </ul>
+
+    <div class="badge b-pink">Topic 10: Aggregate Functions in SQL</div>
+    <p>Aggregate functions multiple rows par calculations perform karke ek single summary value return karte hain:</p>
+
+    <table class="notes-table">
+      <thead>
+        <tr>
+          <th>Function</th>
+          <th>Purpose & Kya Karta Hai</th>
+          <th>Example Query</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>COUNT()</code></td>
+          <td>Total rows ya non-null values count karta hai</td>
+          <td><code>SELECT COUNT(*) FROM student;</code></td>
+        </tr>
+        <tr>
+          <td><code>MAX()</code></td>
+          <td>Column ki sabse highest / maximum value nikalta hai</td>
+          <td><code>SELECT MAX(marks) FROM student;</code></td>
+        </tr>
+        <tr>
+          <td><code>MIN()</code></td>
+          <td>Column ki sabse lowest / minimum value nikalta hai</td>
+          <td><code>SELECT MIN(age) FROM student;</code></td>
+        </tr>
+        <tr>
+          <td><code>SUM()</code></td>
+          <td>Column ki sabhi numeric values ka total jod nikalta hai</td>
+          <td><code>SELECT SUM(salary) FROM employee;</code></td>
+        </tr>
+        <tr>
+          <td><code>AVG()</code></td>
+          <td>Column ka arithmetic average (mean) nikalta hai</td>
+          <td><code>SELECT AVG(marks) FROM student;</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-num">Page 7 of 10</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">DATABASE & SQL</span>
+      <span>TOPIC 11-12/15</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 11: GROUP BY, HAVING & TOPIC 12: CLAUSE ORDER</h1>
+
+    <div class="badge b-orange">Topic 11: GROUP BY & HAVING Clauses</div>
+    <ul>
+      <li><b>GROUP BY Clause:</b> Same values wale rows ko group karke summary rows banata hai. Iske saath hamesha Aggregate functions use hote hain:
+        <br><code>SELECT city, COUNT(id) FROM student GROUP BY city;</code>
+        <br><small>(Yeh har city ke total students count karke batayega!)</small>
+      </li>
+      <li><b>HAVING Clause:</b> Groups par condition lagane ke liye use hota hai. 
+        <br><b>Kyu WHERE nahi use karte?</b> Kyuki <code>WHERE</code> individual rows par chalta hai aur aggregate functions (jaise <code>COUNT(*) > 2</code>) ke saath kaam nahi kar sakta!
+        <br><code>SELECT city, COUNT(id) FROM student GROUP BY city HAVING COUNT(id) > 2;</code>
+      </li>
+    </ul>
+
+    <div class="badge b-purple">Topic 12: General Order of SQL Clauses (Blueprint)</div>
+    <p>SQL query likhne ka standard order aur MySQL engine ka internal execution order:</p>
+
+    <div class="diagram-flow">
+      <div class="flow-step">1. SELECT</div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step">2. FROM</div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step">3. WHERE</div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step">4. GROUP BY</div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step">5. HAVING</div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step">6. ORDER BY</div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step">7. LIMIT</div>
+    </div>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Execution Order:</span> Likhte waqt SELECT pehle aata hai, lekin Database sabse pehle <code>FROM</code> (table dhoondhta hai), phir <code>WHERE</code> (filter karta hai), phir <code>GROUP BY</code>, phir <code>HAVING</code>, aur sabke baad <code>SELECT</code> execute karta hai!</div>
+    </div>
+
+    <div class="page-num">Page 8 of 10</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">DATABASE & SQL</span>
+      <span>TOPIC 13-14/15</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 13: UPDATE, DELETE & TOPIC 14: ALTER TABLE</h1>
+
+    <div class="badge b-yellow">Topic 13: Update & Delete Existing Rows (DML)</div>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>update-and-delete.sql</span>
+      </div>
+      <div class="vscode-content"><span class="com">-- 1. UPDATE: Modify data in existing rows</span>
+<span class="kwd">UPDATE</span> <span class="var">student</span>
+<span class="kwd">SET</span> <span class="var">city</span> = <span class="str">'Pune'</span>, <span class="var">marks</span> = <span class="num">92</span>
+<span class="kwd">WHERE</span> <span class="var">id</span> = <span class="num">102</span>;
+
+<span class="com">-- 2. DELETE: Remove existing rows from table</span>
+<span class="kwd">DELETE FROM</span> <span class="var">student</span>
+<span class="kwd">WHERE</span> <span class="var">marks</span> < <span class="num">33</span>; <span class="com">-- Always include WHERE condition!</span></div>
+    </div>
+
+    <div class="badge b-green">Topic 14: ALTER TABLE (Change Table Schema / Structure)</div>
+    <p>Table ka structure (columns, datatypes, constraints) modify karne ke commands:</p>
+    <ul>
+      <li><b>Add Column:</b> <code>ALTER TABLE student ADD COLUMN grade VARCHAR(2);</code></li>
+      <li><b>Drop Column:</b> <code>ALTER TABLE student DROP COLUMN grade;</code></li>
+      <li><b>Rename Table:</b> <code>ALTER TABLE student RENAME TO college_students;</code></li>
+      <li><b>Change Column (Rename Column + Datatype):</b>
+        <br><code>ALTER TABLE student CHANGE COLUMN age student_age INT NOT NULL;</code>
+      </li>
+      <li><b>Modify Column (Change Datatype / Constraint only):</b>
+        <br><code>ALTER TABLE student MODIFY student_age TINYINT DEFAULT 18;</code>
+      </li>
+    </ul>
+
+    <div class="page-num">Page 9 of 10</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">DATABASE & SQL</span>
+      <span>TOPIC 15/15</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 15: TRUNCATE vs DROP vs DELETE (THE COMPARISON)</h1>
+
+    <div class="badge b-pink">The Ultimate Confusion Cleared (Exam Favorite):</div>
+
+    <table class="notes-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>DELETE</th>
+          <th>TRUNCATE</th>
+          <th>DROP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Command Type</b></td>
+          <td><b>DML</b> (Data Manipulation)</td>
+          <td><b>DDL</b> (Data Definition)</td>
+          <td><b>DDL</b> (Data Definition)</td>
+        </tr>
+        <tr>
+          <td><b>What It Deletes</b></td>
+          <td>Sirf specific rows (based on WHERE clause).</td>
+          <td>Saara data / rows delete karta hai.</td>
+          <td>Data + Table structure dono delete kar deta hai.</td>
+        </tr>
+        <tr>
+          <td><b>Table Structure</b></td>
+          <td>Table structure intact rehta hai.</td>
+          <td>Table structure intact rehta hai.</td>
+          <td>Table structure database se <span class="hl-pink">gayab (destroy)</span> ho jata hai!</td>
+        </tr>
+        <tr>
+          <td><b>WHERE Clause</b></td>
+          <td>Allowed (<code>WHERE id = 101</code>)</td>
+          <td>NOT allowed (Sabhi rows delete hoti hain)</td>
+          <td>NOT allowed</td>
+        </tr>
+        <tr>
+          <td><b>Speed & Logs</b></td>
+          <td>Slow (har row ko individually log karta hai).</td>
+          <td>Super Fast (table ko deallocate karta hai).</td>
+          <td>Instant (drop table completely).</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="badge b-blue">Complete Working SQL Script (VS Code Style):</div>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>complete-master-queries.sql</span>
+      </div>
+      <div class="vscode-content" style="font-size: 11px; line-height: 1.28; padding: 5px 10px;"><span class="kwd">CREATE DATABASE IF NOT EXISTS</span> <span class="var">school_db</span>;
+<span class="kwd">USE</span> <span class="var">school_db</span>;
+
+<span class="kwd">CREATE TABLE</span> <span class="var">students</span> (
+  <span class="var">id</span> <span class="kwd">INT PRIMARY KEY</span>,
+  <span class="var">name</span> <span class="kwd">VARCHAR</span>(<span class="num">50</span>) <span class="kwd">NOT NULL</span>,
+  <span class="var">marks</span> <span class="kwd">INT CHECK</span> (<span class="var">marks</span> >= <span class="num">0</span> <span class="kwd">AND</span> <span class="var">marks</span> <= <span class="num">100</span>),
+  <span class="var">city</span> <span class="kwd">VARCHAR</span>(<span class="num">30</span>) <span class="kwd">DEFAULT</span> <span class="str">'Delhi'</span>
+);
+
+<span class="kwd">INSERT INTO</span> <span class="var">students</span> <span class="kwd">VALUES</span>
+  (<span class="num">1</span>, <span class="str">'Aman'</span>, <span class="num">85</span>, <span class="str">'Delhi'</span>), (<span class="num">2</span>, <span class="str">'Shradha'</span>, <span class="num">95</span>, <span class="str">'Mumbai'</span>), (<span class="num">3</span>, <span class="str">'Karan'</span>, <span class="num">72</span>, <span class="str">'Delhi'</span>);
+
+<span class="com">-- Group by City with Having & Order By</span>
+<span class="kwd">SELECT</span> <span class="var">city</span>, <span class="fn">AVG</span>(<span class="var">marks</span>) <span class="kwd">AS</span> <span class="var">avg_marks</span> <span class="kwd">FROM</span> <span class="var">students</span>
+<span class="kwd">GROUP BY</span> <span class="var">city</span> <span class="kwd">HAVING</span> <span class="fn">AVG</span>(<span class="var">marks</span>) > <span class="num">75</span>
+<span class="kwd">ORDER BY</span> <span class="var">avg_marks</span> <span class="kwd">DESC</span>;</div>
+    </div>
+
+    <div class="page-num">Page 10 of 10</div>
+  </div>
+
+</body>
+</html>
