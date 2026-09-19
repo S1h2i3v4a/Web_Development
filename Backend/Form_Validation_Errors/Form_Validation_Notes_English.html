@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Validation & Error Handling - Handwritten Notes (English)</title>
+  <style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fira+Code:wght@400;500;600&family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
+
+  @page {
+    size: A4 portrait;
+    margin: 8mm 6mm 8mm 6mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #f1f5f9;
+    font-family: 'Patrick Hand', 'Kalam', cursive;
+    color: #1e293b;
+    font-size: 17px;
+    line-height: 1.42;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .toolbar {
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    border-radius: 50px;
+    padding: 8px 22px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    margin-bottom: 24px;
+  }
+
+  .toolbar button {
+    background: #fef08a;
+    border: 2px solid #b45309;
+    color: #78350f;
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    font-weight: 700;
+    padding: 4px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .toolbar button:hover {
+    background: #fde047;
+    transform: translateY(-1px);
+  }
+
+  .notebook-page {
+    width: 820px;
+    min-height: 1055px;
+    max-height: 1055px;
+    overflow: hidden;
+    background-color: #fefefe;
+    background-image: 
+      linear-gradient(90deg, transparent 65px, #fca5a5 65px, #fca5a5 67px, transparent 67px),
+      linear-gradient(0deg, #e2e8f0 1px, transparent 1px);
+    background-size: 100% 100%, 100% 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    padding: 26px 36px 30px 82px;
+    margin-bottom: 30px;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  @media print {
+    body { background: transparent; padding: 0; }
+    .toolbar { display: none !important; }
+    .notebook-page {
+      box-shadow: none !important;
+      border: 1px solid #cbd5e1 !important;
+      margin: 0 !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      min-height: 1055px !important;
+      height: 1055px !important;
+      max-height: 1055px !important;
+      overflow: hidden !important;
+    }
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed #94a3b8;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #64748b;
+  }
+
+  .header-tag {
+    background: #e2e8f0;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  h1.topic-title {
+    font-family: 'Caveat', cursive;
+    font-size: 29px;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 18px;
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    font-weight: 700;
+    margin: 5px 0;
+    border: 1.5px solid rgba(0,0,0,0.15);
+  }
+  .b-green { background: #bbf7d0; color: #14532d; }
+  .b-yellow { background: #fef08a; color: #713f12; }
+  .b-pink { background: #fbcfe8; color: #831843; }
+  .b-blue { background: #bae6fd; color: #0c4a6e; }
+  .b-orange { background: #fed7aa; color: #7c2d12; }
+  .b-purple { background: #e9d5ff; color: #581c87; }
+
+  .hl { background: #fef08a; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+  .hl-blue { background: #bae6fd; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+  .hl-pink { background: #fbcfe8; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+  .hl-green { background: #bbf7d0; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+
+  p { margin-bottom: 7px; }
+  ul { margin-left: 22px; margin-bottom: 7px; }
+  li { margin-bottom: 3px; }
+
+  .diagram-flow {
+    background: #f8fafc;
+    border: 2px dashed #3b82f6;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 6px;
+  }
+  .flow-step {
+    background: #ffffff;
+    border: 2px solid #1e40af;
+    border-radius: 8px;
+    padding: 5px 10px;
+    text-align: center;
+    font-weight: 700;
+    color: #1e3a8a;
+    box-shadow: 2px 2px 0 #93c5fd;
+    font-size: 14px;
+  }
+  .flow-arrow {
+    font-size: 19px;
+    color: #2563eb;
+    font-weight: 700;
+  }
+
+  .notes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 7px 0;
+    font-size: 14.5px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1.5px solid #64748b;
+  }
+  .notes-table th {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 5px 8px;
+    text-align: left;
+    font-family: 'Caveat', cursive;
+    font-size: 17px;
+    letter-spacing: 0.5px;
+  }
+  .notes-table td {
+    padding: 4px 8px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+  }
+  .notes-table tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  .vscode-window {
+    background: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    overflow: hidden;
+    margin: 7px 0;
+    border: 1px solid #333333;
+  }
+  .vscode-titlebar {
+    background: #252526;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    color: #cccccc;
+    border-bottom: 1px solid #333333;
+  }
+  .vscode-dots { display: flex; gap: 5px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+  .vscode-content {
+    padding: 7px 12px;
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    line-height: 1.38;
+    color: #d4d4d4;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .kwd { color: #569cd6; font-weight: 600; }
+  .str { color: #ce9178; }
+  .fn { color: #dcdcaa; }
+  .com { color: #6a9955; font-style: italic; }
+  .var { color: #9cdcfe; }
+  .num { color: #b5cea8; }
+  .punct { color: #d4d4d4; }
+
+  .exam-tip {
+    background: #fefce8;
+    border: 2px dashed #ca8a04;
+    border-radius: 8px;
+    padding: 6px 12px;
+    margin: 7px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15.5px;
+  }
+  .danger-box {
+    background: #fef2f2;
+    border: 2px dashed #dc2626;
+    border-radius: 8px;
+    padding: 6px 12px;
+    margin: 7px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15.5px;
+  }
+  .tip-icon { font-size: 20px; flex-shrink: 0; }
+  .tip-text { flex-grow: 1; }
+  .tip-label { font-weight: 700; color: #854d0e; font-family: 'Caveat', cursive; font-size: 18px; }
+  .danger-label { font-weight: 700; color: #991b1b; font-family: 'Caveat', cursive; font-size: 18px; }
+
+  .page-num {
+    position: absolute;
+    bottom: 8px;
+    right: 22px;
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    color: #94a3b8;
+  }
+
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span>📓 <b>Form Validation & Error Handling Notes (English)</b></span>
+    <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+  </div>
+  
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">FORM VALIDATION & ERRORS</span>
+      <span>TOPIC 01/08</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 01: FORM VALIDATION & 2-TIER DEFENSE ARCHITECTURE</h1>
+
+    <div class="badge b-green">What is Form Validation? (Core Definition)</div>
+    <p>Form Validation is the process of <b>verifying and sanitizing</b> user input before it is accepted, processed, or persisted into a database. It ensures that incoming data conforms to exact formatting constraints, meets required length/range rules, and remains clean of malicious injection attacks.</p>
+
+    <div class="badge b-blue">The 2-Tier Defense System (Architecture Flowchart):</div>
+    <p>Professional web applications implement validation in two distinct defense tiers:</p>
+
+    <div class="diagram-flow">
+      <div class="flow-step">🧑‍💻 User Input<br><small>Form Filling</small></div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step" style="background:#eff6ff; border-color:#2563eb;">🌐 Tier 1: Client-Side<br><small>Browser (HTML5/JS)</small></div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step" style="background:#fefce8; border-color:#ca8a04;">🛡️ Tier 2: Server-Side<br><small>Express / Joi / DB</small></div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step">🗄️ Database<br><small>Secure Record</small></div>
+    </div>
+
+    <div class="badge b-yellow">Complementary Roles of Both Validation Layers:</div>
+    <ul>
+      <li><b>Tier 1 (Client-Side Validation):</b> Executes within the client browser. Provides immediate, sub-millisecond visual feedback if fields are blank or misformatted. Its primary role is optimizing <span class="hl">User Experience (UX)</span> and conserving bandwidth.</li>
+      <li><b>Tier 2 (Server-Side Validation):</b> Executes on the backend server (Node.js/Express) before saving to persistent storage. It acts as the absolute gatekeeper for <span class="hl-pink">Security, Business Logic, and Data Integrity</span>.</li>
+    </ul>
+
+    <div class="danger-box">
+      <span class="tip-icon">⚠️</span>
+      <div class="tip-text"><span class="danger-label">Fundamental Security Law: "Never Trust Client Input!"</span><br>
+      Client-side validation can be completely bypassed in seconds using tools like <b>Postman</b>, <b>cURL</b>, or simply by disabling JavaScript in browser DevTools. Therefore, Server-Side validation is <b>ALWAYS MANDATORY</b>!</div>
+    </div>
+
+    <div class="page-num">Page 1 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">FORM VALIDATION & ERRORS</span>
+      <span>TOPIC 02/08</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 02: CLIENT-SIDE vs SERVER-SIDE VALIDATION</h1>
+
+    <div class="badge b-purple">The Definitive Architectural Comparison:</div>
+
+    <table class="notes-table">
+      <thead>
+        <tr>
+          <th>Feature / Parameter</th>
+          <th>Client-Side Validation</th>
+          <th>Server-Side Validation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Execution Location</b></td>
+          <td>Directly inside user's browser (HTML5, JS, React).</td>
+          <td>On the backend server (Node.js, Express, Python).</td>
+        </tr>
+        <tr>
+          <td><b>Primary Purpose</b></td>
+          <td><b>User Experience (UX)</b> & instant feedback.</td>
+          <td><b>Security</b>, Data Integrity & Business Rules.</td>
+        </tr>
+        <tr>
+          <td><b>Latency & Speed</b></td>
+          <td><b>Instant (0 ms)</b>; zero network round-trips.</td>
+          <td>Requires an HTTP request/response network round-trip.</td>
+        </tr>
+        <tr>
+          <td><b>Can It Be Bypassed?</b></td>
+          <td><span class="hl-pink">YES! Trivial to bypass</span> (Postman, cURL, Inspect element).</td>
+          <td><span class="hl-green">NO! Impossible to bypass</span> when correctly implemented.</td>
+        </tr>
+        <tr>
+          <td><b>Network Bandwidth</b></td>
+          <td>Preserves bandwidth by blocking invalid submissions locally.</td>
+          <td>Consumes network transfer for every payload evaluated.</td>
+        </tr>
+        <tr>
+          <td><b>Database Access</b></td>
+          <td><b>No DB Access:</b> Cannot verify if an email or username exists.</td>
+          <td><b>Full DB Access:</b> Performs asynchronous queries to verify uniqueness.</td>
+        </tr>
+        <tr>
+          <td><b>Key Technologies</b></td>
+          <td>HTML5 attributes, JS Constraint Validation API, Bootstrap.</td>
+          <td><b>Joi</b>, <code>express-validator</code>, Yup, Zod, Mongoose Schema.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Key Takeaway:</span><br>
+      Client-side and Server-side validation are not alternatives—they are <b>symbiotic partners</b>. Client-side delights legitimate users, while Server-side shields the system against malicious actors!</div>
+    </div>
+
+    <div class="page-num">Page 2 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">FORM VALIDATION & ERRORS</span>
+      <span>TOPIC 03/08</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 03: ALL TYPES OF FORM ERRORS (INPUT ERRORS)</h1>
+
+    <div class="badge b-pink">Category 1: Input & Data Constraint Errors</div>
+    <p>Standard data entry and constraint errors evaluated on both client and server layers:</p>
+
+    <ul>
+      <li><b>1. Missing / Required Field Error:</b>
+        <br>Mandatory field left empty or populated purely with whitespace (e.g. <code>value.trim() === ""</code>).
+        <br><small style="color:#b91c1c;">Error: "Username is required" or "Please fill in this field."</small>
+      </li>
+
+      <li><b>2. Type & Format Mismatch Error:</b>
+        <br>Input value violates the required syntactic format:
+        <br>• <i>Email Format:</i> Missing <code>@</code> symbol or domain extension (e.g., <code>usergmail.com</code>).
+        <br>• <i>Phone Number:</i> Alphanumeric characters supplied in a strictly numeric phone field.
+        <br>• <i>URL Syntax:</i> Missing scheme protocol (e.g., missing <code>https://</code>).
+      </li>
+
+      <li><b>3. Length Constraint Error (Min / Max Length):</b>
+        <br>Supplied text violates character boundary limits:
+        <br>• <i>Password Too Short:</i> Password must be &gt;= 8 characters (user entered 4).
+        <br>• <i>Message Overflow:</i> Comment/Bio exceeds 500 characters.
+      </li>
+
+      <li><b>4. Range & Boundary Error (Numeric & Date Bounds):</b>
+        <br>Values fall outside allowable logical boundaries:
+        <br>• <i>Age Constraints:</i> Age entered as &lt; 18 or &gt; 120.
+        <br>• <i>Negative Numeric Values:</i> Price or quantity entered as <code>-50</code>.
+        <br>• <i>Temporal Paradox:</i> Date of Birth set in the future.
+      </li>
+
+      <li><b>5. Pattern / Regex Mismatch Error:</b>
+        <br>Input fails complex regular expression requirements (e.g., strong password requiring 1 uppercase, 1 numeric digit, and 1 special symbol).
+      </li>
+
+      <li><b>6. Value Confirmation / Matching Error:</b>
+        <br>Pair of interdependent inputs do not match (e.g., <i>Password</i> !== <i>Confirm Password</i>).
+      </li>
+
+      <li><b>7. File Upload Constraint Errors:</b>
+        <br>• <i>Payload Size Exceeded:</i> Uploaded attachment exceeds 5MB size limit.
+        <br>• <i>MIME Type Restriction:</i> Uploading <code>.exe</code> when only <code>.jpg/.png</code> are permitted.
+      </li>
+    </ul>
+
+    <div class="page-num">Page 3 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">FORM VALIDATION & ERRORS</span>
+      <span>TOPIC 04/08</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 04: BUSINESS, AUTH & SYSTEM ERRORS</h1>
+
+    <div class="badge b-orange">Category 2: Business Logic & Semantic Errors (Server-Side Only)</div>
+    <ul>
+      <li><b>8. Duplicate / Uniqueness Violation (Unique Key Constraint):</b>
+        <br>Syntactically valid input conflicts with existing database records:
+        <br><small style="color:#b91c1c;">Error: "Email already registered. Please sign in." or "Username 'shivam' is taken."</small>
+      </li>
+      <li><b>9. State / Availability Conflict Error:</b>
+        <br>Requested action conflicts with current application state (e.g., "Seat already reserved", "Product out of stock").
+      </li>
+    </ul>
+
+    <div class="badge b-green">Category 3: Authentication, Authorization & Security Errors</div>
+    <ul>
+      <li><b>10. Invalid Credentials Error:</b>
+        <br>Submitted email/password pair does not match stored cryptographic hash (HTTP 401 Unauthorized).
+      </li>
+      <li><b>11. CSRF Token Mismatch Error:</b>
+        <br>Missing or corrupted Cross-Site Request Forgery token header (HTTP 403 Forbidden).
+      </li>
+      <li><b>12. CAPTCHA Verification Failure:</b>
+        <br>Automated bot activity detected; reCAPTCHA challenge response rejected.
+      </li>
+      <li><b>13. Session Expiration Error:</b>
+        <br>User's authentication token or cookie expired while filling out a long form.
+      </li>
+    </ul>
+
+    <div class="badge b-pink">Category 4: Technical, Network & Protocol Errors</div>
+    <ul>
+      <li><b>14. HTTP 400 Bad Request:</b> Malformed payload body or JSON parsing failure.</li>
+      <li><b>15. HTTP 429 Too Many Requests (Rate Limiting):</b> Brute-force threshold exceeded (e.g., 10 failed logins in 5 minutes).</li>
+      <li><b>16. HTTP 500 Internal Server Error:</b> Uncaught server exception or database connectivity disruption.</li>
+      <li><b>17. Network Offline / Timeout Error:</b> Client device drops connection during form submission.</li>
+    </ul>
+
+    <div class="page-num">Page 4 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">FORM VALIDATION & ERRORS</span>
+      <span>TOPIC 05/08</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 05: CLIENT-SIDE VALIDATION (HTML5 & BOOTSTRAP)</h1>
+
+    <div class="badge b-green">HTML5 Native Validation Attributes:</div>
+    <p>Modern browsers natively validate form elements prior to dispatch:</p>
+    <ul>
+      <li><code>required</code>: Blocks submission if field is empty.</li>
+      <li><code>type="email"</code> / <code>type="number"</code>: Enforces syntax and numeric limits.</li>
+      <li><code>minlength="6"</code> / <code>maxlength="20"</code>: Character length limits.</li>
+      <li><code>min="0"</code> / <code>max="100"</code>: Numerical value thresholds.</li>
+      <li><code>pattern="[A-Za-z0-9]{5,}"</code>: Enforces custom regular expressions.</li>
+    </ul>
+
+    <div class="badge b-blue">Bootstrap 5 Custom Validation Architecture:</div>
+    <p>To suppress default operating system tooltips and render custom CSS validation states:</p>
+    <ul>
+      <li>Append <span class="hl">class="needs-validation" novalidate</span> to the <code>&lt;form&gt;</code> element.</li>
+      <li>Provide feedback containers: <code>&lt;div class="valid-feedback"&gt;Looks good!&lt;/div&gt;</code> and <code>&lt;div class="invalid-feedback"&gt;Please enter a valid title.&lt;/div&gt;</code>.</li>
+    </ul>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>public/js/client-validation.js (Bootstrap 5 Standard)</span>
+      </div>
+      <div class="vscode-content"><span class="com">// Select all forms opting into custom validation</span>
+<span class="kwd">const</span> <span class="var">forms</span> = <span class="var">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">'.needs-validation'</span>);
+
+<span class="fn">Array</span>.<span class="fn">from</span>(<span class="var">forms</span>).<span class="fn">forEach</span>(<span class="var">form</span> => {
+  <span class="var">form</span>.<span class="fn">addEventListener</span>(<span class="str">'submit'</span>, <span class="var">event</span> => {
+    <span class="com">// checkValidity() validates all input constraint rules</span>
+    <span class="kwd">if</span> (!<span class="var">form</span>.<span class="fn">checkValidity</span>()) {
+      <span class="var">event</span>.<span class="fn">preventDefault</span>();
+      <span class="var">event</span>.<span class="fn">stopPropagation</span>();
+    }
+    <span class="var">form</span>.<span class="var">classList</span>.<span class="fn">add</span>(<span class="str">'was-validated'</span>);
+  }, <span class="kwd">false</span>);
+});</div>
+    </div>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Mechanism:</span> Adding <code>was-validated</code> dynamically toggles green borders on valid fields and red borders with descriptive error text on invalid inputs!</div>
+    </div>
+
+    <div class="page-num">Page 5 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">FORM VALIDATION & ERRORS</span>
+      <span>TOPIC 06/08</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 06: SERVER-SIDE VALIDATION WITH JOI</h1>
+
+    <div class="badge b-orange">Why Use Joi on the Server?</div>
+    <p>Attackers and API consumers bypass client-side validation easily using Postman or scripts. The <span class="hl">Joi</span> library provides declarative, schema-based data validation for JavaScript, verifying the integrity of incoming <code>req.body</code> payloads before route handlers execute.</p>
+
+    <p><b>Installation:</b> <code>npm install joi</code></p>
+
+    <div class="badge b-yellow">Joi Schema Definition & Validation Middleware:</div>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>schema.js & middleware/validate.js</span>
+      </div>
+      <div class="vscode-content"><span class="kwd">const</span> <span class="var">Joi</span> = <span class="fn">require</span>(<span class="str">'joi'</span>);
+<span class="kwd">const</span> <span class="var">ExpressError</span> = <span class="fn">require</span>(<span class="str">'../utils/ExpressError'</span>);
+
+<span class="com">// 1. Declare schema specifications</span>
+<span class="kwd">const</span> <span class="var">postSchema</span> = <span class="var">Joi</span>.<span class="fn">object</span>({
+  <span class="var">post</span>: <span class="var">Joi</span>.<span class="fn">object</span>({
+    <span class="var">title</span>: <span class="var">Joi</span>.<span class="fn">string</span>().<span class="fn">required</span>().<span class="fn">min</span>(<span class="num">3</span>).<span class="fn">max</span>(<span class="num">100</span>),
+    <span class="var">content</span>: <span class="var">Joi</span>.<span class="fn">string</span>().<span class="fn">required</span>(),
+    <span class="var">author</span>: <span class="var">Joi</span>.<span class="fn">string</span>().<span class="fn">required</span>()
+  }).<span class="fn">required</span>()
+});
+
+<span class="com">// 2. Express Validation Middleware</span>
+<span class="kwd">const</span> <span class="var">validatePost</span> = (<span class="var">req</span>, <span class="var">res</span>, <span class="var">next</span>) => {
+  <span class="kwd">const</span> { <span class="var">error</span> } = <span class="var">postSchema</span>.<span class="fn">validate</span>(<span class="var">req</span>.<span class="var">body</span>);
+  <span class="kwd">if</span> (<span class="var">error</span>) {
+    <span class="kwd">const</span> <span class="var">errMsg</span> = <span class="var">error</span>.<span class="var">details</span>.<span class="fn">map</span>(<span class="var">el</span> => <span class="var">el</span>.<span class="var">message</span>).<span class="fn">join</span>(<span class="str">', '</span>);
+    <span class="kwd">throw</span> <span class="kwd">new</span> <span class="var">ExpressError</span>(<span class="num">400</span>, <span class="var">errMsg</span>);
+  } <span class="kwd">else</span> {
+    <span class="fn">next</span>(); <span class="com">// Passed validation cleanly! Proceed to controller</span>
+  }
+};</div>
+    </div>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Middleware Efficiency:</span> Decouples validation logic from core business logic. Routes remain clean, focused, and immune to malformed payloads!</div>
+    </div>
+
+    <div class="page-num">Page 6 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">FORM VALIDATION & ERRORS</span>
+      <span>TOPIC 07/08</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 07: CUSTOM ERROR CLASS & WRAPASYNC</h1>
+
+    <div class="badge b-purple">1. Custom ExpressError Class:</div>
+    <p>JavaScript's native <code>Error</code> object does not maintain an HTTP <code>statusCode</code> property. We extend <code>Error</code> to attach standard HTTP status codes:</p>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>utils/ExpressError.js</span>
+      </div>
+      <div class="vscode-content"><span class="kwd">class</span> <span class="var">ExpressError</span> <span class="kwd">extends</span> <span class="var">Error</span> {
+  <span class="fn">constructor</span>(<span class="var">statusCode</span>, <span class="var">message</span>) {
+    <span class="kwd">super</span>();
+    <span class="kwd">this</span>.<span class="var">statusCode</span> = <span class="var">statusCode</span>;
+    <span class="kwd">this</span>.<span class="var">message</span> = <span class="var">message</span>;
+  }
+}
+
+<span class="var">module</span>.<span class="var">exports</span> = <span class="var">ExpressError</span>;</div>
+    </div>
+
+    <div class="badge b-green">2. wrapAsync Utility (Async Exception Handler):</div>
+    <p>Asynchronous route handlers with database calls normally require repetitive <code>try-catch</code> blocks. <b>wrapAsync</b> captures rejected promises automatically:</p>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>utils/wrapAsync.js</span>
+      </div>
+      <div class="vscode-content"><span class="com">// Higher-Order Function that delegates rejected promises to next()</span>
+<span class="kwd">const</span> <span class="var">wrapAsync</span> = (<span class="var">fn</span>) => {
+  <span class="kwd">return</span> (<span class="var">req</span>, <span class="var">res</span>, <span class="var">next</span>) => {
+    <span class="var">fn</span>(<span class="var">req</span>, <span class="var">res</span>, <span class="var">next</span>).<span class="fn">catch</span>(<span class="var">next</span>);
+  };
+};
+
+<span class="var">module</span>.<span class="var">exports</span> = <span class="var">wrapAsync</span>;</div>
+    </div>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Application:</span> Wrapping handlers like <code>app.post('/posts', wrapAsync(async (req, res) => { ... }))</code> routes any database or validation rejection straight into Express error middleware!</div>
+    </div>
+
+    <div class="page-num">Page 7 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">FORM VALIDATION & ERRORS</span>
+      <span>TOPIC 08/08</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 08: GLOBAL ERROR MIDDLEWARE & USER ERROR UI</h1>
+
+    <div class="badge b-blue">Express Global Error-Handling Middleware:</div>
+    <p>Placed after all route declarations to handle any errors passed down the pipeline (requires 4 arguments <code>(err, req, res, next)</code>):</p>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>server.js (Global Error Pipeline)</span>
+      </div>
+      <div class="vscode-content" style="font-size: 11.2px; line-height: 1.28; padding: 5px 10px;"><span class="com">// 1. Catch-All for Undefined Endpoints (404 Not Found)</span>
+<span class="var">app</span>.<span class="fn">all</span>(<span class="str">'*'</span>, (<span class="var">req</span>, <span class="var">res</span>, <span class="var">next</span>) => {
+  <span class="fn">next</span>(<span class="kwd">new</span> <span class="var">ExpressError</span>(<span class="num">404</span>, <span class="str">"Page Not Found!"</span>));
+});
+
+<span class="com">// 2. Global Error Handling Middleware (4 arguments required)</span>
+<span class="var">app</span>.<span class="fn">use</span>((<span class="var">err</span>, <span class="var">req</span>, <span class="var">res</span>, <span class="var">next</span>) => {
+  <span class="kwd">const</span> { <span class="var">statusCode</span> = <span class="num">500</span>, <span class="var">message</span> = <span class="str">"Something went wrong!"</span> } = <span class="var">err</span>;
+  <span class="var">res</span>.<span class="fn">status</span>(<span class="var">statusCode</span>).<span class="fn">render</span>(<span class="str">"error.ejs"</span>, { <span class="var">statusCode</span>, <span class="var">message</span>, <span class="var">err</span> });
+});</div>
+    </div>
+
+    <div class="badge b-pink">User-Facing Error Template (views/error.ejs):</div>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>views/error.ejs</span>
+      </div>
+      <div class="vscode-content" style="font-size: 11.2px; line-height: 1.28; padding: 5px 10px;"><span class="punct">&lt;</span><span class="kwd">div</span> <span class="var">class</span>=<span class="str">"row mt-5"</span><span class="punct">&gt;</span>
+  <span class="punct">&lt;</span><span class="kwd">div</span> <span class="var">class</span>=<span class="str">"col-6 offset-3"</span><span class="punct">&gt;</span>
+    <span class="punct">&lt;</span><span class="kwd">div</span> <span class="var">class</span>=<span class="str">"alert alert-danger"</span> <span class="var">role</span>=<span class="str">"alert"</span><span class="punct">&gt;</span>
+      <span class="punct">&lt;</span><span class="kwd">h4</span> <span class="var">class</span>=<span class="str">"alert-heading"</span><span class="punct">&gt;</span>Error &lt;%= statusCode %&gt;!<span class="punct">&lt;/</span><span class="kwd">h4</span><span class="punct">&gt;</span>
+      <span class="punct">&lt;</span><span class="kwd">p</span><span class="punct">&gt;</span>&lt;%= message %&gt;<span class="punct">&lt;/</span><span class="kwd">p</span><span class="punct">&gt;</span>
+    <span class="punct">&lt;/</span><span class="kwd">div</span><span class="punct">&gt;</span>
+  <span class="punct">&lt;/</span><span class="kwd">div</span><span class="punct">&gt;</span>
+<span class="punct">&lt;/</span><span class="kwd">div</span><span class="punct">&gt;</span></div>
+    </div>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Production Golden Rule:</span> Never display raw database stack traces to end-users in production! Deliver friendly, actionable UI error alerts and log verbose diagnostic traces internally.</div>
+    </div>
+
+    <div class="page-num">Page 8 of 8</div>
+  </div>
+
+</body>
+</html>

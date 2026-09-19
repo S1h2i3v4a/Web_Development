@@ -2,7 +2,7 @@
 
 [![GitHub repo size](https://img.shields.io/github/repo-size/S1h2i3v4a/Web_Development?color=blue&style=flat-square)](https://github.com/S1h2i3v4a/Web_Development)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
-[![Topics](https://img.shields.io/badge/topics-JavaScript%20%7C%20Git%20%7C%20Node.js%20%7C%20Express%20%7C%20OOPs-yellow.svg?style=flat-square)](https://github.com/S1h2i3v4a/Web_Development)
+[![Topics](https://img.shields.io/badge/topics-JavaScript%20%7C%20Git%20%7C%20Node.js%20%7C%20Express%20%7C%20REST-yellow.svg?style=flat-square)](https://github.com/S1h2i3v4a/Web_Development)
 
 Welcome to the **Web Development** repository! This repository is an organized, structured collection of study notes, cheat sheets, guides, and resources covering full-stack web development from foundational tools to advanced web architectures.
 
@@ -19,6 +19,8 @@ To build a strong foundation as a web developer, follow these modules in order:
 | **3** | [**`Backend/Terminal/`**](./Backend/Terminal/) | **Server Environment & CLI Navigation:** Command-line fluency, operating system file structures, shell scripting basics, and environment preparation for Node.js. | • [Terminal Notes PDF](./Backend/Terminal/Backend_Terminal_Handwritten_Notes.pdf)<br>• [Interactive HTML](./Backend/Terminal/Backend_Terminal_Notes.html) |
 | **4** | [**`Backend/NodeJS/`**](./Backend/NodeJS/) | **Server-Side Runtime & Package Management:** Node.js architecture (V8 + libuv), `process` object, CommonJS vs ES6 modules, directory imports (`index.js`), and NPM ecosystem. | • [English PDF](./Backend/NodeJS/Nodejs_Handwritten_Notes_English.pdf)<br>• [Hinglish PDF](./Backend/NodeJS/Nodejs_Handwritten_Notes_Hinglish.pdf) |
 | **5** | [**`Backend/Express_EJS/`**](./Backend/Express_EJS/) | **Web Framework & Server-Side Rendering:** Express routing, path params (`req.params`), query strings, dynamic server rendering with EJS templating, and POST bodies. | • [English PDF](./Backend/Express_EJS/Express_EJS_Handwritten_Notes_English.pdf)<br>• [Hinglish PDF](./Backend/Express_EJS/Express_EJS_Handwritten_Notes_Hinglish.pdf) |
+| **6** | [**`Backend/REST_APIs/`**](./Backend/REST_APIs/) | **RESTful Architecture & CRUD:** 7 standard REST routes, HTTP verbs (`GET`, `POST`, `PATCH`, `DELETE`), method override, status codes, and UUIDs. | • [English PDF](./Backend/REST_APIs/REST_API_Handwritten_Notes_English.pdf)<br>• [Hinglish PDF](./Backend/REST_APIs/REST_API_Handwritten_Notes_Hinglish.pdf) |
+| **7** | [**`Backend/Form_Validation_Errors/`**](./Backend/Form_Validation_Errors/) | **Validation & Error Handling:** Client & server-side validation, custom `ExpressError` class, `wrapAsync` wrapper, and centralized error middleware. | • [English PDF](./Backend/Form_Validation_Errors/Form_Validation_Errors_Handwritten_Notes_English.pdf)<br>• [Hinglish PDF](./Backend/Form_Validation_Errors/Form_Validation_Errors_Handwritten_Notes_Hinglish.pdf) |
 
 ---
 
@@ -62,6 +64,18 @@ Web_Development/
 │   │   ├── 📄 Express_EJS_Notes_English.html         # Printable styled HTML notes (English)
 │   │   ├── 📄 Express_EJS_Notes_Hinglish.html        # Printable styled HTML notes (Hinglish)
 │   │   └── 📄 README.md                              # Express routes, params & EJS guide
+│   ├── 📁 REST_APIs/                                 # Priority 6: RESTful APIs & CRUD
+│   │   ├── 📄 REST_API_Handwritten_Notes_English.pdf # REST API English notes (8 pages)
+│   │   ├── 📄 REST_API_Handwritten_Notes_Hinglish.pdf # REST API Hinglish notes (8 pages)
+│   │   ├── 📄 REST_API_Notes_English.html            # Printable styled HTML notes (English)
+│   │   ├── 📄 REST_API_Notes_Hinglish.html           # Printable styled HTML notes (Hinglish)
+│   │   └── 📄 README.md                              # 7 REST CRUD routes & methods guide
+│   ├── 📁 Form_Validation_Errors/                    # Priority 7: Validation & Error Handling
+│   │   ├── 📄 Form_Validation_Errors_Handwritten_Notes_English.pdf  # Validation notes (8 pages)
+│   │   ├── 📄 Form_Validation_Errors_Handwritten_Notes_Hinglish.pdf # Hinglish notes (8 pages)
+│   │   ├── 📄 Form_Validation_Notes_English.html     # Printable styled HTML notes (English)
+│   │   ├── 📄 Form_Validation_Notes_Hinglish.html    # Printable styled HTML notes (Hinglish)
+│   │   └── 📄 README.md                              # Error middleware & wrapAsync guide
 │   └── 📄 README.md                                  # Backend roadmap & modules index
 │
 ├── 📄 .gitignore
@@ -83,7 +97,7 @@ Web_Development/
 - **Functions & Closures:** Arrow functions, Scopes, Higher-Order Functions, `this`.
 - **ES6+ Modern JS:** Array methods (`map`, `filter`, `reduce`), Rest/Spread, Destructuring.
 - **DOM & Browser APIs:** Selectors, Style manipulation, Event Listeners, Event Bubbling.
-- **Asynchronous JS:** Call Stack, Event Loop, Promises, `async/await`, Fetch API, Axios.
+- **Async JS:** Call Stack, Event Loop, Promises, `async/await`, Fetch API, Axios.
 - **[Object-Oriented Programming (OOP)](./JavaScript/OOPs/):** Prototypes (`__proto__`), constructor functions, the `new` operator, ES6 `class`, and `extends` / `super()` inheritance.
 
 ### ⚙️ [3. Backend / Terminal](./Backend/Terminal/)
@@ -104,6 +118,18 @@ Web_Development/
 - **Dynamic Templating (EJS):** Embedded JavaScript, views directory, tags (`<%= %>`, `<%- %>`, `<% %>`), partials & includes.
 - **HTTP Methods & Body Parsing:** GET vs POST semantics, `express.urlencoded`, `express.json()`.
 
+### 🌐 [6. Backend / RESTful APIs](./Backend/REST_APIs/)
+- **REST Architecture:** Stateless client-server principles, resource-based URL endpoints.
+- **The 7 Standard Routes:** Index, New, Create, Show, Edit, Update, Destroy.
+- **Form Method Override:** Enabling `PATCH` and `DELETE` requests via `method-override`.
+- **Status Codes:** `200`, `201`, `204`, `400`, `404`, `500`.
+
+### 🛡️ [7. Backend / Form Validation & Errors](./Backend/Form_Validation_Errors/)
+- **Validation Layers:** Client-side Bootstrap validation vs server-side schema verification.
+- **Custom Errors:** Subclassing `Error` with `ExpressError`.
+- **Async Handling:** Catching async errors cleanly with `wrapAsync`.
+- **Error Middleware:** Centralized `(err, req, res, next)` error handling.
+
 ---
 
 ## 🛣️ Roadmap / Modules Status
@@ -114,10 +140,12 @@ Web_Development/
 - [x] **Backend Fundamentals (Terminal & CLI Navigation)**
 - [x] **Node.js Runtime & NPM Module System**
 - [x] **Express.js Framework & Server-Side Rendering (EJS)**
+- [x] **RESTful API Architecture & Standard CRUD Design**
+- [x] **Form Validation & Centralized Error Handling**
 - [ ] **HTML5 & Semantic Markup**
 - [ ] **CSS3, Flexbox, Grid & Modern Styling**
 - [ ] **React.js & Frontend Ecosystem**
-- [ ] **Databases (SQL & NoSQL)**
+- [ ] **Databases (SQL & NoSQL - MongoDB / PostgreSQL)**
 
 ---
 

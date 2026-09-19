@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>REST API & RESTful Web Services - Handwritten Notes (Hinglish)</title>
+  <style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fira+Code:wght@400;500;600&family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
+
+  @page {
+    size: A4 portrait;
+    margin: 8mm 6mm 8mm 6mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #f1f5f9;
+    font-family: 'Patrick Hand', 'Kalam', cursive;
+    color: #1e293b;
+    font-size: 17px;
+    line-height: 1.42;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .toolbar {
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    border-radius: 50px;
+    padding: 8px 22px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    margin-bottom: 24px;
+  }
+
+  .toolbar button {
+    background: #fef08a;
+    border: 2px solid #b45309;
+    color: #78350f;
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    font-weight: 700;
+    padding: 4px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .toolbar button:hover {
+    background: #fde047;
+    transform: translateY(-1px);
+  }
+
+  .notebook-page {
+    width: 820px;
+    min-height: 1055px;
+    max-height: 1055px;
+    overflow: hidden;
+    background-color: #fefefe;
+    background-image: 
+      linear-gradient(90deg, transparent 65px, #fca5a5 65px, #fca5a5 67px, transparent 67px),
+      linear-gradient(0deg, #e2e8f0 1px, transparent 1px);
+    background-size: 100% 100%, 100% 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    padding: 26px 36px 30px 82px;
+    margin-bottom: 30px;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  @media print {
+    body { background: transparent; padding: 0; }
+    .toolbar { display: none !important; }
+    .notebook-page {
+      box-shadow: none !important;
+      border: 1px solid #cbd5e1 !important;
+      margin: 0 !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      min-height: 1055px !important;
+      height: 1055px !important;
+      max-height: 1055px !important;
+      overflow: hidden !important;
+    }
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed #94a3b8;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #64748b;
+  }
+
+  .header-tag {
+    background: #e2e8f0;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  h1.topic-title {
+    font-family: 'Caveat', cursive;
+    font-size: 29px;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 18px;
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    font-weight: 700;
+    margin: 5px 0;
+    border: 1.5px solid rgba(0,0,0,0.15);
+  }
+  .b-green { background: #bbf7d0; color: #14532d; }
+  .b-yellow { background: #fef08a; color: #713f12; }
+  .b-pink { background: #fbcfe8; color: #831843; }
+  .b-blue { background: #bae6fd; color: #0c4a6e; }
+  .b-orange { background: #fed7aa; color: #7c2d12; }
+  .b-purple { background: #e9d5ff; color: #581c87; }
+
+  .hl { background: #fef08a; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+  .hl-blue { background: #bae6fd; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+  .hl-pink { background: #fbcfe8; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+  .hl-green { background: #bbf7d0; padding: 1px 5px; border-radius: 4px; font-weight: 700; }
+
+  p { margin-bottom: 7px; }
+  ul { margin-left: 22px; margin-bottom: 7px; }
+  li { margin-bottom: 3px; }
+
+  .diagram-flow {
+    background: #f8fafc;
+    border: 2px dashed #3b82f6;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 6px;
+  }
+  .flow-step {
+    background: #ffffff;
+    border: 2px solid #1e40af;
+    border-radius: 8px;
+    padding: 5px 10px;
+    text-align: center;
+    font-weight: 700;
+    color: #1e3a8a;
+    box-shadow: 2px 2px 0 #93c5fd;
+    font-size: 14.5px;
+  }
+  .flow-arrow {
+    font-size: 19px;
+    color: #2563eb;
+    font-weight: 700;
+  }
+
+  .notes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 7px 0;
+    font-size: 15px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1.5px solid #64748b;
+  }
+  .notes-table th {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 5px 8px;
+    text-align: left;
+    font-family: 'Caveat', cursive;
+    font-size: 17.5px;
+    letter-spacing: 0.5px;
+  }
+  .notes-table td {
+    padding: 4px 8px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+  }
+  .notes-table tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  .m-get { background: #dcfce7; color: #15803d; border: 1.5px solid #22c55e; padding: 1px 6px; border-radius: 5px; font-weight: 700; font-family: 'Fira Code', monospace; font-size: 13px; }
+  .m-post { background: #fef9c3; color: #a16207; border: 1.5px solid #eab308; padding: 1px 6px; border-radius: 5px; font-weight: 700; font-family: 'Fira Code', monospace; font-size: 13px; }
+  .m-put { background: #e0f2fe; color: #0369a1; border: 1.5px solid #0ea5e9; padding: 1px 6px; border-radius: 5px; font-weight: 700; font-family: 'Fira Code', monospace; font-size: 13px; }
+  .m-patch { background: #ffedd5; color: #c2410c; border: 1.5px solid #f97316; padding: 1px 6px; border-radius: 5px; font-weight: 700; font-family: 'Fira Code', monospace; font-size: 13px; }
+  .m-delete { background: #fee2e2; color: #b91c1c; border: 1.5px solid #ef4444; padding: 1px 6px; border-radius: 5px; font-weight: 700; font-family: 'Fira Code', monospace; font-size: 13px; }
+
+  .vscode-window {
+    background: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    overflow: hidden;
+    margin: 7px 0;
+    border: 1px solid #333333;
+  }
+  .vscode-titlebar {
+    background: #252526;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    color: #cccccc;
+    border-bottom: 1px solid #333333;
+  }
+  .vscode-dots { display: flex; gap: 5px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+  .vscode-content {
+    padding: 7px 12px;
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    line-height: 1.38;
+    color: #d4d4d4;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .kwd { color: #569cd6; font-weight: 600; }
+  .str { color: #ce9178; }
+  .fn { color: #dcdcaa; }
+  .com { color: #6a9955; font-style: italic; }
+  .var { color: #9cdcfe; }
+  .num { color: #b5cea8; }
+  .punct { color: #d4d4d4; }
+
+  .exam-tip {
+    background: #fefce8;
+    border: 2px dashed #ca8a04;
+    border-radius: 8px;
+    padding: 6px 12px;
+    margin: 7px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15.5px;
+  }
+  .danger-box {
+    background: #fef2f2;
+    border: 2px dashed #dc2626;
+    border-radius: 8px;
+    padding: 6px 12px;
+    margin: 7px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15.5px;
+  }
+  .tip-icon { font-size: 20px; flex-shrink: 0; }
+  .tip-text { flex-grow: 1; }
+  .tip-label { font-weight: 700; color: #854d0e; font-family: 'Caveat', cursive; font-size: 18px; }
+  .danger-label { font-weight: 700; color: #991b1b; font-family: 'Caveat', cursive; font-size: 18px; }
+
+  .page-num {
+    position: absolute;
+    bottom: 8px;
+    right: 22px;
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    color: #94a3b8;
+  }
+
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span>📓 <b>REST API Handwritten Study Notes (Hinglish)</b></span>
+    <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+  </div>
+  
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">WEB DEV & BACKEND</span>
+      <span>TOPIC 01/10</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 01: API (APPLICATION PROGRAMMING INTERFACE)</h1>
+
+    <div class="badge b-green">API Kya Hai? (Core Concept)</div>
+    <p>API ka pura naam <span class="hl">Application Programming Interface</span> hai. Yeh do software programs ke beech ka ek aisa <b>secure communication bridge</b> hai jo unhe aapas me data aur functionalities exchange karne deta hai, bina ek dusre ke internal database ya backend logic ko jaane.</p>
+
+    <div class="badge b-yellow">Real-Life Analogy: The Restaurant Waiter</div>
+    <p>Socho aap ek restaurant me khana khane gaye ho:</p>
+    <ul>
+      <li><b>Customer (Frontend / Client):</b> Table par baithkar menu se dish ka order deta hai.</li>
+      <li><b>Kitchen (Server / Database):</b> Jahan actual food banta hai aur sara secret raw material store hota hai.</li>
+      <li><b>Waiter (API):</b> Customer se order lekar Kitchen tak pahuchata hai, aur kitchen se prepared dish laakar customer ko deliver karta hai!</li>
+    </ul>
+
+    <div class="diagram-flow">
+      <div class="flow-step">💻 Client (Browser/App)<br><small>Order (Request)</small></div>
+      <div class="flow-arrow">⇄</div>
+      <div class="flow-step" style="background:#eff6ff; border-color:#2563eb;">⚡ API Endpoint<br><small>Waiter (Bridge)</small></div>
+      <div class="flow-arrow">⇄</div>
+      <div class="flow-step">🗄️ Server & DB<br><small>Kitchen (Cooks Data)</small></div>
+    </div>
+
+    <div class="badge b-pink">Real-World API Use Cases:</div>
+    <ul>
+      <li><b>Weather Apps:</b> Phone ka app <span class="hl-blue">OpenWeather API</span> se current live temperature mangwata hai.</li>
+      <li><b>Online Payments:</b> Swiggy ya Amazon <span class="hl-blue">Razorpay / Stripe API</span> ke through payment verify karte hain.</li>
+      <li><b>Google Login:</b> Website bina aapka Google password jaane Google Identity API se authentication kar leti hai.</li>
+    </ul>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label"> Insight (Abstraction):</span> API backend ka complex logic hide karta hai. Client ko bas yeh matlab hai ki request kahan bhejni hai aur response me kya data milega!</div>
+    </div>
+
+    <div class="page-num">Page 1 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">WEB DEV & BACKEND</span>
+      <span>TOPIC 02/10</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 02: REST (REPRESENTATIONAL STATE TRANSFER)</h1>
+
+    <div class="badge b-blue">REST Kya Hai? (Core Definition & Origin)</div>
+    <p>REST ka pura naam <span class="hl">Representational State Transfer</span> hai. Yeh koi software, library, framework ya programming language <b>NAHI</b> hai!</p>
+    <p>Ise <b>Dr. Roy Fielding</b> ne saal 2000 me apne Ph.D. research paper me introduce kiya tha. Yeh ek <span class="hl-pink">Architectural Style</span> (design principles aur rules ka set) hai jo batata hai ki internet par web services ko HTTP protocol ke standard features use karke efficiently kaise communicate karna chahiye.</p>
+
+    <div class="badge b-green">Resource & Representation Ka Concept:</div>
+    <ul>
+      <li><b>Resource:</b> Server par saved har entity (users, posts, photos) ek resource hai, jiska apna unique URL hota hai (e.g. <code>/posts/101</code>).</li>
+      <li><b>Representation:</b> Jab client resource mangta hai, toh server us resource ka current snapshot/state ek format me transfer karta hai (almost always <span class="hl-yellow">JSON</span> format).</li>
+    </ul>
+
+    <div class="badge b-orange">REST Ke 6 Core Guiding Principles (Constraints):</div>
+    <ul>
+      <li><b>1. Client-Server Architecture:</b> Frontend (UI) aur Backend (Database) ek dusre se completely independent hone chahiye.</li>
+      <li><b>2. Statelessness (Most Important!):</b> Server client ka koi session ya memory state save nahi karega. Har request me pura authentication token aur context hona chahiye.</li>
+      <li><b>3. Cacheable:</b> Server response me header hona chahiye jo bataye ki data client par cache ho sakta hai ya nahi (taaki server load bache).</li>
+      <li><b>4. Uniform Interface:</b> Consistent URLs (nouns jaise <code>/posts</code>) aur standard HTTP verbs (GET, POST, etc.) use hone chahiye.</li>
+      <li><b>5. Layered System:</b> Client ko fark nahi padta ki wo direct server se juda hai ya beech me CDN/load balancer/proxy hai.</li>
+      <li><b>6. Code on Demand (Optional):</b> Server chahe toh client ko execute hone wala script (e.g. JS) bhej sakta hai.</li>
+    </ul>
+
+    <div class="page-num">Page 2 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">WEB DEV & BACKEND</span>
+      <span>TOPIC 03/10</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 03: API vs REST vs RESTFUL API (THE MASTER COMPARISON)</h1>
+
+    <div class="badge b-purple">Interview Special Comparative Table:</div>
+
+    <table class="notes-table">
+      <thead>
+        <tr>
+          <th>Feature / Parameter</th>
+          <th>API</th>
+          <th>REST</th>
+          <th>RESTful API</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Core Definition</b></td>
+          <td>Do software ke aapas me baat karne ka interface/contract.</td>
+          <td>Web APIs design karne ke 6 architectural rules & guidelines.</td>
+          <td>Aisi working web service jo REST ke rules ko strictly follow karti hai.</td>
+        </tr>
+        <tr>
+          <td><b>Nature / Type</b></td>
+          <td>General concept & mechanism.</td>
+          <td>Architectural style / design philosophy.</td>
+          <td>Concrete web service implementation.</td>
+        </tr>
+        <tr>
+          <td><b>Protocols Used</b></td>
+          <td>Koi bhi protocol (TCP, HTTP, OS system calls, memory).</td>
+          <td>Web & HTTP architecture par based.</td>
+          <td>Strictly <span class="hl-blue">HTTP / HTTPS</span> protocol use karti hai.</td>
+        </tr>
+        <tr>
+          <td><b>Data Format</b></td>
+          <td>Any format (JSON, XML, Plain text, Binary, Objects).</td>
+          <td>Format agnostic (focus on resource representation).</td>
+          <td>Almost universally <span class="hl-green">JSON</span> (ya XML).</td>
+        </tr>
+        <tr>
+          <td><b>Constraint Enforcement</b></td>
+          <td>Koi strict architectural rules nahi hote.</td>
+          <td>6 mandatory constraints define karta hai.</td>
+          <td>REST ke saare constraints code me strictly enforced hote hain.</td>
+        </tr>
+        <tr>
+          <td><b>Real-World Example</b></td>
+          <td><code>Math.random()</code>, <code>fs.readFile()</code>, DOM API</td>
+          <td>Roy Fielding ke 2000 ke Ph.D. principles</td>
+          <td>GitHub REST API, Twitter/X API, Express <code>/posts</code> CRUD API</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Golden Formula for Interviews:</span><br>
+      <b>"All RESTful APIs are APIs, but not all APIs are RESTful!"</b><br>
+      (Jaise har Car ek Vehicle hoti hai, par har Vehicle Car nahi hota!)</div>
+    </div>
+
+    <div class="danger-box">
+      <span class="tip-icon">⚠️</span>
+      <div class="tip-text"><span class="danger-label">Common Interview Mistake:</span> Kabhi mat kehna ki REST ek protocol ya library hai! REST ek <b>Architectural Style</b> hai jo HTTP protocol ke upar rules define karta hai.</div>
+    </div>
+
+    <div class="page-num">Page 3 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">WEB DEV & BACKEND</span>
+      <span>TOPIC 04/10</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 04: HTTP METHODS & CRUD OPERATIONS MAPPING</h1>
+
+    <div class="badge b-pink">CRUD Operations & HTTP Verbs Mapping:</div>
+
+    <table class="notes-table">
+      <thead>
+        <tr>
+          <th>CRUD Operation</th>
+          <th>HTTP Verb</th>
+          <th>Example Endpoint</th>
+          <th>Description & Purpose</th>
+          <th>Safe?</th>
+          <th>Idempotent?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Create</b></td>
+          <td><span class="m-post">POST</span></td>
+          <td><code>POST /posts</code></td>
+          <td>Server par naya resource create karta hai.</td>
+          <td>❌ No</td>
+          <td>❌ No</td>
+        </tr>
+        <tr>
+          <td><b>Read</b></td>
+          <td><span class="m-get">GET</span></td>
+          <td><code>GET /posts</code></td>
+          <td>Data retrieve karta hai bina modify kiye.</td>
+          <td>✅ Yes</td>
+          <td>✅ Yes</td>
+        </tr>
+        <tr>
+          <td><b>Update (Full)</b></td>
+          <td><span class="m-put">PUT</span></td>
+          <td><code>PUT /posts/:id</code></td>
+          <td>Poore resource ko naye data se replace karta hai.</td>
+          <td>❌ No</td>
+          <td>✅ Yes</td>
+        </tr>
+        <tr>
+          <td><b>Update (Partial)</b></td>
+          <td><span class="m-patch">PATCH</span></td>
+          <td><code>PATCH /posts/:id</code></td>
+          <td>Sirf passed specific fields ko modify karta hai.</td>
+          <td>❌ No</td>
+          <td>❌ No*</td>
+        </tr>
+        <tr>
+          <td><b>Delete</b></td>
+          <td><span class="m-delete">DELETE</span></td>
+          <td><code>DELETE /posts/:id</code></td>
+          <td>Resource ko permanently remove karta hai.</td>
+          <td>❌ No</td>
+          <td>✅ Yes</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="badge b-yellow">Sabse Bada Doubt: PUT vs PATCH me kya farq hai?</div>
+    <ul>
+      <li><b>PUT (Complete Replacement):</b> Agar post me <code>{ title, content, author }</code> hai aur aapne sirf <code>{ content: "New" }</code> bheja, toh <code>title</code> aur <code>author</code> null/delete ho jayenge! Pura document overwrite hota hai.</li>
+      <li><b>PATCH (Partial Update):</b> Sirf wahi field change hogi jo bheji gayi hai (jaise sirf <code>content</code>), baaki <code>title</code> aur <code>author</code> bilkul safe rehte hain!</li>
+    </ul>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Safe vs Idempotent:</span><br>
+      • <b>Safe Method:</b> Jo server ke data ko alter nahi karta (e.g. <code>GET</code>).<br>
+      • <b>Idempotent:</b> Ek baar chalao ya 100 baar, server state par same effect padta hai (e.g. <code>GET</code>, <code>PUT</code>, <code>DELETE</code>).</div>
+    </div>
+
+    <div class="page-num">Page 4 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">WEB DEV & BACKEND</span>
+      <span>TOPIC 05-06/10</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 05: STATUS CODES & TOPIC 06: RESTFUL ROUTES</h1>
+
+    <div class="badge b-green">Standard HTTP Status Codes in REST APIs:</div>
+    <ul>
+      <li><span class="hl-green">2xx (Success):</span> <b>200 OK</b> (Standard success), <b>201 Created</b> (POST se naya record bana), <b>204 No Content</b> (DELETE successful).</li>
+      <li><span class="hl-blue">3xx (Redirection):</span> <b>301 Moved</b>, <b>302 Found / Redirect</b> (Express <code>res.redirect</code> me use hota hai).</li>
+      <li><span class="hl-pink">4xx (Client Errors):</span> <b>400 Bad Request</b> (Validation fail), <b>401 Unauthorized</b> (Login required), <b>403 Forbidden</b> (No permission), <b>404 Not Found</b> (Resource missing).</li>
+      <li><span class="hl">5xx (Server Errors):</span> <b>500 Internal Server Error</b> (Server crash / backend bug).</li>
+    </ul>
+
+    <div class="badge b-blue">Standard 7 RESTful Routes for Posts Resource:</div>
+
+    <table class="notes-table">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Route Path</th>
+          <th>Action Name</th>
+          <th>Purpose / Kya Karta Hai</th>
+          <th>Express Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="m-get">GET</span></td>
+          <td><code>/posts</code></td>
+          <td><b>Index</b></td>
+          <td>Saare posts ki list display karna</td>
+          <td><code>res.render("index.ejs")</code></td>
+        </tr>
+        <tr>
+          <td><span class="m-get">GET</span></td>
+          <td><code>/posts/new</code></td>
+          <td><b>New</b></td>
+          <td>Naya post create karne ka HTML form dikhana</td>
+          <td><code>res.render("new.ejs")</code></td>
+        </tr>
+        <tr>
+          <td><span class="m-post">POST</span></td>
+          <td><code>/posts</code></td>
+          <td><b>Create</b></td>
+          <td>Form data accept karke naya post save karna</td>
+          <td><code>res.redirect("/posts")</code></td>
+        </tr>
+        <tr>
+          <td><span class="m-get">GET</span></td>
+          <td><code>/posts/:id</code></td>
+          <td><b>Show</b></td>
+          <td>Specific ID wale single post ki details dikhana</td>
+          <td><code>res.render("show.ejs")</code></td>
+        </tr>
+        <tr>
+          <td><span class="m-get">GET</span></td>
+          <td><code>/posts/:id/edit</code></td>
+          <td><b>Edit</b></td>
+          <td>Specific post ko edit karne ka form render karna</td>
+          <td><code>res.render("edit.ejs")</code></td>
+        </tr>
+        <tr>
+          <td><span class="m-patch">PATCH</span></td>
+          <td><code>/posts/:id</code></td>
+          <td><b>Update</b></td>
+          <td>Specific post ka content modify/update karna</td>
+          <td><code>res.redirect("/posts")</code></td>
+        </tr>
+        <tr>
+          <td><span class="m-delete">DELETE</span></td>
+          <td><code>/posts/:id</code></td>
+          <td><b>Destroy</b></td>
+          <td>Specific post ko DB/array se delete karna</td>
+          <td><code>res.redirect("/posts")</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-num">Page 5 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">WEB DEV & BACKEND</span>
+      <span>TOPIC 07-08/10</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 07: RESPONSE HANDLING & TOPIC 08: UUID PACKAGE</h1>
+
+    <div class="badge b-yellow">Express Response Handling: 3 Key Methods</div>
+    <ul>
+      <li><code>res.send(data)</code>: String, HTML, ya JSON object bhejta hai. REST APIs me JSON data return karne ke liye use hota hai.</li>
+      <li><code>res.render("index.ejs", { posts })</code>: Server-side EJS template me dynamic data inject karke HTML page browser ko bhejta hai.</li>
+      <li><code>res.redirect("/posts")</code>: Browser ko 302 code dekar bolta hai ki naye URL par automatic <code>GET</code> request kare.</li>
+    </ul>
+
+    <div class="exam-tip">
+      <span class="tip-icon">💡</span>
+      <div class="tip-text"><span class="tip-label">Post-Redirect-Get (PRG) Pattern:</span><br>
+      POST, PATCH, ya DELETE route ke baad direct <code>res.render()</code> mat karo! Hamesha <code>res.redirect('/posts')</code> karo. Agar direct render karoge aur user ne browser Refresh (F5) kiya, toh form resubmit hokar duplicate entry ban jayegi!</div>
+    </div>
+
+    <div class="badge b-pink">Topic 08: UUID Package (Universally Unique Identifiers)</div>
+    <p><b>Array Index (<code>posts[0]</code>) kyu use nahi karte?</b></p>
+    <p>Agar user ne pehla post delete kar diya (<code>posts.splice(0, 1)</code>), toh aage ke sabhi posts ke index shift ho jayenge! Kisi ne <code>/posts/2</code> bookmark kiya hoga toh ab use dusra post dikhega!</p>
+
+    <p><b>Solution: UUID Package</b></p>
+    <ul>
+      <li>UUID ka matlab hai <b>Universally Unique Identifier</b> (128-bit random string).</li>
+      <li>Installation: <code>npm install uuid</code></li>
+    </ul>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>uuid-usage.js</span>
+      </div>
+      <div class="vscode-content"><span class="kwd">const</span> { <span class="var">v4</span>: <span class="var">uuidv4</span> } = <span class="fn">require</span>(<span class="str">'uuid'</span>);
+
+<span class="com">// Generate random unique ID string</span>
+<span class="kwd">const</span> <span class="var">id</span> = <span class="fn">uuidv4</span>(); 
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="var">id</span>); <span class="com">// Output: "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed"</span>
+
+<span class="com">// Used when creating new post:</span>
+<span class="kwd">const</span> <span class="var">newPost</span> = { <span class="var">id</span>: <span class="fn">uuidv4</span>(), <span class="var">username</span>, <span class="var">content</span> };</div>
+    </div>
+
+    <div class="page-num">Page 6 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">WEB DEV & BACKEND</span>
+      <span>TOPIC 09/10</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 09: HTML FORMS & METHOD-OVERRIDE MIDDLEWARE</h1>
+
+    <div class="danger-box">
+      <span class="tip-icon">⚠️</span>
+      <div class="tip-text"><span class="danger-label">HTML Ki Badi Limitation:</span><br>
+      Standard HTML <code>&lt;form&gt;</code> tag sirf do hi HTTP methods support karta hai: <b>GET</b> aur <b>POST</b>! Form tag me <code>method="PATCH"</code> ya <code>method="DELETE"</code> likhne par browser use ignore karke by default <b>GET</b> request bhej deta hai!</div>
+    </div>
+
+    <div class="badge b-green">Solution: method-override NPM Package</div>
+    <p>Yeh middleware form ki request query string me <code>?_method=PATCH</code> ya <code>?_method=DELETE</code> padhkar backend par HTTP verb ko override kar deta hai!</p>
+
+    <p><b>Installation & Express Setup:</b></p>
+    <ul>
+      <li>Terminal Command: <code>npm install method-override</code></li>
+    </ul>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>app.js (Middleware Setup)</span>
+      </div>
+      <div class="vscode-content"><span class="kwd">const</span> <span class="var">methodOverride</span> = <span class="fn">require</span>(<span class="str">'method-override'</span>);
+
+<span class="com">// Express will look for ?_method=PATCH in query string</span>
+<span class="var">app</span>.<span class="fn">use</span>(<span class="fn">methodOverride</span>(<span class="str">'_method'</span>));</div>
+    </div>
+
+    <div class="badge b-orange">EJS Form Syntax in VS Code Style:</div>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>views/posts/edit.ejs & index.ejs</span>
+      </div>
+      <div class="vscode-content"><span class="com">&lt;!-- 1. EDIT FORM (Triggers PATCH /posts/:id) --&gt;</span>
+<span class="punct">&lt;</span><span class="kwd">form</span> <span class="var">method</span>=<span class="str">"POST"</span> <span class="var">action</span>=<span class="str">"/posts/&lt;%= post.id %&gt;?_method=PATCH"</span><span class="punct">&gt;</span>
+  <span class="punct">&lt;</span><span class="kwd">textarea</span> <span class="var">name</span>=<span class="str">"content"</span><span class="punct">&gt;</span><span class="str">&lt;%= post.content %&gt;</span><span class="punct">&lt;/</span><span class="kwd">textarea</span><span class="punct">&gt;</span>
+  <span class="punct">&lt;</span><span class="kwd">button</span> <span class="var">type</span>=<span class="str">"submit"</span><span class="punct">&gt;</span>Update Post<span class="punct">&lt;/</span><span class="kwd">button</span><span class="punct">&gt;</span>
+<span class="punct">&lt;/</span><span class="kwd">form</span><span class="punct">&gt;</span>
+
+<span class="com">&lt;!-- 2. DELETE BUTTON (Triggers DELETE /posts/:id) --&gt;</span>
+<span class="punct">&lt;</span><span class="kwd">form</span> <span class="var">method</span>=<span class="str">"POST"</span> <span class="var">action</span>=<span class="str">"/posts/&lt;%= post.id %&gt;?_method=DELETE"</span><span class="punct">&gt;</span>
+  <span class="punct">&lt;</span><span class="kwd">button</span> <span class="var">type</span>=<span class="str">"submit"</span><span class="punct">&gt;</span>Delete Post<span class="punct">&lt;/</span><span class="kwd">button</span><span class="punct">&gt;</span>
+<span class="punct">&lt;/</span><span class="kwd">form</span><span class="punct">&gt;</span></div>
+    </div>
+
+    <div class="page-num">Page 7 of 8</div>
+  </div>
+
+  <div class="notebook-page">
+    <div class="page-header">
+      <span>STUDY NOTES</span>
+      <span class="header-tag">WEB DEV & BACKEND</span>
+      <span>TOPIC 10/10</span>
+    </div>
+
+    <h1 class="topic-title">TOPIC 10: COMPLETE RESTFUL CRUD (VS CODE STYLE)</h1>
+
+    <div class="badge b-purple">Full Express.js RESTful Server Implementation:</div>
+
+    <div class="vscode-window">
+      <div class="vscode-titlebar">
+        <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+        <span>server.js - Production Ready RESTful CRUD Architecture</span>
+      </div>
+      <div class="vscode-content" style="font-size: 11px; line-height: 1.28; padding: 5px 10px;"><span class="kwd">const</span> <span class="var">express</span> = <span class="fn">require</span>(<span class="str">'express'</span>);
+<span class="kwd">const</span> <span class="var">app</span> = <span class="fn">express</span>();
+<span class="kwd">const</span> { <span class="var">v4</span>: <span class="var">uuidv4</span> } = <span class="fn">require</span>(<span class="str">'uuid'</span>);
+<span class="kwd">const</span> <span class="var">methodOverride</span> = <span class="fn">require</span>(<span class="str">'method-override'</span>);
+
+<span class="var">app</span>.<span class="fn">use</span>(<span class="var">express</span>.<span class="fn">urlencoded</span>({ <span class="var">extended</span>: <span class="kwd">true</span> }));
+<span class="var">app</span>.<span class="fn">use</span>(<span class="fn">methodOverride</span>(<span class="str">'_method'</span>));
+<span class="var">app</span>.<span class="fn">set</span>(<span class="str">'view engine'</span>, <span class="str">'ejs'</span>);
+
+<span class="kwd">let</span> <span class="var">posts</span> = [
+  { <span class="var">id</span>: <span class="fn">uuidv4</span>(), <span class="var">username</span>: <span class="str">"shivam"</span>, <span class="var">content</span>: <span class="str">"Learning REST APIs!"</span> },
+  { <span class="var">id</span>: <span class="fn">uuidv4</span>(), <span class="var">username</span>: <span class="str">"rahul"</span>, <span class="var">content</span>: <span class="str">"Express makes routing easy!"</span> }
+];
+
+<span class="com">// 1. INDEX: GET /posts (Read all)</span>
+<span class="var">app</span>.<span class="fn">get</span>(<span class="str">'/posts'</span>, (<span class="var">req</span>, <span class="var">res</span>) => {
+  <span class="var">res</span>.<span class="fn">render</span>(<span class="str">'posts/index.ejs'</span>, { <span class="var">posts</span> });
+});
+
+<span class="com">// 2. NEW: GET /posts/new (Render form)</span>
+<span class="var">app</span>.<span class="fn">get</span>(<span class="str">'/posts/new'</span>, (<span class="var">req</span>, <span class="var">res</span>) => {
+  <span class="var">res</span>.<span class="fn">render</span>(<span class="str">'posts/new.ejs'</span>);
+});
+
+<span class="com">// 3. CREATE: POST /posts (Add new post)</span>
+<span class="var">app</span>.<span class="fn">post</span>(<span class="str">'/posts'</span>, (<span class="var">req</span>, <span class="var">res</span>) => {
+  <span class="kwd">const</span> { <span class="var">username</span>, <span class="var">content</span> } = <span class="var">req</span>.<span class="var">body</span>;
+  <span class="var">posts</span>.<span class="fn">push</span>({ <span class="var">id</span>: <span class="fn">uuidv4</span>(), <span class="var">username</span>, <span class="var">content</span> });
+  <span class="var">res</span>.<span class="fn">redirect</span>(<span class="str">'/posts'</span>); <span class="com">// PRG Pattern</span>
+});
+
+<span class="com">// 4. SHOW: GET /posts/:id (Read one post)</span>
+<span class="var">app</span>.<span class="fn">get</span>(<span class="str">'/posts/:id'</span>, (<span class="var">req</span>, <span class="var">res</span>) => {
+  <span class="kwd">const</span> <span class="var">post</span> = <span class="var">posts</span>.<span class="fn">find</span>(<span class="var">p</span> => <span class="var">p</span>.<span class="var">id</span> === <span class="var">req</span>.<span class="var">params</span>.<span class="var">id</span>);
+  <span class="var">res</span>.<span class="fn">render</span>(<span class="str">'posts/show.ejs'</span>, { <span class="var">post</span> });
+});
+
+<span class="com">// 5. EDIT: GET /posts/:id/edit (Render edit form)</span>
+<span class="var">app</span>.<span class="fn">get</span>(<span class="str">'/posts/:id/edit'</span>, (<span class="var">req</span>, <span class="var">res</span>) => {
+  <span class="kwd">const</span> <span class="var">post</span> = <span class="var">posts</span>.<span class="fn">find</span>(<span class="var">p</span> => <span class="var">p</span>.<span class="var">id</span> === <span class="var">req</span>.<span class="var">params</span>.<span class="var">id</span>);
+  <span class="var">res</span>.<span class="fn">render</span>(<span class="str">'posts/edit.ejs'</span>, { <span class="var">post</span> });
+});
+
+<span class="com">// 6. UPDATE: PATCH /posts/:id (Update specific post)</span>
+<span class="var">app</span>.<span class="fn">patch</span>(<span class="str">'/posts/:id'</span>, (<span class="var">req</span>, <span class="var">res</span>) => {
+  <span class="kwd">const</span> <span class="var">post</span> = <span class="var">posts</span>.<span class="fn">find</span>(<span class="var">p</span> => <span class="var">p</span>.<span class="var">id</span> === <span class="var">req</span>.<span class="var">params</span>.<span class="var">id</span>);
+  <span class="var">post</span>.<span class="var">content</span> = <span class="var">req</span>.<span class="var">body</span>.<span class="var">content</span>;
+  <span class="var">res</span>.<span class="fn">redirect</span>(<span class="str">'/posts'</span>);
+});
+
+<span class="com">// 7. DESTROY: DELETE /posts/:id (Remove post)</span>
+<span class="var">app</span>.<span class="fn">delete</span>(<span class="str">'/posts/:id'</span>, (<span class="var">req</span>, <span class="var">res</span>) => {
+  <span class="var">posts</span> = <span class="var">posts</span>.<span class="fn">filter</span>(<span class="var">p</span> => <span class="var">p</span>.<span class="var">id</span> !== <span class="var">req</span>.<span class="var">params</span>.<span class="var">id</span>);
+  <span class="var">res</span>.<span class="fn">redirect</span>(<span class="str">'/posts'</span>);
+});
+
+<span class="var">app</span>.<span class="fn">listen</span>(<span class="num">8080</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"REST Server running on port 8080"</span>));</div>
+    </div>
+
+    <div class="page-num">Page 8 of 8</div>
+  </div>
+
+</body>
+</html>
