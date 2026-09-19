@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Node.js Topper Notes (Hinglish)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Kalam:wght@400;700&family=Patrick+Hand&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 10mm 8mm 10mm 8mm;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #f1f5f9;
+    font-family: 'Patrick Hand', 'Kalam', cursive;
+    color: #1e293b;
+    font-size: 18.5px;
+    line-height: 1.46;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .toolbar {
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    border-radius: 50px;
+    padding: 8px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  .toolbar button {
+    background: #fef08a;
+    border: 2px solid #b45309;
+    color: #78350f;
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    font-weight: 700;
+    padding: 4px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .notebook-page {
+    width: 820px;
+    min-height: 1100px;
+    background-color: #fefefe;
+    background-image: 
+      linear-gradient(90deg, transparent 65px, #fca5a5 65px, #fca5a5 67px, transparent 67px),
+      linear-gradient(0deg, #e2e8f0 1px, transparent 1px);
+    background-size: 100% 100%, 100% 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+    padding: 35px 40px 40px 85px;
+    margin-bottom: 35px;
+    position: relative;
+    page-break-after: always;
+  }
+  .topic-card { margin-bottom: 24px; page-break-inside: avoid; }
+  .main-topic-title {
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 30px;
+    font-weight: 700;
+    color: #1e40af;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+  .main-topic-title span { position: relative; padding: 0 10px; }
+  .main-topic-title span::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 5%;
+    width: 90%;
+    height: 10px;
+    background: rgba(254, 240, 138, 0.7);
+    z-index: -1;
+    border-radius: 4px;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'Caveat', cursive;
+    font-size: 21px;
+    font-weight: 700;
+    padding: 2px 12px;
+    border-radius: 8px 12px 10px 14px;
+    margin-bottom: 6px;
+  }
+  .tag-green { background: #bbf7d0; color: #166534; border: 1.5px solid #22c55e; }
+  .tag-yellow { background: #fef08a; color: #854d0e; border: 1.5px solid #eab308; }
+  .tag-pink { background: #fbcfe8; color: #9d174d; border: 1.5px solid #ec4899; }
+  .tag-blue { background: #bae6fd; color: #075985; border: 1.5px solid #0284c7; }
+  .tag-orange { background: #fed7aa; color: #9a3412; border: 1.5px solid #f97316; }
+  .highlight { background: rgba(254, 240, 138, 0.75); padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+  .highlight-pink { background: rgba(251, 207, 232, 0.75); }
+  .highlight-green { background: rgba(187, 247, 208, 0.75); }
+  .highlight-blue { background: rgba(186, 230, 253, 0.75); }
+
+  .flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0 16px 0;
+  }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .flow-box {
+    font-family: 'Caveat', cursive;
+    font-size: 21px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    border-radius: 8px;
+    border: 2px solid #334155;
+    text-align: center;
+    box-shadow: 2px 3px 0px rgba(0,0,0,0.08);
+  }
+  .flow-green { background: #dcfce7; border-color: #15803d; color: #166534; }
+  .flow-pink { background: #fce7f3; border-color: #be185d; color: #9d174d; }
+  .flow-blue { background: #e0f2fe; border-color: #0369a1; color: #075985; }
+  .flow-yellow { background: #fef9c3; border-color: #a16207; color: #854d0e; }
+  .flow-orange { background: #ffedd5; border-color: #c2410c; color: #9a3412; }
+  .flow-arrow { font-size: 20px; color: #475569; font-weight: 700; }
+
+  .hand-list { list-style: none; margin: 6px 0 10px 10px; }
+  .hand-list li { position: relative; padding-left: 22px; margin-bottom: 6px; }
+  .hand-list li::before { content: '•'; position: absolute; left: 4px; top: -2px; font-size: 24px; color: #0f172a; }
+
+  .code-note {
+    background: #1e293b;
+    color: #f8fafc;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 8px 0 12px 0;
+    border: 2px solid #0f172a;
+  }
+  .code-note .c-p { color: #38bdf8; font-weight: 700; }
+  .code-note .c-cmd { color: #f472b6; font-weight: 600; }
+  .code-note .c-arg { color: #fde047; }
+  .code-note .c-com { color: #94a3b8; font-style: italic; }
+
+  .exam-tip {
+    background: #fef9c3;
+    border: 2px dashed #ca8a04;
+    border-radius: 12px;
+    padding: 8px 16px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .exam-tip .tip-icon { font-size: 24px; flex-shrink: 0; }
+  .exam-tip .tip-text { font-size: 17px; color: #713f12; }
+  .exam-tip .tip-label { font-family: 'Caveat', cursive; font-size: 20px; font-weight: 700; color: #a16207; }
+
+  .hand-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 12px 0;
+    background: #ffffff;
+    font-size: 17px;
+    border: 2px solid #334155;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .hand-table th, .hand-table td { border: 1px solid #94a3b8; padding: 5px 10px; text-align: left; }
+  .hand-table th { background: #fef08a; color: #78350f; font-family: 'Caveat', cursive; font-size: 19px; }
+
+  @media print {
+    body { background: none !important; padding: 0 !important; }
+    .toolbar { display: none !important; }
+    .notebook-page {
+      box-shadow: none !important;
+      border: 1px solid #cbd5e1 !important;
+      margin: 0 0 15px 0 !important;
+      page-break-after: always !important;
+      page-break-inside: avoid !important;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">🖨️ Print Hinglish PDF</button>
+  </div>
+
+  <!-- PAGE 1: Intro, REPL, Process & argv -->
+  <div class="notebook-page">
+    <!-- Topic 01 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 01: What is Node.js?</span></div>
+      <div><span class="tag tag-green">Definition:</span></div>
+      <p>Node.js ek <span class="highlight">JavaScript Runtime Environment</span> hai jo JavaScript ko browser ke bahar server-side machine par run karne ki power deta hai.</p>
+      
+      <div class="flowchart">
+        <div class="flow-row">
+          <div class="flow-box flow-pink">Chrome V8 JS Engine</div>
+          <span class="flow-arrow">+</span>
+          <div class="flow-box flow-blue">C++ Bindings & Libuv</div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-box flow-green">Node.js Runtime</div>
+        </div>
+      </div>
+
+      <div class="exam-tip">
+        <span class="tip-icon">⭐</span>
+        <div class="tip-text"><span class="tip-label">Exam Catch:</span> Node.js koi Programming Language, Library ya Framework <strong>NAHI</strong> hai! Yeh ek Runtime Environment hai.</div>
+      </div>
+      <p style="margin-top: 8px;"><strong>Node REPL:</strong> Terminal me sirf <code>node</code> likhne se Read-Evaluate-Print-Loop start ho jata hai jahan direct JS execute kar sakte hain.</p>
+    </div>
+
+    <!-- Topic 02 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 02: process & process.argv</span></div>
+      <div><span class="tag tag-blue">What is process?</span></div>
+      <p><code>process</code> ek global object hai jo current running Node.js process ki complete information aur control provide karta hai.</p>
+
+      <div><span class="tag tag-yellow">process.argv (Command Line Arguments):</span></div>
+      <p>Yeh ek array return karta hai jisme command-line se pass kiye gaye arguments store hote hain:</p>
+      
+      <div class="code-note">
+<span class="c-p">$</span> <span class="c-cmd">node</span> <span class="c-arg">app.js</span> Shivam 22
+      </div>
+
+      <table class="hand-table">
+        <tr><th>Index</th><th>Value</th><th>Meaning</th></tr>
+        <tr><td><code>argv[0]</code></td><td>Path to Node.exe</td><td>Node runtime executable ka path</td></tr>
+        <tr><td><code>argv[1]</code></td><td>Path to app.js</td><td>Execute hone wali file ka path</td></tr>
+        <tr><td><code>argv[2]</code></td><td>"Shivam"</td><td>Pehla custom argument</td></tr>
+        <tr><td><code>argv[3]</code></td><td>"22"</td><td>Doosra custom argument</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- PAGE 2: module.exports, require & Directory Import -->
+  <div class="notebook-page">
+    <!-- Topic 03 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 03: module.exports & require()</span></div>
+      <ul class="hand-list">
+        <li><code>require()</code> ➔ Ek built-in function hai jo alag file/module se exported code ko import karne ke kaam aata hai.</li>
+        <li><code>module.exports</code> ➔ Ek special object hai jisme hum function, object ya value assign karke doosri files ke liye available banate hain.</li>
+      </ul>
+
+      <div class="flowchart">
+        <div class="flow-row">
+          <div class="flow-box flow-green">math.js: module.exports = sum;</div>
+          <span class="flow-arrow">➔ require('./math') ➔</span>
+          <div class="flow-box flow-blue">app.js: const sum = require(...)</div>
+        </div>
+      </div>
+
+      <div><span class="tag tag-pink">Directory (Folder) Ko Require Karna:</span></div>
+      <p>Agar hum kisi pure folder ko require karte hain: <code>const fruits = require('./fruits');</code> toh Node.js automatically us folder ke andar maujood <span class="highlight">index.js</span> file ko execute karta hai!</p>
+
+      <div class="exam-tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-text"><span class="tip-label">Analogy:</span> Jaise Java/C++ me <code>main()</code> entry point hota hai, waise hi Node.js me kisi folder ka primary entry point <strong>index.js</strong> hota hai!</div>
+      </div>
+    </div>
+
+    <!-- Topic 04 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 04: NPM (Node Package Manager)</span></div>
+      <p>NPM Node.js ka standard default package manager hai. Iske 2 mukhya roop hain:</p>
+      <div class="flowchart">
+        <div class="flow-row">
+          <div class="flow-box flow-yellow">1. Library / Registry (Online Packages)</div>
+          <div class="flow-box flow-pink">2. CLI Tool (Terminal Commands)</div>
+        </div>
+      </div>
+      <div class="code-note">
+<span class="c-p">$</span> <span class="c-cmd">npm install</span> <span class="c-arg">&lt;package_name&gt;</span> <span class="c-com"># e.g. npm i express</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: Installing Packages, Local vs Global, require vs import -->
+  <div class="notebook-page">
+    <!-- Topic 05 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 05: Package Files & Folders</span></div>
+      <table class="hand-table">
+        <tr><th>File / Folder</th><th>Kaam & Mahatva (Role)</th></tr>
+        <tr>
+          <td><strong>node_modules/</strong></td>
+          <td>Is folder ke andar aapke project ke saare installed packages aur unki sub-dependencies store hoti hain (heavy size, .gitignore me dalte hain).</td>
+        </tr>
+        <tr>
+          <td><strong>package.json</strong></td>
+          <td>Project ki metadata (name, version, scripts, direct dependencies list) store karta hai. Banane ke liye: <code>npm init -y</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>package-lock.json</strong></td>
+          <td>Har ek installed dependency ka <strong>exact version number</strong> lock karke record karta hai taaki sabhi machines par identical setup bane.</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Topic 06 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 06: Local vs Global Packages</span></div>
+      <ul class="hand-list">
+        <li><strong>Local Install:</strong> <code>npm i &lt;package&gt;</code> ➔ Sirf current project ke <code>node_modules</code> me install hota hai.</li>
+        <li><strong>Global Install:</strong> <code>npm i -g &lt;package&gt;</code> ➔ Pure computer me globally install hota hai (CLI tools ke liye, e.g. nodemon).</li>
+        <li><strong>npm link:</strong> Globally installed package ko local project se connect/link karne ke liye use hota hai.</li>
+      </ul>
+    </div>
+
+    <!-- Topic 07 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 07: require vs import</span></div>
+      <table class="hand-table">
+        <tr><th>Feature</th><th>require() [CommonJS]</th><th>import [ES6 Modules]</th></tr>
+        <tr><td>Syntax</td><td><code>const mod = require('./mod')</code></td><td><code>import { mod } from './mod.js'</code></td></tr>
+        <tr><td>Selective Load</td><td>Puri file load karta hai (No selective)</td><td>Sirf zaroori functions load karta hai (Saves Memory! ✅)</td></tr>
+        <tr><td>Execution</td><td>Synchronous (blocking)</td><td>Asynchronous (non-blocking)</td></tr>
+        <tr><td>Setup</td><td>Default in Node.js</td><td><code>"type": "module"</code> in package.json zaroori hai</td></tr>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
