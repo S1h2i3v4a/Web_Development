@@ -2,7 +2,7 @@
 
 [![GitHub repo size](https://img.shields.io/github/repo-size/S1h2i3v4a/Web_Development?color=blue&style=flat-square)](https://github.com/S1h2i3v4a/Web_Development)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
-[![Topics](https://img.shields.io/badge/topics-JavaScript%20%7C%20Git%20%7C%20Node.js%20%7C%20Backend-yellow.svg?style=flat-square)](https://github.com/S1h2i3v4a/Web_Development)
+[![Topics](https://img.shields.io/badge/topics-JavaScript%20%7C%20Git%20%7C%20Node.js%20%7C%20Express%20%7C%20OOPs-yellow.svg?style=flat-square)](https://github.com/S1h2i3v4a/Web_Development)
 
 Welcome to the **Web Development** repository! This repository is an organized, structured collection of study notes, cheat sheets, guides, and resources covering full-stack web development from foundational tools to advanced web architectures.
 
@@ -15,9 +15,10 @@ To build a strong foundation as a web developer, follow these modules in order:
 | Priority | Module / Folder | Description & Focus | Primary Resources |
 | :---: | :--- | :--- | :--- |
 | **1** | [**`Git_GitHub/`**](./Git_GitHub/) | **Version Control & Collaboration:** Essential developer tooling, tracking code changes, Git branches, and GitHub open-source workflows. | • [English PDF](./Git_GitHub/Git_Github_Handwritten_Notes_English.pdf)<br>• [Hinglish PDF](./Git_GitHub/Git_Github_Handwritten_Notes_Hinglish.pdf) |
-| **2** | [**`JavaScript/`**](./JavaScript/) | **The Core Programming Language:** Complete JavaScript from fundamentals (variables, types, loops) to modern ES6+, DOM manipulation, and asynchronous programming. | • [Notes PDF](./JavaScript/JavaScript_Handwritten_Notes.pdf)<br>• [Short Notes PDF](./JavaScript/JavaScript_Short_Notes.pdf) |
+| **2** | [**`JavaScript/`**](./JavaScript/) | **The Core Programming Language:** Complete JavaScript fundamentals, modern ES6+, DOM manipulation, async programming, and [**OOP in JS**](./JavaScript/OOPs/). | • [Handwritten Notes PDF](./JavaScript/JavaScript_Handwritten_Notes.pdf)<br>• [OOPs Notes PDF](./JavaScript/OOPs/OOPs_JS_Handwritten_Notes_English.pdf) |
 | **3** | [**`Backend/Terminal/`**](./Backend/Terminal/) | **Server Environment & CLI Navigation:** Command-line fluency, operating system file structures, shell scripting basics, and environment preparation for Node.js. | • [Terminal Notes PDF](./Backend/Terminal/Backend_Terminal_Handwritten_Notes.pdf)<br>• [Interactive HTML](./Backend/Terminal/Backend_Terminal_Notes.html) |
 | **4** | [**`Backend/NodeJS/`**](./Backend/NodeJS/) | **Server-Side Runtime & Package Management:** Node.js architecture (V8 + libuv), `process` object, CommonJS vs ES6 modules, directory imports (`index.js`), and NPM ecosystem. | • [English PDF](./Backend/NodeJS/Nodejs_Handwritten_Notes_English.pdf)<br>• [Hinglish PDF](./Backend/NodeJS/Nodejs_Handwritten_Notes_Hinglish.pdf) |
+| **5** | [**`Backend/Express_EJS/`**](./Backend/Express_EJS/) | **Web Framework & Server-Side Rendering:** Express routing, path params (`req.params`), query strings, dynamic server rendering with EJS templating, and POST bodies. | • [English PDF](./Backend/Express_EJS/Express_EJS_Handwritten_Notes_English.pdf)<br>• [Hinglish PDF](./Backend/Express_EJS/Express_EJS_Handwritten_Notes_Hinglish.pdf) |
 
 ---
 
@@ -29,26 +30,38 @@ Web_Development/
 ├── 📁 Git_GitHub/                                     # Priority 1: Version Control & GitHub
 │   ├── 📄 Git_Github_Handwritten_Notes_English.pdf   # English handwritten notes (6 pages)
 │   ├── 📄 Git_Github_Handwritten_Notes_Hinglish.pdf  # Hinglish handwritten notes (5 pages)
-│   ├── 📄 Git_Github_Notes_English.html       # Printable styled HTML notes (English)
-│   ├── 📄 Git_Github_Notes_Hinglish.html      # Printable styled HTML notes (Hinglish)
+│   ├── 📄 Git_Github_Notes_English.html              # Printable styled HTML notes (English)
+│   ├── 📄 Git_Github_Notes_Hinglish.html             # Printable styled HTML notes (Hinglish)
 │   └── 📄 README.md                                  # Git commands cheat sheet & workflow guide
 │
 ├── 📁 JavaScript/                                     # Priority 2: Core Programming Language
-│   ├── 📄 JavaScript_Handwritten_Notes.pdf    # Illustrated notes (Topics 01 - 88)
+│   ├── 📁 OOPs/                                      # Object-Oriented Programming Module
+│   │   ├── 📄 OOPs_JS_Handwritten_Notes_English.pdf  # OOPs English notes (4 pages)
+│   │   ├── 📄 OOPs_JS_Handwritten_Notes_Hinglish.pdf # OOPs Hinglish notes (5 pages)
+│   │   ├── 📄 OOPs_JS_Notes_English.html             # Printable styled HTML notes (English)
+│   │   ├── 📄 OOPs_JS_Notes_Hinglish.html            # Printable styled HTML notes (Hinglish)
+│   │   └── 📄 README.md                              # Prototypes, Classes & Inheritance guide
+│   ├── 📄 JavaScript_Handwritten_Notes.pdf           # Illustrated notes (Topics 01 - 88)
 │   ├── 📄 JavaScript_Short_Notes.pdf                 # Quick revision handwritten notebook
 │   └── 📄 README.md                                  # Syllabus breakdown & topic index
 │
 ├── 📁 Backend/                                        # Server & Backend Engineering
 │   ├── 📁 Terminal/                                  # Priority 3: Terminal & CLI
 │   │   ├── 📄 Backend_Terminal_Handwritten_Notes.pdf # Terminal handwritten notes (5 pages)
-│   │   ├── 📄 Backend_Terminal_Notes.html     # Interactive printable notes
+│   │   ├── 📄 Backend_Terminal_Notes.html            # Interactive printable notes
 │   │   └── 📄 README.md                              # CLI commands cheat sheet & guide
 │   ├── 📁 NodeJS/                                    # Priority 4: Node.js Runtime
 │   │   ├── 📄 Nodejs_Handwritten_Notes_English.pdf   # English handwritten notes (4 pages)
 │   │   ├── 📄 Nodejs_Handwritten_Notes_Hinglish.pdf  # Hinglish handwritten notes (4 pages)
-│   │   ├── 📄 Nodejs_Notes_English.html       # Printable styled HTML notes (English)
-│   │   ├── 📄 Nodejs_Notes_Hinglish.html      # Printable styled HTML notes (Hinglish)
+│   │   ├── 📄 Nodejs_Notes_English.html              # Printable styled HTML notes (English)
+│   │   ├── 📄 Nodejs_Notes_Hinglish.html             # Printable styled HTML notes (Hinglish)
 │   │   └── 📄 README.md                              # Node.js runtime & module guide
+│   ├── 📁 Express_EJS/                               # Priority 5: Express.js & EJS
+│   │   ├── 📄 Express_EJS_Handwritten_Notes_English.pdf # Express notes (6 pages)
+│   │   ├── 📄 Express_EJS_Handwritten_Notes_Hinglish.pdf # Hinglish notes (6 pages)
+│   │   ├── 📄 Express_EJS_Notes_English.html         # Printable styled HTML notes (English)
+│   │   ├── 📄 Express_EJS_Notes_Hinglish.html        # Printable styled HTML notes (Hinglish)
+│   │   └── 📄 README.md                              # Express routes, params & EJS guide
 │   └── 📄 README.md                                  # Backend roadmap & modules index
 │
 ├── 📄 .gitignore
@@ -65,12 +78,13 @@ Web_Development/
 - **Branching & Merging:** Feature branches, switching, merging, conflict resolution.
 - **GitHub Workflows:** Remote linking, forking, pull requests, and collaborative development.
 
-### 💛 [2. JavaScript](./JavaScript/)
+### 💛 [2. JavaScript & OOP](./JavaScript/)
 - **Fundamentals:** Variables, Primitive & Reference types, Operators, Conditionals, Loops.
-- **Functions & Objects:** Arrow functions, Closures, Scopes, Higher-Order Functions, `this`.
-- **ES6+ & Modern JS:** Array methods (`map`, `filter`, `reduce`), Rest/Spread, Destructuring.
+- **Functions & Closures:** Arrow functions, Scopes, Higher-Order Functions, `this`.
+- **ES6+ Modern JS:** Array methods (`map`, `filter`, `reduce`), Rest/Spread, Destructuring.
 - **DOM & Browser APIs:** Selectors, Style manipulation, Event Listeners, Event Bubbling.
-- **Async JS:** Call Stack, Event Loop, Promises, `async/await`, Fetch API, Axios.
+- **Asynchronous JS:** Call Stack, Event Loop, Promises, `async/await`, Fetch API, Axios.
+- **[Object-Oriented Programming (OOP)](./JavaScript/OOPs/):** Prototypes (`__proto__`), constructor functions, the `new` operator, ES6 `class`, and `extends` / `super()` inheritance.
 
 ### ⚙️ [3. Backend / Terminal](./Backend/Terminal/)
 - **Terminal & Shell:** Terminal vs Shell vs CLI, Bash vs Zsh.
@@ -84,18 +98,25 @@ Web_Development/
 - **Folder Imports:** `index.js` as standard entrypoint for modular directories.
 - **Package Ecosystem:** NPM registry, `package.json`, `package-lock.json`, and `node_modules`.
 
+### 🚀 [5. Backend / Express & EJS](./Backend/Express_EJS/)
+- **Web Framework:** Express application lifecycle, ports, listeners (`app.listen`).
+- **Routing:** Route handling (`app.get`, `app.post`), path parameters (`req.params`), and query strings (`req.query`).
+- **Dynamic Templating (EJS):** Embedded JavaScript, views directory, tags (`<%= %>`, `<%- %>`, `<% %>`), partials & includes.
+- **HTTP Methods & Body Parsing:** GET vs POST semantics, `express.urlencoded`, `express.json()`.
+
 ---
 
 ## 🛣️ Roadmap / Modules Status
 
 - [x] **Git & GitHub Version Control**
 - [x] **JavaScript Fundamentals & Advanced (ES6+)**
+- [x] **Object-Oriented Programming in JavaScript (OOP)**
 - [x] **Backend Fundamentals (Terminal & CLI Navigation)**
 - [x] **Node.js Runtime & NPM Module System**
+- [x] **Express.js Framework & Server-Side Rendering (EJS)**
 - [ ] **HTML5 & Semantic Markup**
 - [ ] **CSS3, Flexbox, Grid & Modern Styling**
 - [ ] **React.js & Frontend Ecosystem**
-- [ ] **Express.js & Backend REST Architecture**
 - [ ] **Databases (SQL & NoSQL)**
 
 ---

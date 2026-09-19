@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Express.js & EJS Notes (English)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Kalam:wght@400;700&family=Patrick+Hand&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 10mm 8mm 10mm 8mm;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #f1f5f9;
+    font-family: 'Patrick Hand', 'Kalam', cursive;
+    color: #1e293b;
+    font-size: 18.5px;
+    line-height: 1.46;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .toolbar {
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    border-radius: 50px;
+    padding: 8px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  .toolbar button {
+    background: #fef08a;
+    border: 2px solid #b45309;
+    color: #78350f;
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    font-weight: 700;
+    padding: 4px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .notebook-page {
+    width: 820px;
+    min-height: 1100px;
+    background-color: #fefefe;
+    background-image: 
+      linear-gradient(90deg, transparent 65px, #fca5a5 65px, #fca5a5 67px, transparent 67px),
+      linear-gradient(0deg, #e2e8f0 1px, transparent 1px);
+    background-size: 100% 100%, 100% 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+    padding: 35px 40px 40px 85px;
+    margin-bottom: 35px;
+    position: relative;
+    page-break-after: always;
+  }
+  .topic-card { margin-bottom: 24px; page-break-inside: avoid; }
+  .main-topic-title {
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 30px;
+    font-weight: 700;
+    color: #1e40af;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+  .main-topic-title span { position: relative; padding: 0 10px; }
+  .main-topic-title span::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 5%;
+    width: 90%;
+    height: 10px;
+    background: rgba(254, 240, 138, 0.7);
+    z-index: -1;
+    border-radius: 4px;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'Caveat', cursive;
+    font-size: 21px;
+    font-weight: 700;
+    padding: 2px 12px;
+    border-radius: 8px 12px 10px 14px;
+    margin-bottom: 6px;
+  }
+  .tag-green { background: #bbf7d0; color: #166534; border: 1.5px solid #22c55e; }
+  .tag-yellow { background: #fef08a; color: #854d0e; border: 1.5px solid #eab308; }
+  .tag-pink { background: #fbcfe8; color: #9d174d; border: 1.5px solid #ec4899; }
+  .tag-blue { background: #bae6fd; color: #075985; border: 1.5px solid #0284c7; }
+  .tag-orange { background: #fed7aa; color: #9a3412; border: 1.5px solid #f97316; }
+  .highlight { background: rgba(254, 240, 138, 0.75); padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+  .highlight-pink { background: rgba(251, 207, 232, 0.75); }
+  .highlight-green { background: rgba(187, 247, 208, 0.75); }
+  .highlight-blue { background: rgba(186, 230, 253, 0.75); }
+
+  .flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0 16px 0;
+  }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .flow-box {
+    font-family: 'Caveat', cursive;
+    font-size: 21px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    border-radius: 8px;
+    border: 2px solid #334155;
+    text-align: center;
+    box-shadow: 2px 3px 0px rgba(0,0,0,0.08);
+  }
+  .flow-green { background: #dcfce7; border-color: #15803d; color: #166534; }
+  .flow-pink { background: #fce7f3; border-color: #be185d; color: #9d174d; }
+  .flow-blue { background: #e0f2fe; border-color: #0369a1; color: #075985; }
+  .flow-yellow { background: #fef9c3; border-color: #a16207; color: #854d0e; }
+  .flow-orange { background: #ffedd5; border-color: #c2410c; color: #9a3412; }
+  .flow-arrow { font-size: 20px; color: #475569; font-weight: 700; }
+
+  .hand-list { list-style: none; margin: 6px 0 10px 10px; }
+  .hand-list li { position: relative; padding-left: 22px; margin-bottom: 6px; }
+  .hand-list li::before { content: '•'; position: absolute; left: 4px; top: -2px; font-size: 24px; color: #0f172a; }
+
+  .code-note {
+    background: #1e293b;
+    color: #f8fafc;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 8px 0 12px 0;
+    border: 2px solid #0f172a;
+  }
+  .code-note .c-p { color: #38bdf8; font-weight: 700; }
+  .code-note .c-cmd { color: #f472b6; font-weight: 600; }
+  .code-note .c-arg { color: #fde047; }
+  .code-note .c-com { color: #94a3b8; font-style: italic; }
+
+  .exam-tip {
+    background: #fef9c3;
+    border: 2px dashed #ca8a04;
+    border-radius: 12px;
+    padding: 8px 16px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .exam-tip .tip-icon { font-size: 24px; flex-shrink: 0; }
+  .exam-tip .tip-text { font-size: 17px; color: #713f12; }
+  .exam-tip .tip-label { font-family: 'Caveat', cursive; font-size: 20px; font-weight: 700; color: #a16207; }
+
+  .hand-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 12px 0;
+    background: #ffffff;
+    font-size: 17px;
+    border: 2px solid #334155;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .hand-table th, .hand-table td { border: 1px solid #94a3b8; padding: 5px 10px; text-align: left; }
+  .hand-table th { background: #fef08a; color: #78350f; font-family: 'Caveat', cursive; font-size: 19px; }
+
+  @media print {
+    body { background: none !important; padding: 0 !important; }
+    .toolbar { display: none !important; }
+    .notebook-page {
+      box-shadow: none !important;
+      border: 1px solid #cbd5e1 !important;
+      margin: 0 0 15px 0 !important;
+      page-break-after: always !important;
+      page-break-inside: avoid !important;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">🖨️ Print English PDF</button>
+  </div>
+
+  <!-- PAGE 1: Intro, Library vs Framework, Server Setup & Routing -->
+  <div class="notebook-page">
+    <!-- Topic 01 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 01: Library vs Framework & What is Express?</span></div>
+      
+      <table class="hand-table">
+        <tr><th>Concept</th><th>Definition & Role</th><th>Example</th></tr>
+        <tr>
+          <td><strong>Library</strong></td>
+          <td>A collection of pre-written functions that you call at your convenience to perform specific tasks. You retain control of the application flow.</td>
+          <td><code>axios</code>, <code>lodash</code></td>
+        </tr>
+        <tr>
+          <td><strong>Framework</strong></td>
+          <td>A structured architecture that dictates how your application must be designed. The framework calls your code (Inversion of Control).</td>
+          <td><code>Express.js</code></td>
+        </tr>
+      </table>
+
+      <div><span class="tag tag-green">What is Express.js?</span></div>
+      <p>A fast, minimalist, and flexible web application framework for Node.js used for server-side programming and building robust web APIs.</p>
+      
+      <div><span class="tag tag-yellow">4 Core Responsibilities of Express:</span></div>
+      <div class="flowchart">
+        <div class="flow-row">
+          <div class="flow-box flow-blue">1. Listen for Requests</div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-box flow-pink">2. Parse Request Data</div>
+        </div>
+        <span class="flow-arrow">⬇</span>
+        <div class="flow-row">
+          <div class="flow-box flow-green">4. Send HTTP Response</div>
+          <span class="flow-arrow">⬅</span>
+          <div class="flow-box flow-yellow">3. Match Routes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic 02 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 02: Server Setup & app.use()</span></div>
+      <div class="code-note">
+<span class="c-cmd">const</span> express = <span class="c-cmd">require</span>(<span class="c-arg">"express"</span>);
+<span class="c-cmd">const</span> app = <span class="c-cmd">express</span>();
+<span class="c-cmd">let</span> port = <span class="c-arg">3000</span>;
+
+<span class="c-com">// Listens to every incoming request regardless of path (Middleware)</span>
+app.<span class="c-cmd">use</span>((req, res) => {
+    console.<span class="c-cmd">log</span>(<span class="c-arg">"Request received!"</span>);
+});
+
+app.<span class="c-cmd">listen</span>(port, () => {
+    console.<span class="c-cmd">log</span>(<span class="c-arg">`App is listening on port ${port}`</span>);
+});
+      </div>
+    </div>
+
+    <!-- Topic 03 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 03: Routing, Params & Query Strings</span></div>
+      <ul class="hand-list">
+        <li><strong>Routing:</strong> The mechanism of mapping client HTTP requests to appropriate server-side handler functions based on URL and HTTP method.</li>
+        <li><strong>Nodemon:</strong> A development utility that automatically monitors and restarts the Node server when directory files change.</li>
+        <li><strong>Wildcard Route (<code>*</code>):</strong> Matches any unmatched route path (used as default 404 handler: <code>app.get("*", ...)</code>).</li>
+      </ul>
+      <div class="code-note">
+<span class="c-com">// 1. Path Parameters (req.params): /:username/:id</span>
+app.<span class="c-cmd">get</span>(<span class="c-arg">"/:username"</span>, (req, res) => {
+    <span class="c-cmd">let</span> { username } = req.params; <span class="c-com">// Extract dynamic URL parameter</span>
+});
+
+<span class="c-com">// 2. Query Strings (req.query): /search?q=apple</span>
+app.<span class="c-cmd">get</span>(<span class="c-arg">"/search"</span>, (req, res) => {
+    <span class="c-cmd">let</span> { q } = req.query; <span class="c-com">// Extract query parameter</span>
+});
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: EJS (Templating), Views Directory, Interpolation & Tags -->
+  <div class="notebook-page">
+    <!-- Topic 04 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 04: EJS (Embedded JavaScript Templates)</span></div>
+      <div><span class="tag tag-pink">What is EJS?</span></div>
+      <p>EJS is a simple templating language that allows developers to generate <span class="highlight">Dynamic HTML</span> markup using plain JavaScript expressions.</p>
+      
+      <div class="code-note">
+app.<span class="c-cmd">set</span>(<span class="c-arg">"view engine"</span>, <span class="c-arg">"ejs"</span>); <span class="c-com">// Configure EJS template engine</span>
+
+app.<span class="c-cmd">get</span>(<span class="c-arg">"/"</span>, (req, res) => {
+    res.<span class="c-cmd">render</span>(<span class="c-arg">"home.ejs"</span>); <span class="c-com">// Renders views/home.ejs</span>
+});
+      </div>
+
+      <div class="exam-tip">
+        <span class="tip-icon">⭐</span>
+        <div class="tip-text"><span class="tip-label">Views Directory Path Rule:</span> To ensure views render reliably regardless of where the server command is executed from, fix the directory path:</div>
+      </div>
+      <div class="code-note">
+<span class="c-cmd">const</span> path = <span class="c-cmd">require</span>(<span class="c-arg">"path"</span>);
+app.<span class="c-cmd">set</span>(<span class="c-arg">"views"</span>, path.<span class="c-cmd">join</span>(__dirname, <span class="c-arg">"/views"</span>));
+      </div>
+    </div>
+
+    <!-- Topic 05 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 05: Interpolation & EJS Tags</span></div>
+      <p><strong>Interpolation:</strong> The process of injecting evaluated expressions or variables directly into markup text.</p>
+      
+      <table class="hand-table">
+        <tr><th>Tag Syntax</th><th>Role & Function</th><th>Example</th></tr>
+        <tr><td><code>&lt;%= %&gt;</code></td><td><strong>Outputs value:</strong> Evaluates and inserts value with HTML character escaping.</td><td><code>&lt;%= user.name %&gt;</code></td></tr>
+        <tr><td><code>&lt;% %&gt;</code></td><td><strong>Scriptlet:</strong> Executes JavaScript logic (conditionals, loops) without outputting text.</td><td><code>&lt;% if(score >= 50) { %&gt;</code></td></tr>
+        <tr><td><code>&lt;%- %&gt;</code></td><td><strong>Unescaped Output:</strong> Renders raw unescaped HTML and includes sub-templates.</td><td><code>&lt;%- include(...) %&gt;</code></td></tr>
+        <tr><td><code>&lt;%# %&gt;</code></td><td><strong>Comment:</strong> Internal template comment; excluded from client-side response.</td><td><code>&lt;%# Internal notes %&gt;</code></td></tr>
+      </table>
+    </div>
+
+    <!-- Topic 06 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 06: Passing Data & Partials (Includes)</span></div>
+      <div class="code-note">
+<span class="c-com">// 1. Passing data from route to template</span>
+app.<span class="c-cmd">get</span>(<span class="c-arg">"/rolldice"</span>, (req, res) => {
+    <span class="c-cmd">let</span> diceVal = Math.<span class="c-cmd">floor</span>(Math.<span class="c-cmd">random</span>() * <span class="c-arg">6</span>) + <span class="c-arg">1</span>;
+    res.<span class="c-cmd">render</span>(<span class="c-arg">"rolldice.ejs"</span>, { num: diceVal });
+});
+
+<span class="c-com">// 2. Modular Sub-templates (Includes):</span>
+<span class="c-com">// Inside views/home.ejs, reuse common header/nav components:</span>
+&lt;%- include("includes/head.ejs") %&gt;
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: GET vs POST Requests & Body Parsing -->
+  <div class="notebook-page">
+    <!-- Topic 07 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 07: GET vs POST Request</span></div>
+      
+      <table class="hand-table">
+        <tr><th>Attribute</th><th>GET Request</th><th>POST Request</th></tr>
+        <tr><td>Purpose</td><td>Retrieve or fetch data from server</td><td>Create, submit, or update data on server</td></tr>
+        <tr><td>Data Transmission</td><td>Appended in URL Query String (<code>?key=val</code>)</td><td>Sent inside HTTP Request Body (<code>req.body</code>)</td></tr>
+        <tr><td>Security</td><td>Insecure for credentials (exposed in URL history)</td><td>Secure: Payload body not exposed in address bar</td></tr>
+        <tr><td>Payload Size</td><td>Restricted by URL length limits</td><td>No strict size limits (suitable for large files)</td></tr>
+      </table>
+    </div>
+
+    <!-- Topic 08 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 08: Parsing POST Request Body</span></div>
+      <div><span class="tag tag-blue">Why Middleware is Required:</span></div>
+      <p>Express does not parse HTTP request body payloads by default (resulting in <code>undefined</code>). You must register parsing middleware:</p>
+      
+      <div class="code-note">
+<span class="c-com">// 1. Parse URL-encoded HTML Form submissions:</span>
+app.<span class="c-cmd">use</span>(express.<span class="c-cmd">urlencoded</span>({ extended: <span class="c-arg">true</span> }));
+
+<span class="c-com">// 2. Parse JSON payload requests:</span>
+app.<span class="c-cmd">use</span>(express.<span class="c-cmd">json</span>());
+
+<span class="c-com">// Route handler reading parsed body data:</span>
+app.<span class="c-cmd">post</span>(<span class="c-arg">"/register"</span>, (req, res) => {
+    <span class="c-cmd">let</span> { username, password } = req.body;
+    res.<span class="c-cmd">send</span>(<span class="c-arg">`Welcome ${username}!`</span>);
+});
+      </div>
+
+      <div class="exam-tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-text"><span class="tip-label">Key Takeaway:</span> Using <code>extended: true</code> leverages the <code>qs</code> library allowing rich nested objects to be encoded into the URL-encoded format!</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
