@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>07. Express Middlewares & Error Handling Fundamentals</title>
+  <style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fira+Code:wght@400;500;600&family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
+
+  @page {
+    size: A4 portrait;
+    margin: 8mm 6mm 8mm 6mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #f1f5f9;
+    font-family: 'Patrick Hand', 'Kalam', cursive;
+    color: #1e293b;
+    font-size: 15.8px;
+    line-height: 1.34;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .toolbar {
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    border-radius: 50px;
+    padding: 8px 22px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    margin-bottom: 24px;
+  }
+
+  .toolbar button {
+    background: #fef08a;
+    border: 2px solid #b45309;
+    color: #78350f;
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    font-weight: 700;
+    padding: 4px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .toolbar button:hover {
+    background: #fde047;
+    transform: translateY(-1px);
+  }
+
+  .notebook-page {
+    width: 820px;
+    min-height: 1055px;
+    max-height: 1055px;
+    overflow: hidden;
+    background-color: #fefefe;
+    background-image: 
+      linear-gradient(90deg, transparent 65px, #fca5a5 65px, #fca5a5 67px, transparent 67px),
+      linear-gradient(0deg, #e2e8f0 1px, transparent 1px);
+    background-size: 100% 100%, 100% 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    padding: 18px 30px 22px 82px;
+    margin-bottom: 30px;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  @media print {
+    body { background: transparent; padding: 0; }
+    .toolbar { display: none !important; }
+    .notebook-page {
+      box-shadow: none !important;
+      border: 1px solid #cbd5e1 !important;
+      margin: 0 !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      min-height: 1055px !important;
+      height: 1055px !important;
+      max-height: 1055px !important;
+      overflow: hidden !important;
+    }
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed #94a3b8;
+    padding-bottom: 3px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #64748b;
+  }
+
+  .header-tag {
+    background: #e2e8f0;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  h1.topic-title {
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-align: center;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 18px;
+    font-family: 'Caveat', cursive;
+    font-size: 17px;
+    font-weight: 700;
+    margin: 3px 0;
+    border: 1.5px solid rgba(0,0,0,0.15);
+  }
+  .b-green { background: #bbf7d0; color: #14532d; }
+  .b-yellow { background: #fef08a; color: #713f12; }
+  .b-pink { background: #fbcfe8; color: #831843; }
+  .b-blue { background: #bae6fd; color: #0c4a6e; }
+  .b-orange { background: #fed7aa; color: #7c2d12; }
+  .b-purple { background: #e9d5ff; color: #581c87; }
+
+  .hl { background: #fef08a; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+  .hl-blue { background: #bae6fd; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+  .hl-pink { background: #fbcfe8; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+  .hl-green { background: #bbf7d0; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+
+  p { margin-bottom: 4px; }
+  ul { margin-left: 20px; margin-bottom: 4px; }
+  li { margin-bottom: 2px; }
+
+  .diagram-flow {
+    background: #f8fafc;
+    border: 2px dashed #3b82f6;
+    border-radius: 8px;
+    padding: 4px 10px;
+    margin: 4px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 6px;
+  }
+  .flow-step {
+    background: #ffffff;
+    border: 2px solid #1e40af;
+    border-radius: 8px;
+    padding: 2px 8px;
+    text-align: center;
+    font-weight: 700;
+    color: #1e3a8a;
+    box-shadow: 2px 2px 0 #93c5fd;
+    font-size: 12.5px;
+  }
+  .flow-arrow {
+    font-size: 15px;
+    color: #2563eb;
+    font-weight: 700;
+  }
+
+  .notes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4px 0;
+    font-size: 12.5px;
+    background: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1.5px solid #64748b;
+  }
+  .notes-table th {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 3px 6px;
+    text-align: left;
+    font-family: 'Caveat', cursive;
+    font-size: 14.5px;
+    letter-spacing: 0.5px;
+  }
+  .notes-table td {
+    padding: 2.5px 6px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+  }
+  .notes-table tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  .vscode-window {
+    background: #1e1e1e;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.22);
+    overflow: hidden;
+    margin: 4px 0;
+    border: 1px solid #333333;
+  }
+  .vscode-titlebar {
+    background: #252526;
+    padding: 3px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Fira Code', monospace;
+    font-size: 10px;
+    color: #cccccc;
+    border-bottom: 1px solid #333333;
+  }
+  .vscode-dots { display: flex; gap: 4px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+  .vscode-content {
+    padding: 4px 10px;
+    font-family: 'Fira Code', monospace;
+    font-size: 10.8px;
+    line-height: 1.30;
+    color: #d4d4d4;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .kwd { color: #569cd6; font-weight: 600; }
+  .str { color: #ce9178; }
+  .fn { color: #dcdcaa; }
+  .com { color: #6a9955; font-style: italic; }
+  .var { color: #9cdcfe; }
+  .num { color: #b5cea8; }
+  .punct { color: #d4d4d4; }
+  .prop { color: #4ec9b0; }
+
+  .exam-tip {
+    background: #fefce8;
+    border: 2px dashed #ca8a04;
+    border-radius: 6px;
+    padding: 3px 8px;
+    margin: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13.5px;
+  }
+  .danger-box {
+    background: #fef2f2;
+    border: 2px dashed #dc2626;
+    border-radius: 6px;
+    padding: 3px 8px;
+    margin: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13.5px;
+  }
+  .tip-icon { font-size: 17px; flex-shrink: 0; }
+  .tip-text { flex-grow: 1; }
+  .tip-label { font-weight: 700; color: #854d0e; font-family: 'Caveat', cursive; font-size: 16px; }
+  .danger-label { font-weight: 700; color: #991b1b; font-family: 'Caveat', cursive; font-size: 16px; }
+
+  .page-num {
+    position: absolute;
+    bottom: 6px;
+    right: 22px;
+    font-family: 'Caveat', cursive;
+    font-size: 14.5px;
+    color: #94a3b8;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 4px 0;
+  }
+  .card-box {
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 4px 8px;
+  }
+
+  </style>
+</head>
+<body>
+  
+    <div class="toolbar">
+      <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+      <span style="font-family:'Caveat', cursive; font-size: 18px; color: #475569;">
+        📌 Handwritten Notes • Single-page A4 Layout
+      </span>
+    </div>
+    
+  
+        <div class="notebook-page">
+          <div class="page-header">
+            <span>📖 Topic 07: Middlewares & Error Handling</span>
+            <span class="header-tag">PAGE 01 / 02</span>
+          </div>
+          <h1 class="topic-title">⚙️ 07. Express Middleware Fundamentals</h1>
+
+          <span class="badge b-green">🔄 What is Middleware?</span>
+          <p>Middleware ek aisa function hota hai jo <b>Request receive hone aur Response bhejne ke beech execute hota hai</b>. Iske paas <span class="hl">req</span>, <span class="hl">res</span>, aur agle function ko trigger karne ke liye <span class="hl-blue">next</span> ka access hota hai.</p>
+
+          <div class="diagram-flow">
+            <div class="flow-step">🌐 Client Request</div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">⚙️ Middleware 1<br><small>(Logger / Auth)</small></div>
+            <div class="flow-arrow">➔ next() ➔</div>
+            <div class="flow-step">⚙️ Middleware 2<br><small>(Body Parser)</small></div>
+            <div class="flow-arrow">➔ next() ➔</div>
+            <div class="flow-step">🎯 Route Handler<br><small>(res.send / render)</small></div>
+          </div>
+
+          <span class="badge b-yellow">📝 Middleware kya kar sakta hai?</span>
+          <ul>
+            <li>Koi bhi code execute kar sakta hai (e.g. request timing, analytics).</li>
+            <li>Request aur Response objects ko modify kar sakta hai (e.g. <code>req.user = decodedToken</code>).</li>
+            <li>Request-Response cycle ko end kar sakta hai (e.g. <code>res.status(401).send("Unauthorized")</code>).</li>
+            <li>Stack me agle middleware ko <span class="hl">next()</span> ke zariye call kar sakta hai.</li>
+          </ul>
+
+          <span class="badge b-blue">💻 Custom Logger Middleware Example</span>
+          <div class="vscode-window">
+            <div class="vscode-titlebar">
+              <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+              <span>index.js — Custom Logger Middleware</span>
+            </div>
+            <div class="vscode-content"><span class="var">app</span>.<span class="fn">use</span>((<span class="var">req</span>, <span class="var">res</span>, <span class="var">next</span>) =&gt; {
+  <span class="var">req</span>.<span class="prop">responseTime</span> = <span class="kwd">new</span> <span class="fn">Date</span>(<span class="fn">Date</span>.<span class="fn">now</span>()).<span class="fn">toString</span>();
+  <span class="var">console</span>.<span class="fn">log</span>(<span class="str">`[</span><span class="var">${req.method}</span><span class="str">] </span><span class="var">${req.path}</span><span class="str"> at </span><span class="var">${req.responseTime}</span><span class="str">`</span>);
+  <span class="fn">next</span>(); <span class="com">// 👈 Important: next() call nahi kiya toh request hang ho jayegi!</span>
+});</div>
+          </div>
+
+          <div class="exam-tip">
+            <div class="tip-icon">⚠️</div>
+            <div class="tip-text"><span class="tip-label">NEVER FORGET next():</span> Agar aap middleware me na toh response bhej rahe hain aur na <code>next()</code> call kar rahe hain, toh browser infinite loading me phas jayega!</div>
+          </div>
+          <div class="page-num">Page 1</div>
+        </div>
+        
+
+        <div class="notebook-page">
+          <div class="page-header">
+            <span>📖 Topic 07: Middlewares & Error Handling</span>
+            <span class="header-tag">PAGE 02 / 02</span>
+          </div>
+          <h1 class="topic-title">🛑 Error-Handling Middleware & Custom Errors</h1>
+
+          <span class="badge b-pink">🛑 Error-Handling Middleware: 4 Arguments Signature</span>
+          <p>Error handling middleware me hamesha <b>4 parameters</b> hote hain: <span class="hl-pink">(err, req, res, next)</span>. Express is signature se pehchanta hai ki ye special error handler hai!</p>
+          
+          <div class="grid-2">
+            <div class="card-box" style="border-left:4px solid #22c55e;">
+              <b>next()</b>: Flow ko agle regular middleware ya route handler ke paas bhejta hai.
+            </div>
+            <div class="card-box" style="border-left:4px solid #ef4444;">
+              <b>next(err)</b>: Saare bache hue regular routes ko skip karke <b>seedha Error Middleware</b> par jump karta hai!
+            </div>
+          </div>
+
+          <span class="badge b-blue">🛠️ Custom Error Class (ExpressError)</span>
+          <p>Custom HTTP status codes aur structured messages maintain karne ke liye standard class:</p>
+          <div class="vscode-window">
+            <div class="vscode-titlebar">
+              <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+              <span>ExpressError.js — Custom Error Class</span>
+            </div>
+            <div class="vscode-content"><span class="kwd">class</span> <span class="fn">ExpressError</span> <span class="kwd">extends</span> <span class="var">Error</span> {
+  <span class="fn">constructor</span>(<span class="var">status</span>, <span class="var">message</span>) {
+    <span class="kwd">super</span>();
+    <span class="kwd">this</span>.<span class="prop">status</span> = <span class="var">status</span>;
+    <span class="kwd">this</span>.<span class="prop">message</span> = <span class="var">message</span>;
+  }
+}
+<span class="var">module</span>.<span class="var">exports</span> = <span class="var">ExpressError</span>;</div>
+          </div>
+
+          <span class="badge b-purple">🚨 Global Error Handler & 404 Route</span>
+          <div class="vscode-window">
+            <div class="vscode-titlebar">
+              <div class="vscode-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+              <span>index.js — Error Handling Setup</span>
+            </div>
+            <div class="vscode-content"><span class="com">// 1. 404 Not Found Handler (sabse neeche)</span>
+<span class="var">app</span>.<span class="fn">all</span>(<span class="str">"*"</span>, (<span class="var">req</span>, <span class="var">res</span>, <span class="var">next</span>) =&gt; {
+  <span class="fn">next</span>(<span class="kwd">new</span> <span class="fn">ExpressError</span>(<span class="num">404</span>, <span class="str">"Page Not Found!"</span>));
+});
+
+<span class="com">// 2. Global Error Handling Middleware</span>
+<span class="var">app</span>.<span class="fn">use</span>((<span class="var">err</span>, <span class="var">req</span>, <span class="var">res</span>, <span class="var">next</span>) =&gt; {
+  <span class="kwd">let</span> { <span class="var">status</span> = <span class="num">500</span>, <span class="var">message</span> = <span class="str">"Something Went Wrong!"</span> } = <span class="var">err</span>;
+  <span class="var">res</span>.<span class="fn">status</span>(<span class="var">status</span>).<span class="fn">render</span>(<span class="str">"error.ejs"</span>, { <span class="var">message</span> });
+});</div>
+          </div>
+
+          <div class="page-num">Page 2</div>
+        </div>
+        
+</body>
+</html>
