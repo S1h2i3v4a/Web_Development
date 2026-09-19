@@ -10,7 +10,7 @@ Comprehensive handwritten notes and quick-revision guides covering complete Java
 | :--- | :--- | :--- | :--- |
 | **JavaScript Notes** | Detailed handwritten & illustrated notes with conceptual diagrams, code blocks, exam tips, and memory models. | Digital Illustrated (16 Pages) | [`JavaScript_Handwritten_Notes.pdf`](./JavaScript_Handwritten_Notes.pdf) |
 | **JavaScript Short Notes** | Scanned quick revision notebook covering core syntax, quick rules, methods, and practical cheat sheets. | Handwritten Scanned (14 Pages) | [`JavaScript_Short_Notes.pdf`](./JavaScript_Short_Notes.pdf) |
-| **OOP in JavaScript** | Object-Oriented Programming, prototypes (`__proto__`), constructor functions, `new` keyword, ES6 classes, and inheritance. | Dedicated Module (PDF + HTML) | [Explore OOPs Notes](./OOPs/) |
+| **OOP in JavaScript** | Object-Oriented Programming, prototypes (`__proto__`), constructor functions, `new` keyword, ES6 classes, and inheritance. | Dedicated Module (PDF + HTML) | [Explore OOPs Notes](../02_OOPs/) |
 
 ---
 
@@ -76,4 +76,4 @@ Comprehensive handwritten notes and quick-revision guides covering complete Java
 ## 🚀 How to Use These Notes
 1. **Quick Revision:** Use [`JavaScript_Short_Notes.pdf`](./JavaScript_Short_Notes.pdf) before interviews or exams for rapid memory recall.
 2. **In-depth Conceptual Study:** Refer to [`JavaScript_Handwritten_Notes.pdf`](./JavaScript_Handwritten_Notes.pdf) for code patterns, visual diagrams, and nuanced edge cases.
-3. **Object-Oriented Programming:** Refer to the [`OOPs/`](./OOPs/) subfolder for comprehensive notes on Prototypes, Classes, and Inheritance.
+3. **Object-Oriented Programming:** Refer to the [`02_OOPs/`](../02_OOPs/) subfolder for comprehensive notes on Prototypes, Classes, and Inheritance.
