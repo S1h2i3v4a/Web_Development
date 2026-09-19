@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>OOPs in JavaScript Notes (English)</title>
+<title>OOPs in JavaScript Complete Notes (English)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Kalam:wght@400;700&family=Patrick+Hand&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   @page {
     size: A4 portrait;
-    margin: 10mm 8mm 10mm 8mm;
+    margin: 8mm 7mm 8mm 7mm;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background-color: #f1f5f9;
     font-family: 'Patrick Hand', 'Kalam', cursive;
     color: #1e293b;
-    font-size: 18.5px;
-    line-height: 1.46;
+    font-size: 15.5px;
+    line-height: 1.36;
     padding: 20px 10px;
     display: flex;
     flex-direction: column;
@@ -50,30 +50,30 @@
   }
   .notebook-page {
     width: 820px;
-    min-height: 1100px;
+    min-height: 980px;
     background-color: #fefefe;
     background-image: 
       linear-gradient(90deg, transparent 65px, #fca5a5 65px, #fca5a5 67px, transparent 67px),
       linear-gradient(0deg, #e2e8f0 1px, transparent 1px);
-    background-size: 100% 100%, 100% 32px;
+    background-size: 100% 100%, 100% 30px;
     border: 1px solid #cbd5e1;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.07);
-    padding: 35px 40px 40px 85px;
-    margin-bottom: 35px;
+    padding: 20px 30px 25px 65px;
+    margin-bottom: 30px;
     position: relative;
     page-break-after: always;
   }
-  .topic-card { margin-bottom: 24px; page-break-inside: avoid; }
+  .topic-card { margin-bottom: 18px; page-break-inside: avoid; }
   .main-topic-title {
     text-align: center;
     font-family: 'Caveat', cursive;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 700;
     color: #1e40af;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     position: relative;
     display: inline-block;
     width: 100%;
@@ -85,7 +85,7 @@
     bottom: -3px;
     left: 5%;
     width: 90%;
-    height: 10px;
+    height: 9px;
     background: rgba(254, 240, 138, 0.7);
     z-index: -1;
     border-radius: 4px;
@@ -93,17 +93,19 @@
   .tag {
     display: inline-block;
     font-family: 'Caveat', cursive;
-    font-size: 21px;
+    font-size: 20px;
     font-weight: 700;
-    padding: 2px 12px;
+    padding: 2px 10px;
     border-radius: 8px 12px 10px 14px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   .tag-green { background: #bbf7d0; color: #166534; border: 1.5px solid #22c55e; }
   .tag-yellow { background: #fef08a; color: #854d0e; border: 1.5px solid #eab308; }
   .tag-pink { background: #fbcfe8; color: #9d174d; border: 1.5px solid #ec4899; }
   .tag-blue { background: #bae6fd; color: #075985; border: 1.5px solid #0284c7; }
   .tag-orange { background: #fed7aa; color: #9a3412; border: 1.5px solid #f97316; }
+  .tag-purple { background: #e9d5ff; color: #6b21a8; border: 1.5px solid #a855f7; }
+
   .highlight { background: rgba(254, 240, 138, 0.75); padding: 1px 6px; border-radius: 4px; font-weight: 700; }
   .highlight-pink { background: rgba(251, 207, 232, 0.75); }
   .highlight-green { background: rgba(187, 247, 208, 0.75); }
@@ -113,23 +115,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    margin: 12px 0 16px 0;
+    gap: 6px;
+    margin: 10px 0 12px 0;
   }
   .flow-row {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
     flex-wrap: wrap;
   }
   .flow-box {
     font-family: 'Caveat', cursive;
-    font-size: 21px;
+    font-size: 19px;
     font-weight: 700;
     text-transform: uppercase;
-    padding: 4px 16px;
+    padding: 3px 14px;
     border-radius: 8px;
     border: 2px solid #334155;
     text-align: center;
@@ -140,54 +142,123 @@
   .flow-blue { background: #e0f2fe; border-color: #0369a1; color: #075985; }
   .flow-yellow { background: #fef9c3; border-color: #a16207; color: #854d0e; }
   .flow-orange { background: #ffedd5; border-color: #c2410c; color: #9a3412; }
-  .flow-arrow { font-size: 20px; color: #475569; font-weight: 700; }
+  .flow-purple { background: #f3e8ff; border-color: #7e22ce; color: #6b21a8; }
+  .flow-arrow { font-size: 18px; color: #475569; font-weight: 700; }
 
-  .hand-list { list-style: none; margin: 6px 0 10px 10px; }
-  .hand-list li { position: relative; padding-left: 22px; margin-bottom: 6px; }
-  .hand-list li::before { content: '•'; position: absolute; left: 4px; top: -2px; font-size: 24px; color: #0f172a; }
+  .hand-list { list-style: none; margin: 4px 0 8px 10px; }
+  .hand-list li { position: relative; padding-left: 20px; margin-bottom: 4px; }
+  .hand-list li::before { content: '•'; position: absolute; left: 4px; top: -2px; font-size: 22px; color: #0f172a; }
 
-  .code-note {
-    background: #1e293b;
-    color: #f8fafc;
+  /* VS CODE WINDOW THEME */
+  .vscode-window {
+    background: #1e1e1e;
     border-radius: 8px;
-    padding: 10px 16px;
-    font-family: 'Fira Code', monospace;
-    font-size: 14px;
-    line-height: 1.4;
-    margin: 8px 0 12px 0;
-    border: 2px solid #0f172a;
+    margin: 5px 0 8px 0;
+    border: 1px solid #333333;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    overflow: hidden;
+    font-family: 'Fira Code', Consolas, 'Courier New', monospace;
   }
-  .code-note .c-p { color: #38bdf8; font-weight: 700; }
-  .code-note .c-cmd { color: #f472b6; font-weight: 600; }
-  .code-note .c-arg { color: #fde047; }
-  .code-note .c-com { color: #94a3b8; font-style: italic; }
+  .vscode-titlebar {
+    background: #252526;
+    padding: 5px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #181818;
+  }
+  .vscode-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .vscode-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+  .vscode-tab {
+    background: #1e1e1e;
+    color: #cccccc;
+    font-size: 12px;
+    padding: 3px 12px;
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-top: 2px solid #007acc;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  .vscode-tab .js-icon {
+    background: #f7df1e;
+    color: #000000;
+    font-weight: 800;
+    font-size: 9px;
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+  .vscode-body {
+    display: flex;
+    padding: 5px 0;
+    font-size: 12px;
+    line-height: 1.32;
+  }
+  .vscode-gutter {
+    color: #858585;
+    text-align: right;
+    padding: 0 12px 0 10px;
+    user-select: none;
+    border-right: 1px solid #2d2d2d;
+    font-size: 13px;
+  }
+  .vscode-code {
+    padding-left: 14px;
+    padding-right: 14px;
+    color: #d4d4d4;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  /* VS CODE SYNTAX HIGHLIGHTING */
+  .vs-kw { color: #569cd6; font-weight: 600; }       /* class, extends, const, new, return */
+  .vs-ctl { color: #c586c0; font-weight: 600; }      /* if, else, throw, try, catch */
+  .vs-type { color: #4ec9b0; font-weight: 600; }     /* Class Names, Types */
+  .vs-fn { color: #dcdcaa; }                         /* function & method names */
+  .vs-var { color: #9cdcfe; }                        /* variables, parameters, properties */
+  .vs-str { color: #ce9178; }                        /* string literals */
+  .vs-num { color: #b5cea8; }                        /* numeric literals */
+  .vs-comm { color: #6a9955; font-style: italic; }   /* comments */
+  .vs-prop { color: #4fc1ff; }                       /* #privateField, properties */
+  .vs-op { color: #d4d4d4; }                         /* operators */
 
   .exam-tip {
     background: #fef9c3;
     border: 2px dashed #ca8a04;
-    border-radius: 12px;
-    padding: 8px 16px;
-    margin-top: 10px;
+    border-radius: 10px;
+    padding: 6px 14px;
+    margin-top: 8px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
-  .exam-tip .tip-icon { font-size: 24px; flex-shrink: 0; }
-  .exam-tip .tip-text { font-size: 17px; color: #713f12; }
-  .exam-tip .tip-label { font-family: 'Caveat', cursive; font-size: 20px; font-weight: 700; color: #a16207; }
+  .exam-tip .tip-icon { font-size: 22px; flex-shrink: 0; }
+  .exam-tip .tip-text { font-size: 16.5px; color: #713f12; }
+  .exam-tip .tip-label { font-family: 'Caveat', cursive; font-size: 19px; font-weight: 700; color: #a16207; }
 
   .hand-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 8px 0 12px 0;
+    margin: 8px 0 10px 0;
     background: #ffffff;
-    font-size: 17px;
+    font-size: 16.5px;
     border: 2px solid #334155;
     border-radius: 8px;
     overflow: hidden;
   }
-  .hand-table th, .hand-table td { border: 1px solid #94a3b8; padding: 5px 10px; text-align: left; }
-  .hand-table th { background: #fef08a; color: #78350f; font-family: 'Caveat', cursive; font-size: 19px; }
+  .hand-table th, .hand-table td { border: 1px solid #94a3b8; padding: 4px 8px; text-align: left; }
+  .hand-table th { background: #fef08a; color: #78350f; font-family: 'Caveat', cursive; font-size: 18px; }
 
   @media print {
     body { background: none !important; padding: 0 !important; }
@@ -195,7 +266,7 @@
     .notebook-page {
       box-shadow: none !important;
       border: 1px solid #cbd5e1 !important;
-      margin: 0 0 15px 0 !important;
+      margin: 0 0 12px 0 !important;
       page-break-after: always !important;
       page-break-inside: avoid !important;
     }
@@ -204,169 +275,427 @@
 </head>
 <body>
   <div class="toolbar">
-    <button onclick="window.print()">🖨️ Print English PDF</button>
+    <button onclick="window.print()">🖨️ Print Complete OOPs English PDF</button>
   </div>
 
-  <!-- PAGE 1: Intro to OOPs, Prototypes & Factory Functions -->
+  <!-- PAGE 1: Intro to OOPs, Prototypes & Factory vs Constructor Functions -->
   <div class="notebook-page">
     <!-- Topic 01 -->
     <div class="topic-card">
-      <div class="main-topic-title"><span>Topic 01: OOPs in JS & Object Prototypes</span></div>
-      <div><span class="tag tag-green">Purpose of OOPs:</span></div>
-      <p>Object-Oriented Programming provides an architectural blueprint to structure codebase, prevent redundancy, and model real-world entities.</p>
+      <div class="main-topic-title"><span>Topic 01: OOPs in JS & Prototypal Architecture</span></div>
+      <div><span class="tag tag-green">Core Purpose of OOP:</span></div>
+      <p>Object-Oriented Programming models real-world business domains into modular, reusable objects bundling <span class="highlight">State (Properties)</span> and <span class="highlight">Behavior (Methods)</span> together, eliminating code redundancy (DRY principle).</p>
       
-      <div><span class="tag tag-yellow">The 5 Core Pillars in JavaScript:</span></div>
+      <div><span class="tag tag-yellow">The 4 Core Pillars of OOP:</span></div>
       <div class="flowchart">
         <div class="flow-row">
-          <div class="flow-box flow-pink">1. Prototypes</div>
-          <div class="flow-box flow-blue">2. New Operator</div>
-          <div class="flow-box flow-green">3. Constructors</div>
-        </div>
-        <div class="flow-row">
-          <div class="flow-box flow-yellow">4. ES6 Classes</div>
-          <div class="flow-box flow-orange">5. Inheritance (extends, super)</div>
+          <div class="flow-box flow-pink">1. Encapsulation</div>
+          <div class="flow-box flow-blue">2. Inheritance</div>
+          <div class="flow-box flow-green">3. Polymorphism</div>
+          <div class="flow-box flow-orange">4. Abstraction</div>
         </div>
       </div>
 
-      <div><span class="tag tag-pink">Object Prototypes:</span></div>
-      <p>Prototypes are the core mechanism by which JavaScript objects <span class="highlight">inherit properties and methods</span> from one another. It functions as a shared template object from which instances borrow functionality without duplicating memory copies.</p>
-      <ul class="hand-list">
-        <li><code>arr.__proto__</code> ➔ Direct pointer reference to <code>Array.prototype</code>.</li>
-        <li><code>String.prototype</code> ➔ Stores built-in string methods (trim, toUpperCase, slice).</li>
-      </ul>
+      <div><span class="tag tag-pink">Object Prototypes & Prototype Chaining:</span></div>
+      <p>In JavaScript, inheritance is <span class="highlight">prototype-based</span>. Every object contains an internal link <code>[[Prototype]]</code> (accessible via <code>__proto__</code>) pointing to another object from which it borrows methods without duplicating memory.</p>
+      
+      <div class="flowchart">
+        <div class="flow-row">
+          <div class="flow-box flow-blue">myArr</div>
+          <div class="flow-arrow">➔ __proto__ ➔</div>
+          <div class="flow-box flow-green">Array.prototype</div>
+          <div class="flow-arrow">➔ __proto__ ➔</div>
+          <div class="flow-box flow-yellow">Object.prototype</div>
+          <div class="flow-arrow">➔ __proto__ ➔</div>
+          <div class="flow-box flow-pink">null</div>
+        </div>
+      </div>
+
+      <div class="vscode-window">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots"><div class="vscode-dot dot-red"></div><div class="vscode-dot dot-yellow"></div><div class="vscode-dot dot-green"></div></div>
+          <div class="vscode-tab"><span class="js-icon">JS</span> prototypes.js</div>
+        </div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">1<br>2<br>3<br>4<br>5</div>
+          <div class="vscode-code"><span class="vs-kw">const</span> <span class="vs-var">arr</span> = [<span class="vs-num">1</span>, <span class="vs-num">2</span>, <span class="vs-num">3</span>];
+console.<span class="vs-fn">log</span>(<span class="vs-var">arr</span>.<span class="vs-var">__proto__</span> === <span class="vs-type">Array</span>.<span class="vs-var">prototype</span>);           <span class="vs-comm">// true</span>
+console.<span class="vs-fn">log</span>(<span class="vs-type">Array</span>.<span class="vs-var">prototype</span>.<span class="vs-var">__proto__</span> === <span class="vs-type">Object</span>.<span class="vs-var">prototype</span>);  <span class="vs-comm">// true</span>
+console.<span class="vs-fn">log</span>(<span class="vs-type">Object</span>.<span class="vs-var">prototype</span>.<span class="vs-var">__proto__</span>);                  <span class="vs-comm">// null (end of chain)</span></div>
+        </div>
+      </div>
     </div>
 
     <!-- Topic 02 -->
     <div class="topic-card">
-      <div class="main-topic-title"><span>Topic 02: Factory Functions & Their Limitation</span></div>
-      <div><span class="tag tag-blue">What is a Factory Function?</span></div>
-      <p>A plain function that instantiates and returns a brand-new object literal:</p>
-      <div class="code-note">
-<span class="c-cmd">function</span> <span class="c-cmd">personMaker</span>(name, age) {
-    <span class="c-cmd">return</span> {
-        name: name,
-        age: age,
-        talk() { console.<span class="c-cmd">log</span>(<span class="c-arg">`Hi, I am ${this.name}`</span>); }
-    };
+      <div class="main-topic-title"><span>Topic 02: Factory Functions vs Constructors & new</span></div>
+      <div><span class="tag tag-blue">Factory Functions (Limitation: Memory Waste):</span></div>
+      <p>A plain function returning an object. Every instance copies functions into memory separately!</p>
+      
+      <div><span class="tag tag-purple">Constructor Functions & The 'new' Operator:</span></div>
+      <p>Constructors serve as blueprints. The <span class="highlight">new</span> keyword performs 4 critical steps:</p>
+      <ul class="hand-list">
+        <li>1. Creates a brand new empty object <code>{}</code>.</li>
+        <li>2. Binds <code>this</code> to that newly created object.</li>
+        <li>3. Sets new object's <code>__proto__</code> to <code>Constructor.prototype</code>.</li>
+        <li>4. Automatically returns <code>this</code>.</li>
+      </ul>
+
+      <div class="vscode-window">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots"><div class="vscode-dot dot-red"></div><div class="vscode-dot dot-yellow"></div><div class="vscode-dot dot-green"></div></div>
+          <div class="vscode-tab"><span class="js-icon">JS</span> constructor.js</div>
+        </div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+          <div class="vscode-code"><span class="vs-kw">function</span> <span class="vs-fn">Person</span>(<span class="vs-var">name</span>, <span class="vs-var">age</span>) {
+    <span class="vs-kw">this</span>.<span class="vs-var">name</span> = <span class="vs-var">name</span>;
+    <span class="vs-kw">this</span>.<span class="vs-var">age</span> = <span class="vs-var">age</span>;
 }
-<span class="c-cmd">let</span> p1 = <span class="c-cmd">personMaker</span>(<span class="c-arg">"Adam"</span>, <span class="c-arg">25</span>);
-<span class="c-cmd">let</span> p2 = <span class="c-cmd">personMaker</span>(<span class="c-arg">"Eve"</span>, <span class="c-arg">25</span>);
-console.<span class="c-cmd">log</span>(p1.talk === p2.talk); <span class="c-com">// Output: FALSE (High Memory Overhead)</span>
-      </div>
-      <div class="exam-tip">
-        <span class="tip-icon">⚠️</span>
-        <div class="tip-text"><span class="tip-label">Drawback:</span> Every newly created object stores a separate redundant copy of the <code>talk()</code> method! The optimal solution is <strong>Constructor + Prototype</strong>.</div>
+<span class="vs-comm">// Attach shared method to prototype to save memory</span>
+<span class="vs-type">Person</span>.<span class="vs-var">prototype</span>.<span class="vs-fn">talk</span> = <span class="vs-kw">function</span>() {
+    console.<span class="vs-fn">log</span>(<span class="vs-str">`Hi, my name is ${this.name}!`</span>);
+};
+<span class="vs-kw">const</span> <span class="vs-var">p1</span> = <span class="vs-kw">new</span> <span class="vs-fn">Person</span>(<span class="vs-str">"Shivam"</span>, <span class="vs-num">22</span>);
+<span class="vs-var">p1</span>.<span class="vs-fn">talk</span>(); <span class="vs-comm">// Output: Hi, my name is Shivam!</span></div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- PAGE 2: Constructors, New Operator & Prototypes -->
+  <!-- PAGE 2: Modern ES6 Classes, Static Members & Getters/Setters -->
   <div class="notebook-page">
     <!-- Topic 03 -->
     <div class="topic-card">
-      <div class="main-topic-title"><span>Topic 03: Constructor Functions & 'new' Operator</span></div>
-      <div><span class="tag tag-green">The 'new' Operator:</span></div>
-      <p>The <code>new</code> operator instantiates an object instance from a constructor function.</p>
+      <div class="main-topic-title"><span>Topic 03: Modern ES6 Classes Syntax</span></div>
+      <div><span class="tag tag-green">Syntactical Sugar over Prototypes:</span></div>
+      <p>Introduced in ES6, <code>class</code> provides clean syntax matching OOP languages (Java, C++), but under the hood it remains 100% prototype-based.</p>
 
-      <div><span class="tag tag-yellow">4 Internal Steps Executed by 'new':</span></div>
-      <div class="flowchart">
-        <div class="flow-row">
-          <div class="flow-box flow-pink">1. Creates New Empty Object {}</div>
-          <span class="flow-arrow">➔</span>
-          <div class="flow-box flow-blue">2. Binds 'this' to New Object</div>
+      <div class="vscode-window">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots"><div class="vscode-dot dot-red"></div><div class="vscode-dot dot-yellow"></div><div class="vscode-dot dot-green"></div></div>
+          <div class="vscode-tab"><span class="js-icon">JS</span> Person.js</div>
         </div>
-        <span class="flow-arrow">⬇</span>
-        <div class="flow-row">
-          <div class="flow-box flow-green">4. Returns the Object</div>
-          <span class="flow-arrow">⬅</span>
-          <div class="flow-box flow-yellow">3. Links __proto__ to Prototype</div>
-        </div>
-      </div>
-
-      <div><span class="tag tag-pink">Constructor with Shared Prototype:</span></div>
-      <div class="code-note">
-<span class="c-com">// Constructor function (Convention: capitalized)</span>
-<span class="c-cmd">function</span> <span class="c-cmd">Person</span>(name, age) {
-    <span class="c-cmd">this</span>.name = name;
-    <span class="c-cmd">this</span>.age = age;
+        <div class="vscode-body">
+          <div class="vscode-gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+          <div class="vscode-code"><span class="vs-kw">class</span> <span class="vs-type">Person</span> {
+    <span class="vs-fn">constructor</span>(<span class="vs-var">name</span>, <span class="vs-var">age</span>) {
+        <span class="vs-kw">this</span>.<span class="vs-var">name</span> = <span class="vs-var">name</span>;
+        <span class="vs-kw">this</span>.<span class="vs-var">age</span> = <span class="vs-var">age</span>;
+    }
+    <span class="vs-fn">greet</span>() {
+        <span class="vs-kw">return</span> <span class="vs-str">`Hello, I am ${this.name}, ${this.age} years old.`</span>;
+    }
 }
-
-<span class="c-com">// Define method on prototype (Single shared instance in memory)</span>
-Person.prototype.talk = <span class="c-cmd">function</span>() {
-    console.<span class="c-cmd">log</span>(<span class="c-arg">`Hi, my name is ${this.name}`</span>);
-};
-
-<span class="c-cmd">let</span> p1 = <span class="c-cmd">new</span> <span class="c-cmd">Person</span>(<span class="c-arg">"Adam"</span>, <span class="c-arg">25</span>);
-<span class="c-cmd">let</span> p2 = <span class="c-cmd">new</span> <span class="c-cmd">Person</span>(<span class="c-arg">"Eve"</span>, <span class="c-arg">25</span>);
-
-console.<span class="c-cmd">log</span>(p1.talk === p2.talk); <span class="c-com">// Output: TRUE ✅ (Shared prototype reference!)</span>
-      </div>
-
-      <div class="exam-tip">
-        <span class="tip-icon">⭐</span>
-        <div class="tip-text"><span class="tip-label">Key Takeaway:</span> Attaching methods to <code>prototype</code> ensures that millions of objects reference a single function definition in memory!</div>
+<span class="vs-kw">const</span> <span class="vs-var">user</span> = <span class="vs-kw">new</span> <span class="vs-type">Person</span>(<span class="vs-str">"Shivam"</span>, <span class="vs-num">22</span>);</div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- PAGE 3: ES6 Classes & Inheritance (extends, super) -->
-  <div class="notebook-page">
     <!-- Topic 04 -->
     <div class="topic-card">
-      <div class="main-topic-title"><span>Topic 04: ES6 Classes (Modern Syntax)</span></div>
-      <div><span class="tag tag-blue">What is an ES6 Class?</span></div>
-      <p>ES6 classes provide a cleaner, elegant <span class="highlight">Syntactic Sugar</span> over JavaScript's existing prototype-based inheritance model.</p>
-      
-      <div class="code-note">
-<span class="c-cmd">class</span> <span class="c-cmd">Person</span> {
-    <span class="c-cmd">constructor</span>(name, age) {
-        <span class="c-cmd">this</span>.name = name;
-        <span class="c-cmd">this</span>.age = age;
-    }
-    talk() {
-        console.<span class="c-cmd">log</span>(<span class="c-arg">`Hello, I am ${this.name}`</span>);
+      <div class="main-topic-title"><span>Topic 04: Static Methods & Static Properties</span></div>
+      <div><span class="tag tag-yellow">Class-Level vs Instance-Level Members:</span></div>
+      <p>Members declared with <span class="highlight">static</span> belong to the class itself, NOT to instance objects. They cannot be accessed via <code>this</code> from an instance.</p>
+      <ul class="hand-list">
+        <li><strong>Use Case:</strong> Utility helper functions (e.g. <code>Math.max()</code>), factory constructors, database connection singletons.</li>
+      </ul>
+
+      <div class="vscode-window">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots"><div class="vscode-dot dot-red"></div><div class="vscode-dot dot-yellow"></div><div class="vscode-dot dot-green"></div></div>
+          <div class="vscode-tab"><span class="js-icon">JS</span> MathUtil.js</div>
+        </div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
+          <div class="vscode-code"><span class="vs-kw">class</span> <span class="vs-type">MathUtil</span> {
+    <span class="vs-kw">static</span> <span class="vs-var">PI</span> = <span class="vs-num">3.14159</span>; <span class="vs-comm">// Static property</span>
+
+    <span class="vs-kw">static</span> <span class="vs-fn">calculateCircleArea</span>(<span class="vs-var">radius</span>) { <span class="vs-comm">// Static method</span>
+        <span class="vs-kw">return</span> <span class="vs-type">MathUtil</span>.<span class="vs-var">PI</span> * <span class="vs-var">radius</span> * <span class="vs-var">radius</span>;
     }
 }
-<span class="c-cmd">const</span> p1 = <span class="c-cmd">new</span> <span class="c-cmd">Person</span>(<span class="c-arg">"Rahul"</span>, <span class="c-arg">21</span>);
-p1.talk();
+console.<span class="vs-fn">log</span>(<span class="vs-type">MathUtil</span>.<span class="vs-var">PI</span>);                          <span class="vs-comm">// 3.14159</span>
+console.<span class="vs-fn">log</span>(<span class="vs-type">MathUtil</span>.<span class="vs-fn">calculateCircleArea</span>(<span class="vs-num">10</span>));      <span class="vs-comm">// 314.159</span>
+<span class="vs-kw">const</span> <span class="vs-var">m</span> = <span class="vs-kw">new</span> <span class="vs-type">MathUtil</span>();
+<span class="vs-comm">// m.calculateCircleArea(10); // TypeError: m.calculateCircleArea is not a function</span></div>
+        </div>
       </div>
     </div>
 
     <!-- Topic 05 -->
     <div class="topic-card">
-      <div class="main-topic-title"><span>Topic 05: Inheritance (extends & super)</span></div>
-      <div><span class="tag tag-green">Concept of Inheritance:</span></div>
-      <p>Enables a child/derived class to inherit attributes and methods from a parent/base class, eliminating duplicate logic.</p>
-      
+      <div class="main-topic-title"><span>Topic 05: Getters & Setters (get & set)</span></div>
+      <div><span class="tag tag-pink">Controlled Property Access & Validation:</span></div>
+      <p>Getters and Setters allow executing custom logic and validation while accessing or modifying properties as if they were simple fields.</p>
+
+      <div class="vscode-window">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots"><div class="vscode-dot dot-red"></div><div class="vscode-dot dot-yellow"></div><div class="vscode-dot dot-green"></div></div>
+          <div class="vscode-tab"><span class="js-icon">JS</span> Temperature.js</div>
+        </div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
+          <div class="vscode-code"><span class="vs-kw">class</span> <span class="vs-type">Temperature</span> {
+    <span class="vs-fn">constructor</span>(<span class="vs-var">celsius</span>) { <span class="vs-kw">this</span>.<span class="vs-var">celsius</span> = <span class="vs-var">celsius</span>; }
+    
+    <span class="vs-kw">get</span> <span class="vs-fn">fahrenheit</span>() { <span class="vs-comm">// Getter: accessed as a property</span>
+        <span class="vs-kw">return</span> (<span class="vs-kw">this</span>.<span class="vs-var">celsius</span> * <span class="vs-num">9</span>/<span class="vs-num">5</span>) + <span class="vs-num">32</span>;
+    }
+    <span class="vs-kw">set</span> <span class="vs-fn">celsius</span>(<span class="vs-var">value</span>) { <span class="vs-comm">// Setter: validates input</span>
+        <span class="vs-ctl">if</span> (<span class="vs-var">value</span> < -<span class="vs-num">273.15</span>) <span class="vs-ctl">throw</span> <span class="vs-kw">new</span> <span class="vs-type">Error</span>(<span class="vs-str">"Below absolute zero!"</span>);
+        <span class="vs-kw">this</span>.<span class="vs-var">_celsius</span> = <span class="vs-var">value</span>;
+    }
+}
+<span class="vs-kw">const</span> <span class="vs-var">temp</span> = <span class="vs-kw">new</span> <span class="vs-type">Temperature</span>(<span class="vs-num">25</span>);
+console.<span class="vs-fn">log</span>(<span class="vs-var">temp</span>.<span class="vs-var">fahrenheit</span>); <span class="vs-comm">// 77 (runs getter)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: Pillar 1: Encapsulation & Pillar 2: Inheritance -->
+  <div class="notebook-page">
+    <!-- Topic 06 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 06: Pillar 1 — Encapsulation</span></div>
+      <div><span class="tag tag-pink">Definition & Purpose:</span></div>
+      <p><span class="highlight">Encapsulation</span> is bundling state and methods inside an object while <span class="highlight-pink">restricting direct external access</span> to internal implementation details. It prevents accidental mutation and enforces a clean public API.</p>
+
+      <div><span class="tag tag-purple">Modern ES2022 Private Fields (#) & Private Methods:</span></div>
+      <p>Prefixing an identifier with <code>#</code> makes it strictly private to the class body. Attempting to access it outside throws a syntax error!</p>
+
+      <div class="vscode-window">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots"><div class="vscode-dot dot-red"></div><div class="vscode-dot dot-yellow"></div><div class="vscode-dot dot-green"></div></div>
+          <div class="vscode-tab"><span class="js-icon">JS</span> BankAccount.js</div>
+        </div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20</div>
+          <div class="vscode-code"><span class="vs-kw">class</span> <span class="vs-type">BankAccount</span> {
+    <span class="vs-var">owner</span>;             <span class="vs-comm">// Public field</span>
+    <span class="vs-prop">#balance</span> = <span class="vs-num">0</span>;      <span class="vs-comm">// Private field (ES2022)</span>
+    <span class="vs-prop">#pin</span>;              <span class="vs-comm">// Private field</span>
+
+    <span class="vs-fn">constructor</span>(<span class="vs-var">owner</span>, <span class="vs-var">initialDeposit</span>, <span class="vs-var">pin</span>) {
+        <span class="vs-kw">this</span>.<span class="vs-var">owner</span> = <span class="vs-var">owner</span>;
+        <span class="vs-kw">this</span>.<span class="vs-prop">#balance</span> = <span class="vs-var">initialDeposit</span>;
+        <span class="vs-kw">this</span>.<span class="vs-prop">#pin</span> = <span class="vs-var">pin</span>;
+    }
+    <span class="vs-comm">// Private Method: Internal validation helper</span>
+    <span class="vs-prop">#validatePin</span>(<span class="vs-var">enteredPin</span>) { <span class="vs-kw">return</span> <span class="vs-kw">this</span>.<span class="vs-prop">#pin</span> === <span class="vs-var">enteredPin</span>; }
+
+    <span class="vs-fn">withdraw</span>(<span class="vs-var">amount</span>, <span class="vs-var">pin</span>) {
+        <span class="vs-ctl">if</span> (!<span class="vs-kw">this</span>.<span class="vs-prop">#validatePin</span>(<span class="vs-var">pin</span>)) <span class="vs-ctl">throw</span> <span class="vs-kw">new</span> <span class="vs-type">Error</span>(<span class="vs-str">"Invalid PIN!"</span>);
+        <span class="vs-ctl">if</span> (<span class="vs-var">amount</span> > <span class="vs-kw">this</span>.<span class="vs-prop">#balance</span>) <span class="vs-ctl">throw</span> <span class="vs-kw">new</span> <span class="vs-type">Error</span>(<span class="vs-str">"Insufficient funds!"</span>);
+        <span class="vs-kw">this</span>.<span class="vs-prop">#balance</span> -= <span class="vs-var">amount</span>;
+        <span class="vs-kw">return</span> <span class="vs-str">`Withdrew ₹${amount}. New balance: ₹${this.#balance}`</span>;
+    }
+    <span class="vs-kw">get</span> <span class="vs-fn">balance</span>() { <span class="vs-kw">return</span> <span class="vs-kw">this</span>.<span class="vs-prop">#balance</span>; } <span class="vs-comm">// Controlled read-only access</span>
+}
+<span class="vs-kw">const</span> <span class="vs-var">acc</span> = <span class="vs-kw">new</span> <span class="vs-type">BankAccount</span>(<span class="vs-str">"Shivam"</span>, <span class="vs-num">5000</span>, <span class="vs-num">1234</span>);
+<span class="vs-comm">// acc.#balance = 100000; // SyntaxError: Private field '#balance' must be declared in an enclosing class</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic 07 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 07: Pillar 2 — Inheritance</span></div>
+      <div><span class="tag tag-blue">Definition & Subclassing:</span></div>
+      <p><span class="highlight">Inheritance</span> allows a child class to inherit attributes and methods from a parent class via <code>extends</code>, promoting code reuse.</p>
       <ul class="hand-list">
-        <li><code>extends</code> ➔ Establishes the inheritance relationship between child and parent.</li>
-        <li><code>super(args)</code> ➔ Invokes the constructor of the parent class to initialize inherited state.</li>
+        <li><code>super()</code> ➔ Calls the parent class constructor (MUST be called before accessing <code>this</code>).</li>
+        <li><code>super.method()</code> ➔ Calls parent class implementation directly.</li>
       </ul>
 
-      <div class="code-note">
-<span class="c-com">// Parent Base Class</span>
-<span class="c-cmd">class</span> <span class="c-cmd">Person</span> {
-    <span class="c-cmd">constructor</span>(name, age) {
-        <span class="c-cmd">this</span>.name = name;
-        <span class="c-cmd">this</span>.age = age;
-    }
+      <div class="vscode-window">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots"><div class="vscode-dot dot-red"></div><div class="vscode-dot dot-yellow"></div><div class="vscode-dot dot-green"></div></div>
+          <div class="vscode-tab"><span class="js-icon">JS</span> Inheritance.js</div>
+        </div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16</div>
+          <div class="vscode-code"><span class="vs-kw">class</span> <span class="vs-type">Person</span> {
+    <span class="vs-fn">constructor</span>(<span class="vs-var">name</span>, <span class="vs-var">age</span>) { <span class="vs-kw">this</span>.<span class="vs-var">name</span> = <span class="vs-var">name</span>; <span class="vs-kw">this</span>.<span class="vs-var">age</span> = <span class="vs-var">age</span>; }
+    <span class="vs-fn">introduce</span>() { <span class="vs-kw">return</span> <span class="vs-str">`Hi, I am ${this.name}.`</span>; }
 }
 
-<span class="c-com">// Child Derived Class</span>
-<span class="c-cmd">class</span> <span class="c-cmd">Student</span> <span class="c-cmd">extends</span> <span class="c-cmd">Person</span> {
-    <span class="c-cmd">constructor</span>(name, age, marks) {
-        <span class="c-cmd">super</span>(name, age); <span class="c-com">// Calls Person constructor</span>
-        <span class="c-cmd">this</span>.marks = marks;
+<span class="vs-kw">class</span> <span class="vs-type">Student</span> <span class="vs-kw">extends</span> <span class="vs-type">Person</span> {
+    <span class="vs-fn">constructor</span>(<span class="vs-var">name</span>, <span class="vs-var">age</span>, <span class="vs-var">marks</span>) {
+        <span class="vs-kw">super</span>(<span class="vs-var">name</span>, <span class="vs-var">age</span>); <span class="vs-comm">// Invoke Person constructor</span>
+        <span class="vs-kw">this</span>.<span class="vs-var">marks</span> = <span class="vs-var">marks</span>;
     }
+    <span class="vs-fn">study</span>() { <span class="vs-kw">return</span> <span class="vs-str">`${this.name} is studying for exams.`</span>; }
 }
-
-<span class="c-cmd">const</span> s1 = <span class="c-cmd">new</span> <span class="c-cmd">Student</span>(<span class="c-arg">"Aman"</span>, <span class="c-arg">20</span>, <span class="c-arg">95</span>);
-console.<span class="c-cmd">log</span>(s1.name, s1.marks); <span class="c-com">// Aman 95</span>
+<span class="vs-kw">const</span> <span class="vs-var">s1</span> = <span class="vs-kw">new</span> <span class="vs-type">Student</span>(<span class="vs-str">"Rahul"</span>, <span class="vs-num">20</span>, <span class="vs-num">95</span>);
+console.<span class="vs-fn">log</span>(<span class="vs-var">s1</span>.<span class="vs-fn">introduce</span>()); <span class="vs-comm">// Inherited from Person!</span></div>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: Pillar 3: Polymorphism & Pillar 4: Abstraction -->
+  <div class="notebook-page">
+    <!-- Topic 08 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 08: Pillar 3 — Polymorphism</span></div>
+      <div><span class="tag tag-green">Definition (Many Forms):</span></div>
+      <p><span class="highlight">Polymorphism</span> allows different child classes to define their own custom implementations of a method that shares the same name in the parent class (<span class="highlight-green">Method Overriding</span>).</p>
+      
+      <div><span class="tag tag-yellow">Dynamic Dispatch & Duck Typing:</span></div>
+      <p>In JavaScript, polymorphism is dynamic: if different objects share a method signature, a loop can execute them uniformly without knowing the exact concrete type.</p>
+
+      <div class="vscode-window">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots"><div class="vscode-dot dot-red"></div><div class="vscode-dot dot-yellow"></div><div class="vscode-dot dot-green"></div></div>
+          <div class="vscode-tab"><span class="js-icon">JS</span> Polymorphism.js</div>
+        </div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19</div>
+          <div class="vscode-code"><span class="vs-kw">class</span> <span class="vs-type">Animal</span> {
+    <span class="vs-fn">speak</span>() { <span class="vs-kw">return</span> <span class="vs-str">"Some generic sound"</span>; }
+}
+
+<span class="vs-kw">class</span> <span class="vs-type">Dog</span> <span class="vs-kw">extends</span> <span class="vs-type">Animal</span> {
+    <span class="vs-fn">speak</span>() { <span class="vs-kw">return</span> <span class="vs-str">"Woof! Woof!"</span>; } <span class="vs-comm">// Method Overriding</span>
+}
+
+<span class="vs-kw">class</span> <span class="vs-type">Cat</span> <span class="vs-kw">extends</span> <span class="vs-type">Animal</span> {
+    <span class="vs-fn">speak</span>() { <span class="vs-kw">return</span> <span class="vs-str">"Meow!"</span>; }        <span class="vs-comm">// Method Overriding</span>
+}
+
+<span class="vs-comm">// Polymorphism in action: Uniform execution across heterogeneous array</span>
+<span class="vs-kw">const</span> <span class="vs-var">animals</span> = [<span class="vs-kw">new</span> <span class="vs-type">Dog</span>(), <span class="vs-kw">new</span> <span class="vs-type">Cat</span>(), <span class="vs-kw">new</span> <span class="vs-type">Animal</span>()];
+<span class="vs-var">animals</span>.<span class="vs-fn">forEach</span>(<span class="vs-var">a</span> => {
+    console.<span class="vs-fn">log</span>(<span class="vs-var">a</span>.<span class="vs-fn">speak</span>()); <span class="vs-comm">// Woof! Woof! ➔ Meow! ➔ Some generic sound</span>
+});</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic 09 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 09: Pillar 4 — Abstraction</span></div>
+      <div><span class="tag tag-orange">Definition: Hiding Implementation Complexity:</span></div>
+      <p><span class="highlight">Abstraction</span> hides the complex background mechanics and reveals only essential, intuitive interfaces to the user (e.g. you drive a car using pedals without knowing internal combustion physics).</p>
+
+      <div><span class="tag tag-purple">Simulating Abstract Classes in JavaScript:</span></div>
+      <p>JavaScript doesn't have an <code>abstract</code> keyword, but we simulate it by checking <code>new.target</code> inside the constructor and throwing errors on unimplemented methods.</p>
+
+      <div class="vscode-window">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots"><div class="vscode-dot dot-red"></div><div class="vscode-dot dot-yellow"></div><div class="vscode-dot dot-green"></div></div>
+          <div class="vscode-tab"><span class="js-icon">JS</span> AbstractShape.js</div>
+        </div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20</div>
+          <div class="vscode-code"><span class="vs-kw">class</span> <span class="vs-type">Shape</span> {
+    <span class="vs-fn">constructor</span>() {
+        <span class="vs-ctl">if</span> (<span class="vs-kw">new</span>.<span class="vs-var">target</span> === <span class="vs-type">Shape</span>) {
+            <span class="vs-ctl">throw</span> <span class="vs-kw">new</span> <span class="vs-type">Error</span>(<span class="vs-str">"Cannot instantiate abstract class Shape directly!"</span>);
+        }
+    }
+    <span class="vs-comm">// Abstract method contract</span>
+    <span class="vs-fn">calculateArea</span>() {
+        <span class="vs-ctl">throw</span> <span class="vs-kw">new</span> <span class="vs-type">Error</span>(<span class="vs-str">"Abstract method calculateArea() must be implemented!"</span>);
+    }
+}
+
+<span class="vs-kw">class</span> <span class="vs-type">Circle</span> <span class="vs-kw">extends</span> <span class="vs-type">Shape</span> {
+    <span class="vs-fn">constructor</span>(<span class="vs-var">radius</span>) { <span class="vs-kw">super</span>(); <span class="vs-kw">this</span>.<span class="vs-var">radius</span> = <span class="vs-var">radius</span>; }
+    <span class="vs-fn">calculateArea</span>() { <span class="vs-kw">return</span> Math.<span class="vs-var">PI</span> * <span class="vs-kw">this</span>.<span class="vs-var">radius</span> * <span class="vs-kw">this</span>.<span class="vs-var">radius</span>; }
+}
+<span class="vs-comm">// const s = new Shape(); // Error: Cannot instantiate abstract class!</span>
+<span class="vs-kw">const</span> <span class="vs-var">c</span> = <span class="vs-kw">new</span> <span class="vs-type">Circle</span>(<span class="vs-num">5</span>);
+console.<span class="vs-fn">log</span>(<span class="vs-var">c</span>.<span class="vs-fn">calculateArea</span>()); <span class="vs-comm">// 78.539</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 5: Advanced OOP, instanceof, & Master Summary Table -->
+  <div class="notebook-page">
+    <!-- Topic 10 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 10: The 'instanceof' Operator</span></div>
+      <div><span class="tag tag-blue">Prototype Chain Verification:</span></div>
+      <p>The <code>instanceof</code> operator tests whether <code>Constructor.prototype</code> exists anywhere within the prototype chain of an object.</p>
+
+      <div class="vscode-window">
+        <div class="vscode-titlebar">
+          <div class="vscode-dots"><div class="vscode-dot dot-red"></div><div class="vscode-dot dot-yellow"></div><div class="vscode-dot dot-green"></div></div>
+          <div class="vscode-tab"><span class="js-icon">JS</span> instanceof.js</div>
+        </div>
+        <div class="vscode-body">
+          <div class="vscode-gutter">1<br>2<br>3<br>4<br>5<br>6</div>
+          <div class="vscode-code"><span class="vs-kw">class</span> <span class="vs-type">Employee</span> {}
+<span class="vs-kw">class</span> <span class="vs-type">Manager</span> <span class="vs-kw">extends</span> <span class="vs-type">Employee</span> {}
+<span class="vs-kw">const</span> <span class="vs-var">m</span> = <span class="vs-kw">new</span> <span class="vs-type">Manager</span>();
+
+console.<span class="vs-fn">log</span>(<span class="vs-var">m</span> <span class="vs-kw">instanceof</span> <span class="vs-type">Manager</span>);   <span class="vs-comm">// true</span>
+console.<span class="vs-fn">log</span>(<span class="vs-var">m</span> <span class="vs-kw">instanceof</span> <span class="vs-type">Employee</span>);  <span class="vs-comm">// true (inherited!)</span>
+console.<span class="vs-fn">log</span>(<span class="vs-var">m</span> <span class="vs-kw">instanceof</span> <span class="vs-type">Object</span>);    <span class="vs-comm">// true (root prototype)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic 11 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 11: Composition vs Inheritance</span></div>
+      <div><span class="tag tag-green">Architectural Principle:</span></div>
+      <p><span class="highlight">"Favor object composition over class inheritance."</span></p>
+      <ul class="hand-list">
+        <li><strong>Inheritance ("Is-a"):</strong> <code>Dog is an Animal</code>. Rigid hierarchy; changes in base class can break all subclasses.</li>
+        <li><strong>Composition ("Has-a"):</strong> <code>Robot has a Flyer and Cleaner</code>. Flexible; bundles independent functional abilities together.</li>
+      </ul>
+    </div>
+
+    <!-- Topic 12 -->
+    <div class="topic-card">
+      <div class="main-topic-title"><span>Topic 12: The 4 Pillars Master Summary Table</span></div>
+      <table class="hand-table">
+        <thead>
+          <tr>
+            <th>Pillar</th>
+            <th>Core Concept</th>
+            <th>JavaScript Syntax / Mechanism</th>
+            <th>Primary Benefit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Encapsulation</strong></td>
+            <td>Data hiding & access control</td>
+            <td><code>#privateField</code>, <code>#privateMethod()</code>, <code>get/set</code></td>
+            <td>Security & prevents unwanted state mutation</td>
+          </tr>
+          <tr>
+            <td><strong>2. Inheritance</strong></td>
+            <td>Code reuse across parent & child</td>
+            <td><code>class Child extends Parent</code>, <code>super()</code></td>
+            <td>DRY principle & hierarchical modeling</td>
+          </tr>
+          <tr>
+            <td><strong>3. Polymorphism</strong></td>
+            <td>Many forms of same method name</td>
+            <td>Method overriding & dynamic dispatch</td>
+            <td>Extensibility & clean unified API loops</td>
+          </tr>
+          <tr>
+            <td><strong>4. Abstraction</strong></td>
+            <td>Hiding internal complexity</td>
+            <td>Public methods, <code>new.target === AbstractClass</code></td>
+            <td>Reduces cognitive load & modular design</td>
+          </tr>
+        </tbody>
+      </table>
 
       <div class="exam-tip">
-        <span class="tip-icon">💡</span>
-        <div class="tip-text"><span class="tip-label">Mandatory Rule:</span> In a derived class constructor, you must invoke <code>super()</code> before accessing the <code>this</code> keyword!</div>
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">
+          <span class="tip-label">Interview Pro-Tip:</span> In JavaScript, classes are syntactical sugar over prototypal inheritance. Remember that private fields (<code>#</code>) are enforced by the JavaScript V8 engine at runtime, unlike TypeScript's <code>private</code> which is only compile-time!
+        </div>
       </div>
     </div>
   </div>
