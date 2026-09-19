@@ -24,7 +24,15 @@ All folders and subfolders are numbered in the exact chronological order you sho
 | **8** | [**`03_Backend/05_Form_Validation_Errors/`**](./03_Backend/05_Form_Validation_Errors/) | **Validation & Error Handling:** Client & server-side validation, custom `ExpressError` class, `wrapAsync` wrapper, and centralized error middleware. | • [English PDF](./03_Backend/05_Form_Validation_Errors/Form_Validation_Errors_Handwritten_Notes_English.pdf)<br>• [Hinglish PDF](./03_Backend/05_Form_Validation_Errors/Form_Validation_Errors_Handwritten_Notes_Hinglish.pdf) |
 | **9** | [**`03_Backend/06_SQL_Database/`**](./03_Backend/06_SQL_Database/) | **Relational Databases & SQL:** RDBMS concepts, DDL/DML/DQL commands, constraints (`PRIMARY KEY`, `FOREIGN KEY`), aggregate functions, and table joins. | • [English PDF (10 Pages)](./03_Backend/06_SQL_Database/SQL_Database_Handwritten_Notes_English.pdf)<br>• [Hinglish PDF (10 Pages)](./03_Backend/06_SQL_Database/SQL_Database_Handwritten_Notes_Hinglish.pdf) |
 | **10** | [**`03_Backend/07_Node_MySQL/`**](./03_Backend/07_Node_MySQL/) | **Node.js with MySQL Integration:** `mysql2` driver, connection pooling (`createPool`), parameterized queries (SQL injection prevention), and Express CRUD. | • [English PDF (8 Pages)](./03_Backend/07_Node_MySQL/Node_MySQL_Handwritten_Notes_English.pdf)<br>• [Hinglish PDF (8 Pages)](./03_Backend/07_Node_MySQL/Node_MySQL_Handwritten_Notes_Hinglish.pdf) |
-| **11** | [**`03_Backend/08_MongoDB_Mongoose/`**](./03_Backend/08_MongoDB_Mongoose/) | **NoSQL Database & Mongoose ODM:** 9-topic master curriculum: BSON, `mongosh` CRUD, Mongoose schemas, models, Express integration, and `.populate()`. | • [9 Topicwise English PDFs](./03_Backend/08_MongoDB_Mongoose/English/)<br>• [9 Topicwise Hinglish PDFs](./03_Backend/08_MongoDB_Mongoose/Hinglish/) |
+| **11** | [**`03_Backend/08_MongoDB_Architecture_Shell_BSON/`**](./03_Backend/08_MongoDB_Architecture_Shell_BSON/) | **MongoDB Architecture, Shell & BSON:** NoSQL Document model, MongoDB Server vs Client, Collections vs Tables, BSON vs JSON, and `mongosh` CLI commands. | • [English PDF](./03_Backend/08_MongoDB_Architecture_Shell_BSON/01_MongoDB_Architecture_Shell_BSON_English.pdf)<br>• [Hinglish PDF](./03_Backend/08_MongoDB_Architecture_Shell_BSON/01_MongoDB_Architecture_Shell_BSON_Hinglish.pdf) |
+| **12** | [**`03_Backend/09_MongoDB_CRUD_Query_Operators/`**](./03_Backend/09_MongoDB_CRUD_Query_Operators/) | **MongoDB CRUD & Query Operators:** `insertOne`, `insertMany`, `find`, comparison operators (`$gt`, `$in`), logical operators (`$and`, `$or`), and projections. | • [English PDF](./03_Backend/09_MongoDB_CRUD_Query_Operators/02_MongoDB_CRUD_Query_Operators_English.pdf)<br>• [Hinglish PDF](./03_Backend/09_MongoDB_CRUD_Query_Operators/02_MongoDB_CRUD_Query_Operators_Hinglish.pdf) |
+| **13** | [**`03_Backend/10_MongoDB_Nested_Docs_Mongoose_Setup/`**](./03_Backend/10_MongoDB_Nested_Docs_Mongoose_Setup/) | **Nested Documents & Mongoose Setup:** Embedded/nested documents, dot notation queries, document deletions, installing Mongoose, and connecting to MongoDB. | • [English PDF](./03_Backend/10_MongoDB_Nested_Docs_Mongoose_Setup/03_Nested_Docs_Deletions_Mongoose_Setup_English.pdf)<br>• [Hinglish PDF](./03_Backend/10_MongoDB_Nested_Docs_Mongoose_Setup/03_Nested_Docs_Deletions_Mongoose_Setup_Hinglish.pdf) |
+| **14** | [**`03_Backend/11_Mongoose_Schema_Models_Pluralization/`**](./03_Backend/11_Mongoose_Schema_Models_Pluralization/) | **Mongoose Schemas & Models:** Defining Schemas, SchemaTypes, compiling models (`mongoose.model`), and automatic collection pluralization rules. | • [English PDF](./03_Backend/11_Mongoose_Schema_Models_Pluralization/04_Mongoose_Schema_Models_Pluralization_English.pdf)<br>• [Hinglish PDF](./03_Backend/11_Mongoose_Schema_Models_Pluralization/04_Mongoose_Schema_Models_Pluralization_Hinglish.pdf) |
+| **15** | [**`03_Backend/12_Mongoose_Queries_Updates_Validations/`**](./03_Backend/12_Mongoose_Queries_Updates_Validations/) | **Mongoose Queries & Validations:** `findByIdAndUpdate`, `runValidators: true`, built-in validators (`required`, `enum`), custom validators, and deletion methods. | • [English PDF](./03_Backend/12_Mongoose_Queries_Updates_Validations/05_Mongoose_Queries_Updates_Validations_English.pdf)<br>• [Hinglish PDF](./03_Backend/12_Mongoose_Queries_Updates_Validations/05_Mongoose_Queries_Updates_Validations_Hinglish.pdf) |
+| **16** | [**`03_Backend/13_Express_MongoDB_Integration_CRUD/`**](./03_Backend/13_Express_MongoDB_Integration_CRUD/) | **Express + MongoDB REST CRUD:** Full RESTful application with Mongoose models, Index, Show, New, Create, Edit, Update, and Destroy routes. | • [English PDF](./03_Backend/13_Express_MongoDB_Integration_CRUD/06_Express_MongoDB_Integration_CRUD_English.pdf)<br>• [Hinglish PDF](./03_Backend/13_Express_MongoDB_Integration_CRUD/06_Express_MongoDB_Integration_CRUD_Hinglish.pdf) |
+| **17** | [**`03_Backend/14_Express_Middlewares_Error_Handling/`**](./03_Backend/14_Express_Middlewares_Error_Handling/) | **Middlewares & Error Handling:** Middleware pipeline (`req, res, next`), custom `ExpressError` class, standard 404 handler, and global error middleware. | • [English PDF](./03_Backend/14_Express_Middlewares_Error_Handling/07_Express_Middlewares_Error_Handling_English.pdf)<br>• [Hinglish PDF](./03_Backend/14_Express_Middlewares_Error_Handling/07_Express_Middlewares_Error_Handling_Hinglish.pdf) |
+| **18** | [**`03_Backend/15_Async_Errors_wrapAsync_Pattern/`**](./03_Backend/15_Async_Errors_wrapAsync_Pattern/) | **Async Errors & wrapAsync Pattern:** Async error handling in Express, unhandled promise rejections, the `wrapAsync` higher-order function, and CastError handling. | • [English PDF](./03_Backend/15_Async_Errors_wrapAsync_Pattern/08_Async_Errors_wrapAsync_Pattern_English.pdf)<br>• [Hinglish PDF](./03_Backend/15_Async_Errors_wrapAsync_Pattern/08_Async_Errors_wrapAsync_Pattern_Hinglish.pdf) |
+| **19** | [**`03_Backend/16_MongoDB_Relationships_Population/`**](./03_Backend/16_MongoDB_Relationships_Population/) | **MongoDB Relationships & Population:** One-to-Few (Embedded), One-to-Many (References with `ObjectId`), One-to-Squillions, and `.populate()`. | • [English PDF](./03_Backend/16_MongoDB_Relationships_Population/09_MongoDB_Relationships_Population_English.pdf)<br>• [Hinglish PDF](./03_Backend/16_MongoDB_Relationships_Population/09_MongoDB_Relationships_Population_Hinglish.pdf) |
 
 ---
 
@@ -56,7 +64,7 @@ Web_Development/
 │   └── 📄 README.md                                  # JavaScript learning track index
 │
 ├── 📁 03_Backend/                                     # Server & Backend Engineering
-│   ├── 📁 01_Terminal/                               # Priority 4: Terminal & CLI
+│   ├── 📁 01_Terminal/                               # Priority 4: Terminal & CLI Navigation
 │   │   ├── 📄 Backend_Terminal_Handwritten_Notes.pdf # Terminal handwritten notes (5 pages)
 │   │   ├── 📄 Backend_Terminal_Notes.html            # Interactive printable notes
 │   │   └── 📄 README.md                              # CLI commands cheat sheet & guide
@@ -103,10 +111,68 @@ Web_Development/
 │   │   ├── 📄 Node_MySQL_Notes_Hinglish.html         # Printable styled HTML notes (Hinglish)
 │   │   └── 📄 README.md                              # mysql2, connection pools & queries
 │   │
-│   ├── 📁 08_MongoDB_Mongoose/                       # Priority 11: NoSQL & Mongoose ODM
-│   │   ├── 📁 English/                               # 9 Topicwise English PDFs & HTMLs
-│   │   ├── 📁 Hinglish/                              # 9 Topicwise Hinglish PDFs & HTMLs
-│   │   └── 📄 README.md                              # 9-topic curriculum, schemas & populate
+│   ├── 📁 08_MongoDB_Architecture_Shell_BSON/        # Priority 11: MongoDB Architecture, Shell & BSON
+│   │   ├── 📄 01_MongoDB_Architecture_Shell_BSON_English.pdf
+│   │   ├── 📄 01_MongoDB_Architecture_Shell_BSON_Hinglish.pdf
+│   │   ├── 📄 01_MongoDB_Architecture_Shell_BSON_English.html
+│   │   ├── 📄 01_MongoDB_Architecture_Shell_BSON_Hinglish.html
+│   │   └── 📄 README.md
+│   │
+│   ├── 📁 09_MongoDB_CRUD_Query_Operators/           # Priority 12: MongoDB CRUD & Query Operators
+│   │   ├── 📄 02_MongoDB_CRUD_Query_Operators_English.pdf
+│   │   ├── 📄 02_MongoDB_CRUD_Query_Operators_Hinglish.pdf
+│   │   ├── 📄 02_MongoDB_CRUD_Query_Operators_English.html
+│   │   ├── 📄 02_MongoDB_CRUD_Query_Operators_Hinglish.html
+│   │   └── 📄 README.md
+│   │
+│   ├── 📁 10_MongoDB_Nested_Docs_Mongoose_Setup/     # Priority 13: Nested Documents & Mongoose Setup
+│   │   ├── 📄 03_Nested_Docs_Deletions_Mongoose_Setup_English.pdf
+│   │   ├── 📄 03_Nested_Docs_Deletions_Mongoose_Setup_Hinglish.pdf
+│   │   ├── 📄 03_Nested_Docs_Deletions_Mongoose_Setup_English.html
+│   │   ├── 📄 03_Nested_Docs_Deletions_Mongoose_Setup_Hinglish.html
+│   │   └── 📄 README.md
+│   │
+│   ├── 📁 11_Mongoose_Schema_Models_Pluralization/   # Priority 14: Mongoose Schemas & Models
+│   │   ├── 📄 04_Mongoose_Schema_Models_Pluralization_English.pdf
+│   │   ├── 📄 04_Mongoose_Schema_Models_Pluralization_Hinglish.pdf
+│   │   ├── 📄 04_Mongoose_Schema_Models_Pluralization_English.html
+│   │   ├── 📄 04_Mongoose_Schema_Models_Pluralization_Hinglish.html
+│   │   └── 📄 README.md
+│   │
+│   ├── 📁 12_Mongoose_Queries_Updates_Validations/   # Priority 15: Mongoose Queries & Validations
+│   │   ├── 📄 05_Mongoose_Queries_Updates_Validations_English.pdf
+│   │   ├── 📄 05_Mongoose_Queries_Updates_Validations_Hinglish.pdf
+│   │   ├── 📄 05_Mongoose_Queries_Updates_Validations_English.html
+│   │   ├── 📄 05_Mongoose_Queries_Updates_Validations_Hinglish.html
+│   │   └── 📄 README.md
+│   │
+│   ├── 📁 13_Express_MongoDB_Integration_CRUD/       # Priority 16: Express + MongoDB REST CRUD
+│   │   ├── 📄 06_Express_MongoDB_Integration_CRUD_English.pdf
+│   │   ├── 📄 06_Express_MongoDB_Integration_CRUD_Hinglish.pdf
+│   │   ├── 📄 06_Express_MongoDB_Integration_CRUD_English.html
+│   │   ├── 📄 06_Express_MongoDB_Integration_CRUD_Hinglish.html
+│   │   └── 📄 README.md
+│   │
+│   ├── 📁 14_Express_Middlewares_Error_Handling/     # Priority 17: Middlewares & Error Handling
+│   │   ├── 📄 07_Express_Middlewares_Error_Handling_English.pdf
+│   │   ├── 📄 07_Express_Middlewares_Error_Handling_Hinglish.pdf
+│   │   ├── 📄 07_Express_Middlewares_Error_Handling_English.html
+│   │   ├── 📄 07_Express_Middlewares_Error_Handling_Hinglish.html
+│   │   └── 📄 README.md
+│   │
+│   ├── 📁 15_Async_Errors_wrapAsync_Pattern/         # Priority 18: Async Errors & wrapAsync Pattern
+│   │   ├── 📄 08_Async_Errors_wrapAsync_Pattern_English.pdf
+│   │   ├── 📄 08_Async_Errors_wrapAsync_Pattern_Hinglish.pdf
+│   │   ├── 📄 08_Async_Errors_wrapAsync_Pattern_English.html
+│   │   ├── 📄 08_Async_Errors_wrapAsync_Pattern_Hinglish.html
+│   │   └── 📄 README.md
+│   │
+│   ├── 📁 16_MongoDB_Relationships_Population/       # Priority 19: MongoDB Relationships & Population
+│   │   ├── 📄 09_MongoDB_Relationships_Population_English.pdf
+│   │   ├── 📄 09_MongoDB_Relationships_Population_Hinglish.pdf
+│   │   ├── 📄 09_MongoDB_Relationships_Population_English.html
+│   │   ├── 📄 09_MongoDB_Relationships_Population_Hinglish.html
+│   │   └── 📄 README.md
 │   │
 │   └── 📄 README.md                                  # Backend roadmap & modules index
 │
@@ -128,7 +194,15 @@ Web_Development/
 - [x] **03_Backend/05_Form_Validation_Errors — Validation & Centralized Error Handling**
 - [x] **03_Backend/06_SQL_Database — Relational Databases, SQL & Table Joins**
 - [x] **03_Backend/07_Node_MySQL — Node.js with MySQL Integration & Connection Pools**
-- [x] **03_Backend/08_MongoDB_Mongoose — NoSQL Document Model, Mongoose & Relationships**
+- [x] **03_Backend/08_MongoDB_Architecture_Shell_BSON — NoSQL Document Model & CLI**
+- [x] **03_Backend/09_MongoDB_CRUD_Query_Operators — Shell CRUD & Operators**
+- [x] **03_Backend/10_MongoDB_Nested_Docs_Mongoose_Setup — Nested Documents & Mongoose**
+- [x] **03_Backend/11_Mongoose_Schema_Models_Pluralization — Schemas, Models & Pluralization**
+- [x] **03_Backend/12_Mongoose_Queries_Updates_Validations — Queries, Updates & Validations**
+- [x] **03_Backend/13_Express_MongoDB_Integration_CRUD — Full RESTful CRUD App**
+- [x] **03_Backend/14_Express_Middlewares_Error_Handling — Middleware & Centralized Errors**
+- [x] **03_Backend/15_Async_Errors_wrapAsync_Pattern — wrapAsync Pattern & Async Errors**
+- [x] **03_Backend/16_MongoDB_Relationships_Population — NoSQL Data Modeling & `.populate()`**
 - [ ] **HTML5 & Semantic Markup**
 - [ ] **CSS3, Flexbox, Grid & Modern Styling**
 - [ ] **React.js & Frontend Ecosystem**
